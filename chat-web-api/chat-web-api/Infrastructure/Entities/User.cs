@@ -16,5 +16,10 @@ namespace ChatWebApi.Infrastructure.Entities
         public string PasswordSalt { get; set; }
         public DateTime DateCreated { get; set; }
         public DateTime ActiveDateTime { get; set; }
+
+        public HashSet<ScheduledMessage> ScheduledMessages { get; set; }
+        public HashSet<Message> Messages { get; set; }
+        public HashSet<PersonalMessage> PersonalMessages { get; set; }
+        public HashSet<Chat> Chats { get; set; }
     }
 }
