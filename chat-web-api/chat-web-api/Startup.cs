@@ -11,7 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
-namespace chat_web_api
+namespace ChatWebApi
 {
 	public class Startup
 	{
