@@ -13,8 +13,15 @@ namespace ChatWebApi.Infrastructure.Entities
 		public DateTime DateCreated { get; set; }
 		public bool IsPrivate { get; set; }
 
-		public HashSet<Message> Messages { get; set; }
-		public HashSet<ScheduledMessage> ScheduledMessages { get; set; }
-		public HashSet<UserChat> UserChats { get; set; }
+		public List<Message> Messages { get; set; }
+		public List<ScheduledMessage> ScheduledMessages { get; set; }
+		public List<UserChat> UserChats { get; set; }
+
+		public Chat()
+		{
+			Messages = new List<Message>();
+			ScheduledMessages = new List<ScheduledMessage>();
+			UserChats = new List<UserChat>();
+		}
 	}
 }
