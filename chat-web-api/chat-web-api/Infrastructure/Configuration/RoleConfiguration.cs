@@ -12,6 +12,8 @@ namespace ChatWebApi.Infrastructure.Configuration
 	{
 		public void Configure(EntityTypeBuilder<Role> builder)
 		{
+
+			builder.HasKey(e => e.Id);
 			builder.ToTable("Roles");
 
 			builder.Property(p => p.UserRole)

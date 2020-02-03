@@ -15,6 +15,8 @@ namespace ChatWebApi.Infrastructure.Configuration
 		{
 			builder.ToTable("ScheduledMessages");
 
+			builder.HasKey(e => e.Id);
+
 			builder.Property(p => p.Delivery)
 				.IsRequired();
 

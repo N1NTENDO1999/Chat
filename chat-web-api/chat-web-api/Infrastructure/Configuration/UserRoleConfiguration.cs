@@ -14,7 +14,7 @@ namespace ChatWebApi.Infrastructure.Configuration
 		{
 			builder.ToTable("UserRoles");
 
-			
+			builder.HasKey(e => e.Id);
 		}
 	}
 }

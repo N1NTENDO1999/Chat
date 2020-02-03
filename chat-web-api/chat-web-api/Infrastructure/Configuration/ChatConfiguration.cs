@@ -13,7 +13,7 @@ namespace ChatWebApi.Infrastructure.Configuration
 		public void Configure(EntityTypeBuilder<Chat> builder)
 		{
 			builder.ToTable("Chats");
-
+			builder.HasKey(e => e.Id);
 			builder.Property(c => c.Name)
 				.IsRequired()
 				.HasMaxLength(255);

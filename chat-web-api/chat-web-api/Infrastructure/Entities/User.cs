@@ -19,8 +19,8 @@ namespace ChatWebApi.Infrastructure.Entities
 
         public HashSet<ScheduledMessage> ScheduledMessages { get; set; }
         public HashSet<Message> Messages { get; set; }
-        public virtual ICollection<PersonalMessage> PersonalMessagesSent { get; set; }
-        public virtual ICollection<PersonalMessage> PersonalMessagesReceived { get; set; }
+        public HashSet<PersonalMessage> PersonalMessagesSent { get; set; }
+        public HashSet<PersonalMessage> PersonalMessagesReceived { get; set; }
         public HashSet<UserChat> UserChats { get; set; }
     }
 }

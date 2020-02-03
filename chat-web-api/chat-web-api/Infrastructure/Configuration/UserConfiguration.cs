@@ -14,6 +14,8 @@ namespace ChatWebApi.Infrastructure.Configuration
 		{
 			builder.ToTable("Users");
 
+			builder.HasKey(p => p.Id);
+
 			builder.Property(p => p.FirstName)
 				.IsRequired()
 				.HasMaxLength(255);
@@ -48,7 +50,7 @@ namespace ChatWebApi.Infrastructure.Configuration
 			builder.HasMany(c => c.PersonalMessagesSent)
 				.WithOne(c => c.Sender)
 				.HasForeignKey(c => c.SenderId)
-				.OnDelete(DeleteBehavior.Cascade);
+				.OnDelete(DeleteBehavior.Cascade); 
 
 			builder.HasMany(c => c.PersonalMessagesReceived)
 				.WithOne(c => c.Receiver)
