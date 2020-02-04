@@ -17,6 +17,5 @@ namespace ChatWebApi.Infrastructure.Entities
 
 		public int SenderId { get; set; }
 		public User Sender { get; set; }
-
 	}
 }

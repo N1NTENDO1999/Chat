@@ -50,7 +50,7 @@ namespace ChatWebApi.Infrastructure.Configuration
 			builder.HasMany(c => c.PersonalMessagesSent)
 				.WithOne(c => c.Sender)
 				.HasForeignKey(c => c.SenderId)
-				.OnDelete(DeleteBehavior.Cascade); 
+				.OnDelete(DeleteBehavior.Cascade);
 
 			builder.HasMany(c => c.PersonalMessagesReceived)
 				.WithOne(c => c.Receiver)
