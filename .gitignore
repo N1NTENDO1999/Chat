@@ -351,3 +351,6 @@ MigrationBackup/
 chat-web-api/chat-web-api/Migrations/20200203094649_initial.cs
 chat-web-api/chat-web-api/Migrations/20200203094649_initial.Designer.cs
 chat-web-api/chat-web-api/Migrations/ChatContextModelSnapshot.cs
+ChatWebApi/ChatWebApi/Migrations/ChatContextModelSnapshot.cs
+ChatWebApi/ChatWebApi/Migrations/20200204120804_Initial.Designer.cs
+ChatWebApi/ChatWebApi/Migrations/20200204120804_Initial.cs
