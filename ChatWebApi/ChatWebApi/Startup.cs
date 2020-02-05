@@ -2,9 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ChatWebApi.Application;
+using ChatWebApi.Application.Chats.Commands;
 using ChatWebApi.Infrastructure;
+using ChatWebApi.Interfaces.Requests;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -32,7 +36,13 @@ namespace ChatWebApi
 
 			services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
-			services.AddScoped<DbContext, ChatContext>();
+			services.AddScoped(typeof(ChatContext));
+
+			services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
+			services.AddScoped(typeof(CommandDispatcher));
+
+			services.AddScoped(typeof(ICommandHandler<CreateChatCommand>), typeof(CreateChatCommandHandler));
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -46,6 +56,8 @@ namespace ChatWebApi
 			{
 				app.UseHsts();
 			}
+
+			
 
 			app.UseHttpsRedirection();
 			app.UseMvc();
