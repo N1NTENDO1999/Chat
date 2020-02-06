@@ -25,13 +25,7 @@ namespace ChatWebApi.Controllers
             _queryDispatcher = qdis;
         }
 
-        [HttpPost]
-        public async Task<CommandResult> CreateChat(CreateChatCommand request)
-        {
-            return await _commandDispatcher.Execute(request);
-        }
-
-        [HttpGet("{name}")]
+        [HttpGet("chats/{name}")]
         public async Task<FindChatsByNameResult> Get(string name)
         {
             return await _queryDispatcher.Handle<FindChatsByNameQuery, FindChatsByNameResult>(new FindChatsByNameQuery { Name = name });
@@ -41,6 +35,19 @@ namespace ChatWebApi.Controllers
         public async Task<FindChatsByNameResult> Get()
         {
             return await _queryDispatcher.Handle<GetAllChatsQuery, FindChatsByNameResult>(new GetAllChatsQuery());
+        }
+
+        [HttpPost]
+        public async Task<CommandResult> CreateChat(CreateChatCommand request)
+        {
+            return await _commandDispatcher.Execute(request);
+        }
+
+        [HttpPut]
+        [Route("changeprivacy")]
+        public async Task<CommandResult> ChangeChatPrivacy(ChangeChatCommand request)
+        {
+            return await _commandDispatcher.Execute(request);
         }
 
     }
