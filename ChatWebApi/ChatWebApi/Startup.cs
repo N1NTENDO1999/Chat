@@ -47,6 +47,7 @@ namespace ChatWebApi
 
 			services.AddScoped(typeof(ICommandHandler<CreateChatCommand>), typeof(CreateChatCommandHandler));
 			services.AddScoped(typeof(ICommandHandler<ChangeChatCommand>), typeof(ChangeChatCommandHandler));
+			services.AddScoped(typeof(ICommandHandler<AddChatPictureCommand>), typeof(AddChatPictureCommandHandler));
 
 			services.AddScoped(typeof(IQueryHandler<FindChatsByNameQuery, FindChatsByNameResult>), typeof(FindChatsByNameQueryHandler));
 			services.AddScoped(typeof(IQueryHandler<GetAllChatsQuery, FindChatsByNameResult>), typeof(GetAllChatsQueryHandler));
