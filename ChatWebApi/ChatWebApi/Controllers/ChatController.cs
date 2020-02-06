@@ -31,10 +31,10 @@ namespace ChatWebApi.Controllers
             return await _commandDispatcher.Execute(request);
         }
 
-        [HttpGet]
-        public async Task<IEnumerable<Chat>> Get(FindChatsByNameQuery request)
+        [HttpGet("/getbynames")]
+        public async Task<FindChatsByNameResult> Get(FindChatsByNameQuery request)
         {
-            return await _queryDispatcher.Handle<FindChatsByNameQuery, IEnumerable<Chat>>(request);
+            return await _queryDispatcher.Handle<FindChatsByNameQuery, FindChatsByNameResult>(request);
         }
 
     }

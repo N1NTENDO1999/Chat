@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ChatWebApi.Application.Chats.Queries
 {
-	public class FindChatsByNameQueryHandler : IQueryHandler<FindChatsByNameQuery, IEnumerable<Chat>>
+	public class FindChatsByNameQueryHandler : IQueryHandler<FindChatsByNameQuery, FindChatsByNameResult>
 	{
 		private readonly ChatContext _db;
 
@@ -19,7 +19,7 @@ namespace ChatWebApi.Application.Chats.Queries
 			_db = context;
 		}
 
-		public async Task<IEnumerable<Chat>> Handle(FindChatsByNameQuery request)
+		public async Task<FindChatsByNameResult> Handle(FindChatsByNameQuery request)
 		{
 			if (request == null)
 				throw new ArgumentNullException(nameof(request),
@@ -27,7 +27,7 @@ namespace ChatWebApi.Application.Chats.Queries
 
 			var chats = await _db.Chats.Where(p => p.Name == request.Name).ToListAsync();
 
-			return chats;
+			return new FindChatsByNameResult(chats);
 		}
 	}
 }
