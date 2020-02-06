@@ -6,6 +6,7 @@ using ChatWebApi.Application;
 using ChatWebApi.Application.Chats.Commands;
 using ChatWebApi.Application.Chats.Queries;
 using ChatWebApi.Application.Users.Commands;
+using ChatWebApi.Application.Users.Queries;
 using ChatWebApi.Infrastructure;
 using ChatWebApi.Infrastructure.Entities;
 using ChatWebApi.Interfaces.Requests;
@@ -53,6 +54,7 @@ namespace ChatWebApi
 
 			services.AddScoped(typeof(IQueryHandler<FindChatsByNameQuery, FindChatsByNameResult>), typeof(FindChatsByNameQueryHandler));
 			services.AddScoped(typeof(IQueryHandler<GetAllChatsQuery, FindChatsByNameResult>), typeof(GetAllChatsQueryHandler));
+			services.AddScoped(typeof(IQueryHandler<GetAllUsersQuery, UsersQueryResult>), typeof(GetAllUsersQueryHandler));
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
