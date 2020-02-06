@@ -14,12 +14,12 @@ namespace ChatWebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ChatController : ControllerBase
+    public class ChatsController : ControllerBase
     {
         private CommandDispatcher _commandDispatcher;
         private QueryDispatcher _queryDispatcher;
 
-        public ChatController(CommandDispatcher cdis, QueryDispatcher qdis)
+        public ChatsController(CommandDispatcher cdis, QueryDispatcher qdis)
         {
             _commandDispatcher = cdis;
             _queryDispatcher = qdis;
