@@ -26,7 +26,6 @@ namespace ChatWebApi.Application
             var handler = (ICommandHandler<TRequest>)this._context.HttpContext.RequestServices.
                 GetService(typeof(ICommandHandler<TRequest>));
 
-
             return await handler.Handle(command);
         }
     }

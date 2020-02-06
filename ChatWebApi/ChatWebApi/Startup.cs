@@ -4,7 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using ChatWebApi.Application;
 using ChatWebApi.Application.Chats.Commands;
+using ChatWebApi.Application.Chats.Queries;
 using ChatWebApi.Infrastructure;
+using ChatWebApi.Infrastructure.Entities;
 using ChatWebApi.Interfaces.Requests;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -41,8 +43,10 @@ namespace ChatWebApi
 			services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
 			services.AddScoped(typeof(CommandDispatcher));
+			services.AddScoped(typeof(QueryDispatcher));
 
 			services.AddScoped(typeof(ICommandHandler<CreateChatCommand>), typeof(CreateChatCommandHandler));
+			services.AddScoped(typeof(IQueryHandler<FindChatsByNameQuery, IEnumerable<Chat>>), typeof(FindChatsByNameQueryHandler));
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
