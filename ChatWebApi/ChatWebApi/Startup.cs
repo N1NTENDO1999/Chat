@@ -73,6 +73,12 @@ namespace ChatWebApi
 					};
 				});
 
+			services.AddAuthentication().AddGoogle(googleOptions =>
+			{
+				googleOptions.ClientId = Configuration["Authentication:Google:ClientId"];
+				googleOptions.ClientSecret = Configuration["Authentication:Google:ClientSecret"];
+			});
+
 			services.AddScoped(typeof(ChatContext));
 
 			services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
