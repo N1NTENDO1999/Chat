@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using ChatWebApi.Application;
 using ChatWebApi.Application.Chats.Commands;
 using ChatWebApi.Application.Chats.Queries;
+using ChatWebApi.Application.Tokens.Queries;
 using ChatWebApi.Application.UserChats.Commands;
 using ChatWebApi.Application.Users.Commands;
 using ChatWebApi.Application.Users.Queries;
@@ -82,6 +83,7 @@ namespace ChatWebApi
 			services.AddScoped(typeof(ICommandHandler<CreateUserCommand>), typeof(CreateUserCommandHandler));
 			services.AddScoped(typeof(ICommandHandler<AddUserToChatCommand>), typeof(AddUserToChatCommandHandler));
 
+			services.AddScoped(typeof(IQueryHandler<GetTokenQuery, GetTokenQueryResult>), typeof(GetTokenQueryHandler));
 			services.AddScoped(typeof(IQueryHandler<FindChatsByNameQuery, FindChatsByNameResult>), typeof(FindChatsByNameQueryHandler));
 			services.AddScoped(typeof(IQueryHandler<GetAllChatsQuery, FindChatsByNameResult>), typeof(GetAllChatsQueryHandler));
 			services.AddScoped(typeof(IQueryHandler<GetAllUsersQuery, UsersQueryResult>), typeof(GetAllUsersQueryHandler));

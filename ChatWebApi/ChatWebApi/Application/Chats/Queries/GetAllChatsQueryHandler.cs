@@ -21,6 +21,8 @@ namespace ChatWebApi.Application.Chats.Queries
 		{
 			var result = await _db.Chats.ToListAsync();
 
+			//TODO: Include chat members
+
 			return new FindChatsByNameResult(result);
 		}
 	}
