@@ -11,6 +11,7 @@ using ChatWebApi.Application.Users.Queries;
 using ChatWebApi.Infrastructure;
 using ChatWebApi.Infrastructure.Entities;
 using ChatWebApi.Interfaces.Requests;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -21,6 +22,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 
 namespace ChatWebApi
 {
@@ -40,6 +42,27 @@ namespace ChatWebApi
 				options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
 			services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+			services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+				.AddJwtBearer(options =>
+				{
+					options.TokenValidationParameters = new TokenValidationParameters
+					{
+						ClockSkew = TimeSpan.FromMinutes(5),
+
+						//IssuerSigningKey = signingKey,
+						RequireSignedTokens = true,
+
+						RequireExpirationTime = true,
+						ValidateLifetime = true,
+
+						ValidateAudience = true,
+						ValidAudience = "api://default",
+
+						ValidateIssuer = true,
+						ValidIssuer = "https://{yourOktaDomain}/oauth2/default"
+					};
+				});
 
 			services.AddScoped(typeof(ChatContext));
 
