@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using ChatWebApi.Application;
 using ChatWebApi.Application.Tokens.Queries;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -22,6 +23,7 @@ namespace ChatWebApi.Controllers
             _queryDispatcher = qdis;
         }
 
+        [AllowAnonymous]
         [HttpPost("get/token")]
         public async Task<GetTokenQueryResult> GetToken(GetTokenQuery request)
         {

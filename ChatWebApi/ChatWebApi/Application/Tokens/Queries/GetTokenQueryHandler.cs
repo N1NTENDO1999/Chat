@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using ChatWebApi.Infrastructure;
@@ -41,11 +42,20 @@ namespace ChatWebApi.Application.Tokens.Queries
 
 		private string BuildToken(User user)
 		{
+			//TODO: Should I use claims and why?
+			var claims = new[] {
+				new Claim(JwtRegisteredClaimNames.Sub, user.Nickname),
+				new Claim(JwtRegisteredClaimNames.Email, user.Email),
+				new Claim(JwtRegisteredClaimNames.Birthdate, user.DateCreated.ToString("yyyy-MM-dd")),
+				new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+			};
+
 			var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["JWTSecurity:Key"]));
 			var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
 			var token = new JwtSecurityToken(_config["JWTSecurity:Issuer"],
 			  _config["JWTSecurity:Audience"],
+			  claims,
 			  expires: DateTime.Now.AddMinutes(5),
 			  signingCredentials: creds);
 

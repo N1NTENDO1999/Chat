@@ -48,25 +48,28 @@ namespace ChatWebApi
 			var sharedKey = new SymmetricSecurityKey(
 				Encoding.UTF8.GetBytes(Configuration["JWTSecurity:Key"]));
 
+			services.AddCors(options =>
+			{
+				options.AddPolicy("CorsPolicy",
+					builder => builder.AllowAnyOrigin()
+					  .AllowAnyMethod()
+					  .AllowAnyHeader()
+					  .AllowCredentials()
+				.Build());
+			});
 
 			services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 				.AddJwtBearer(options =>
 				{
 					options.TokenValidationParameters = new TokenValidationParameters
 					{
-						ClockSkew = TimeSpan.FromMinutes(5),
-
-						IssuerSigningKey = sharedKey,
-						RequireSignedTokens = true,
-
-						RequireExpirationTime = true,
-						ValidateLifetime = true,
-
-						ValidateAudience = true,
-						ValidAudience = Configuration["JWTSecurity:Audience"],
-
 						ValidateIssuer = true,
-						ValidIssuer = Configuration["JWTSecurity:Issuer"]
+						ValidateAudience = true,
+						ValidateLifetime = true,
+						ValidateIssuerSigningKey = true,
+						ValidIssuer = Configuration["JWTSecurity:Issuer"],
+						ValidAudience = Configuration["JWTSecurity:Audience"],
+						IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JWTSecurity:Key"]))
 					};
 				});
 
@@ -100,6 +103,8 @@ namespace ChatWebApi
 			{
 				app.UseHsts();
 			}
+
+			app.UseCors("CorsPolicy");
 
 			app.UseHttpsRedirection();
 			app.UseMvc();
