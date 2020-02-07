@@ -12,5 +12,13 @@ namespace ChatWebApi.Infrastructure.Entities
 
 		public int ChatId { get; set; }
 		public Chat Chat { get; set; }
+
+		public UserChat(User _user, Chat _chat)
+		{
+			User = _user;
+			Chat = _chat;
+		}
+
+		private UserChat() { }
 	}
 }
