@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using ChatWebApi.Application;
 using ChatWebApi.Application.Chats.Commands;
@@ -43,6 +44,10 @@ namespace ChatWebApi
 
 			services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
+			var sharedKey = new SymmetricSecurityKey(
+				Encoding.UTF8.GetBytes(Configuration["JWTSecurity:Key"]));
+
+
 			services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 				.AddJwtBearer(options =>
 				{
@@ -50,17 +55,17 @@ namespace ChatWebApi
 					{
 						ClockSkew = TimeSpan.FromMinutes(5),
 
-						//IssuerSigningKey = signingKey,
+						IssuerSigningKey = sharedKey,
 						RequireSignedTokens = true,
 
 						RequireExpirationTime = true,
 						ValidateLifetime = true,
 
 						ValidateAudience = true,
-						ValidAudience = "api://default",
+						ValidAudience = Configuration["JWTSecurity:Audience"],
 
 						ValidateIssuer = true,
-						ValidIssuer = "https://{yourOktaDomain}/oauth2/default"
+						ValidIssuer = Configuration["JWTSecurity:Issuer"]
 					};
 				});
 
@@ -94,10 +99,10 @@ namespace ChatWebApi
 				app.UseHsts();
 			}
 
-			
-
 			app.UseHttpsRedirection();
 			app.UseMvc();
+			app.UseAuthentication();
+
 		}
 	}
 }
