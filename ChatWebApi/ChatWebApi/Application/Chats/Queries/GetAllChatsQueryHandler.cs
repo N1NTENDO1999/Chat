@@ -8,6 +8,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ChatWebApi.Application.Chats.Queries
 {
+	public class GetAllChatsQuery : IQuery<FindChatsByNameResult>
+	{
+	}
+
 	public class GetAllChatsQueryHandler : IQueryHandler<GetAllChatsQuery, FindChatsByNameResult>
 	{
 		private readonly ChatContext _db;

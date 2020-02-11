@@ -8,6 +8,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ChatWebApi.Application.Chats.Commands
 {
+	public class AddChatPictureCommand : ICommand
+	{
+		public int Id { get; set; }
+		public string Picture { get; set; }
+	}
+
 	public class AddChatPictureCommandHandler : BaseCommandHandler<AddChatPictureCommand>
 	{
 		private readonly ChatContext _db;
