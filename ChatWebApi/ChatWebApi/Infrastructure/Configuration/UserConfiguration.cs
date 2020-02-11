@@ -39,7 +39,7 @@ namespace ChatWebApi.Infrastructure.Configuration
 
 			builder.HasMany(c => c.UserChats)
 				.WithOne(c => c.User)
-				.HasForeignKey(c => c.ChatId)
+				.HasForeignKey(c => c.UserId)
 				.OnDelete(DeleteBehavior.Cascade);
 
 			builder.HasMany(c => c.ScheduledMessages)

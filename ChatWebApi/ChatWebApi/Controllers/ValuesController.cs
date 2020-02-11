@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ChatWebApi.Infrastructure.Entities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ChatWebApi.Controllers
@@ -12,9 +13,9 @@ namespace ChatWebApi.Controllers
 	{
 		// GET api/values
 		[HttpGet]
-		public ActionResult<IEnumerable<string>> Get()
+		public ActionResult<Chat> Get()
 		{
-			return new string[] { "value1", "value2" };
+			return new Chat { DateCreated = DateTime.Now, IsPrivate = false, Name = "Some Name"};
 		}
 
 		// GET api/values/5
