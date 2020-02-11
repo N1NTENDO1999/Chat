@@ -50,9 +50,10 @@ namespace ChatWebApi.Controllers
         }
 
         [HttpPut]
-        [Route("changepicture")]
-        public async Task<CommandResult> ChangeChatPicture(AddChatPictureCommand request)
+        [Route("{id}/picture")]
+        public async Task<CommandResult> ChangeChatPicture(AddChatPictureCommand request, int id)
         {
+            request.Id = id;
             return await _commandDispatcher.Execute(request);
         }
 

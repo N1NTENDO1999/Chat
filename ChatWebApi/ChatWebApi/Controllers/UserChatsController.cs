@@ -23,7 +23,7 @@ namespace ChatWebApi.Controllers
             _queryDispatcher = qdis;
         }
 
-        [HttpPost("add/user")]
+        [HttpPost]
         public async Task<CommandResult> AddUserToChat(AddUserToChatCommand request)
         {
             return await _commandDispatcher.Execute(request);

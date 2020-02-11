@@ -26,7 +26,7 @@ namespace ChatWebApi.Controllers
             _queryDispatcher = qdis;
         }
 
-        [HttpGet("all/users")]
+        [HttpGet]
         public async Task<UsersQueryResult> GetAllUsers()
         {
             return await _queryDispatcher.Handle<GetAllUsersQuery, UsersQueryResult>(new GetAllUsersQuery());
