@@ -9,6 +9,16 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ChatWebApi.Application.Users.Queries
 {
+	public class GetAllUsersQuery : IQuery<UsersQueryResult>
+	{
+	}
+
+	public class UsersQueryResult : IQueryResult
+	{
+		public IEnumerable<UserDTO> Users { get; set; }
+
+	}
+
 	public class GetAllUsersQueryHandler : IQueryHandler<GetAllUsersQuery, UsersQueryResult>
 	{
 		private ChatContext _db;

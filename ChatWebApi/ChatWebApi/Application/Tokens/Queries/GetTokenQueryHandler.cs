@@ -14,6 +14,23 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace ChatWebApi.Application.Tokens.Queries
 {
+
+	public class GetTokenQuery : IQuery<GetTokenQueryResult>
+	{
+		public string Email { get; set; }
+		public string Password { get; set; }
+	}
+
+	public class GetTokenQueryResult : IQueryResult
+	{
+		public string Token { get; set; }
+
+		public GetTokenQueryResult(string token)
+		{
+			Token = token;
+		}
+	}
+
 	public class GetTokenQueryHandler : IQueryHandler<GetTokenQuery, GetTokenQueryResult>
 	{
 		private ChatContext _db;

@@ -8,6 +8,14 @@ using ChatWebApi.Interfaces.Requests;
 
 namespace ChatWebApi.Application.Users.Commands
 {
+	public class CreateUserCommand : ICommand
+	{
+		public string FirstName { get; set; }
+		public string LastName { get; set; }
+		public string Nickname { get; set; }
+		public string Email { get; set; }
+	}
+
 	public class CreateUserCommandHandler : BaseCommandHandler<CreateUserCommand>
 	{
 		private ChatContext _db;
