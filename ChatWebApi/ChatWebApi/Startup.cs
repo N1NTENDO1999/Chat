@@ -1,16 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using ChatWebApi.Application;
 using ChatWebApi.Application.Chats.Commands;
 using ChatWebApi.Application.Chats.Queries;
+using ChatWebApi.Application.Tokens.Queries;
 using ChatWebApi.Application.UserChats.Commands;
 using ChatWebApi.Application.Users.Commands;
 using ChatWebApi.Application.Users.Queries;
 using ChatWebApi.Infrastructure;
 using ChatWebApi.Infrastructure.Entities;
 using ChatWebApi.Interfaces.Requests;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -21,6 +24,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 
 namespace ChatWebApi
 {
@@ -41,6 +45,40 @@ namespace ChatWebApi
 
 			services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
+			var sharedKey = new SymmetricSecurityKey(
+				Encoding.UTF8.GetBytes(Configuration["JWTSecurity:Key"]));
+
+			services.AddCors(options =>
+			{
+				options.AddPolicy("CorsPolicy",
+					builder => builder.AllowAnyOrigin()
+					  .AllowAnyMethod()
+					  .AllowAnyHeader()
+					  .AllowCredentials()
+				.Build());
+			});
+
+			services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+				.AddJwtBearer(options =>
+				{
+					options.TokenValidationParameters = new TokenValidationParameters
+					{
+						ValidateIssuer = true,
+						ValidateAudience = true,
+						ValidateLifetime = true,
+						ValidateIssuerSigningKey = true,
+						ValidIssuer = Configuration["JWTSecurity:Issuer"],
+						ValidAudience = Configuration["JWTSecurity:Audience"],
+						IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JWTSecurity:Key"]))
+					};
+				});
+
+			services.AddAuthentication().AddGoogle(googleOptions =>
+			{
+				googleOptions.ClientId = Configuration["Authentication:Google:ClientId"];
+				googleOptions.ClientSecret = Configuration["Authentication:Google:ClientSecret"];
+			});
+
 			services.AddScoped(typeof(ChatContext));
 
 			services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
@@ -54,6 +92,7 @@ namespace ChatWebApi
 			services.AddScoped(typeof(ICommandHandler<CreateUserCommand>), typeof(CreateUserCommandHandler));
 			services.AddScoped(typeof(ICommandHandler<AddUserToChatCommand>), typeof(AddUserToChatCommandHandler));
 
+			services.AddScoped(typeof(IQueryHandler<GetTokenQuery, GetTokenQueryResult>), typeof(GetTokenQueryHandler));
 			services.AddScoped(typeof(IQueryHandler<FindChatsByNameQuery, FindChatsByNameResult>), typeof(FindChatsByNameQueryHandler));
 			services.AddScoped(typeof(IQueryHandler<GetAllChatsQuery, FindChatsByNameResult>), typeof(GetAllChatsQueryHandler));
 			services.AddScoped(typeof(IQueryHandler<GetAllUsersQuery, UsersQueryResult>), typeof(GetAllUsersQueryHandler));
@@ -71,10 +110,12 @@ namespace ChatWebApi
 				app.UseHsts();
 			}
 
-			
+			app.UseCors("CorsPolicy");
 
 			app.UseHttpsRedirection();
 			app.UseMvc();
+			app.UseAuthentication();
+
 		}
 	}
 }
