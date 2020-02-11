@@ -4,8 +4,8 @@
     "windowsAuthentication": false, 
     "anonymousAuthentication": true, 
     "iisExpress": {
-      "applicationUrl": "http://localhost:61123",
-      "sslPort": 44316
+      "applicationUrl": "http://localhost:55056",
+      "sslPort": 44312
     }
   },
   "profiles": {
@@ -17,7 +17,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "chat_web_api": {
+    "ChatWebApi": {
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "api/values",
