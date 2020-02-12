@@ -1,21 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using ChatWebApi.Infrastructure;
 using ChatWebApi.Interfaces.Requests;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 namespace ChatWebApi.Application.Chats.Commands
 {
-	public class ChangeChatCommand : ICommand
+	public class ChangeChatCommand : IRequest<CommandResult>
 	{
 		public int Id { get; set; }
 		public bool IsPrivate { get; set; }
 		public string Name { get; set; }
 	}
 
-	public class ChangeChatCommandHandler : BaseCommandHandler<ChangeChatCommand>
+	public class ChangeChatCommandHandler : IRequestHandler<ChangeChatCommand, CommandResult>
 	{
 		private readonly ChatContext _db;
 
@@ -23,7 +25,8 @@ namespace ChatWebApi.Application.Chats.Commands
 		{
 			_db = db;
 		}
-		protected async override Task<CommandResult> HandleRequest(ChangeChatCommand request)
+
+		public async Task<CommandResult> Handle(ChangeChatCommand request, CancellationToken cancellationToken)
 		{
 			var chat = await _db.Chats.FirstAsync(p => p.Id == request.Id);
 
@@ -35,5 +38,6 @@ namespace ChatWebApi.Application.Chats.Commands
 
 			return new CommandResult();
 		}
+
 	}
 }

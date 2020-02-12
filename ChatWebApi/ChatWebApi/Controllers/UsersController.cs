@@ -18,12 +18,10 @@ namespace ChatWebApi.Controllers
     [ApiController]
     public class UsersController : ControllerBase
     {
-        private CommandDispatcher _commandDispatcher;
         private readonly IMediator _mediator;
 
-        public UsersController(CommandDispatcher cdis, IMediator mediator)
+        public UsersController(IMediator mediator)
         {
-            _commandDispatcher = cdis;
             _mediator = mediator;
         }
 
@@ -36,7 +34,7 @@ namespace ChatWebApi.Controllers
         [HttpPost]
         public async Task<CommandResult> CreateUser(CreateUserCommand request)
         {
-            return await _commandDispatcher.Execute(request);
+            return await _mediator.Send(request);
         }
 
     }

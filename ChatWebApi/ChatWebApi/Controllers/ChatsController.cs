@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using ChatWebApi.Application;
 using ChatWebApi.Application.Chats.Commands;
 using ChatWebApi.Application.Chats.Queries;
+using ChatWebApi.Application.UserChats.Commands;
 using ChatWebApi.Infrastructure.Entities;
 using ChatWebApi.Interfaces.Requests;
 using MediatR;
@@ -17,14 +18,10 @@ namespace ChatWebApi.Controllers
     [ApiController]
     public class ChatsController : ControllerBase
     {
-        private CommandDispatcher _commandDispatcher;
-        private QueryDispatcher _queryDispatcher;
         private readonly IMediator _mediator;
 
-        public ChatsController(CommandDispatcher cdis, QueryDispatcher qdis, IMediator mediator)
+        public ChatsController(IMediator mediator)
         {
-            _commandDispatcher = cdis;
-            _queryDispatcher = qdis;
             _mediator = mediator;
         }
 
@@ -43,13 +40,20 @@ namespace ChatWebApi.Controllers
         [HttpPost]
         public async Task<CommandResult> CreateChat(CreateChatCommand request)
         {
-            return await _commandDispatcher.Execute(request);
+            return await _mediator.Send(request);
+        }
+
+        [HttpPost]
+        [Route("chat/{chatId}/user/{userId}")]
+        public async Task<CommandResult> AddUserToChat(int chatId, int userId)
+        {
+            return await _mediator.Send(new AddUserToChatCommand { ChatId = chatId, UserId = userId });
         }
 
         [HttpPut]
         public async Task<CommandResult> ChangeChatPrivacy(ChangeChatCommand request)
         {
-            return await _commandDispatcher.Execute(request);
+            return await _mediator.Send(request);
         }
 
         [HttpPut]
@@ -59,6 +63,5 @@ namespace ChatWebApi.Controllers
             request.Id = id;
             return await _mediator.Send(request);
         }
-
     }
 }

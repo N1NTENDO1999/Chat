@@ -88,15 +88,7 @@ namespace ChatWebApi
 			services.AddScoped(typeof(ChatContext));
 
 			services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-
-			services.AddScoped(typeof(CommandDispatcher));
-			services.AddScoped(typeof(QueryDispatcher));
-
-			services.AddScoped(typeof(ICommandHandler<CreateChatCommand>), typeof(CreateChatCommandHandler));
-			services.AddScoped(typeof(ICommandHandler<ChangeChatCommand>), typeof(ChangeChatCommandHandler));
-			services.AddScoped(typeof(ICommandHandler<CreateUserCommand>), typeof(CreateUserCommandHandler));
-			services.AddScoped(typeof(ICommandHandler<AddUserToChatCommand>), typeof(AddUserToChatCommandHandler));
-
+			
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
