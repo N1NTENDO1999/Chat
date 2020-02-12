@@ -4,10 +4,12 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using ChatWebApi.Infrastructure;
 using ChatWebApi.Infrastructure.Entities;
 using ChatWebApi.Interfaces.Requests;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -15,13 +17,13 @@ using Microsoft.IdentityModel.Tokens;
 namespace ChatWebApi.Application.Tokens.Queries
 {
 
-	public class GetTokenQuery : IQuery<GetTokenQueryResult>
+	public class GetTokenQuery : IRequest<GetTokenQueryResult>
 	{
 		public string Email { get; set; }
 		public string Password { get; set; }
 	}
 
-	public class GetTokenQueryResult : IQueryResult
+	public class GetTokenQueryResult 
 	{
 		public string Token { get; set; }
 
@@ -31,7 +33,7 @@ namespace ChatWebApi.Application.Tokens.Queries
 		}
 	}
 
-	public class GetTokenQueryHandler : IQueryHandler<GetTokenQuery, GetTokenQueryResult>
+	public class GetTokenQueryHandler : IRequestHandler<GetTokenQuery, GetTokenQueryResult>
 	{
 		private ChatContext _db;
 		private IConfiguration _config;
@@ -40,21 +42,6 @@ namespace ChatWebApi.Application.Tokens.Queries
 		{
 			_db = chatContext;
 			_config = config;
-		}
-
-		public async Task<GetTokenQueryResult> Handle(GetTokenQuery request)
-		{
-			if (request == null)
-			{
-				throw new ArgumentNullException(nameof(request), "Request Is Empty");
-			}
-
-			//TODO: Add some validation
-
-			var user = await Authenticate(request);
-			var tokenString = BuildToken(user);
-
-			return new GetTokenQueryResult(tokenString);
 		}
 
 		private string BuildToken(User user)
@@ -84,6 +71,21 @@ namespace ChatWebApi.Application.Tokens.Queries
 			var user = await _db.Users.FirstAsync(p => p.Email == login.Email);
 			//TODO: Password check
 			return user;
+		}
+
+		public async Task<GetTokenQueryResult> Handle(GetTokenQuery request, CancellationToken cancellationToken)
+		{
+			if (request == null)
+			{
+				throw new ArgumentNullException(nameof(request), "Request Is Empty");
+			}
+
+			//TODO: Add some validation
+
+			var user = await Authenticate(request);
+			var tokenString = BuildToken(user);
+
+			return new GetTokenQueryResult(tokenString);
 		}
 	}
 }

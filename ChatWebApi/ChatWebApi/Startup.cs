@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -14,6 +15,7 @@ using ChatWebApi.Application.Users.Queries;
 using ChatWebApi.Infrastructure;
 using ChatWebApi.Infrastructure.Entities;
 using ChatWebApi.Interfaces.Requests;
+using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -45,6 +47,7 @@ namespace ChatWebApi
 				options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
 			services.AddAutoMapper(typeof(Startup));
+			services.AddMediatR(Assembly.GetExecutingAssembly());
 
 			services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
@@ -85,20 +88,7 @@ namespace ChatWebApi
 			services.AddScoped(typeof(ChatContext));
 
 			services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-
-			services.AddScoped(typeof(CommandDispatcher));
-			services.AddScoped(typeof(QueryDispatcher));
-
-			services.AddScoped(typeof(ICommandHandler<CreateChatCommand>), typeof(CreateChatCommandHandler));
-			services.AddScoped(typeof(ICommandHandler<ChangeChatCommand>), typeof(ChangeChatCommandHandler));
-			services.AddScoped(typeof(ICommandHandler<AddChatPictureCommand>), typeof(AddChatPictureCommandHandler));
-			services.AddScoped(typeof(ICommandHandler<CreateUserCommand>), typeof(CreateUserCommandHandler));
-			services.AddScoped(typeof(ICommandHandler<AddUserToChatCommand>), typeof(AddUserToChatCommandHandler));
-
-			services.AddScoped(typeof(IQueryHandler<GetTokenQuery, GetTokenQueryResult>), typeof(GetTokenQueryHandler));
-			services.AddScoped(typeof(IQueryHandler<FindChatsByNameQuery, FindChatsByNameResult>), typeof(FindChatsByNameQueryHandler));
-			services.AddScoped(typeof(IQueryHandler<GetAllChatsQuery, FindChatsByNameResult>), typeof(GetAllChatsQueryHandler));
-			services.AddScoped(typeof(IQueryHandler<GetAllUsersQuery, UsersQueryResult>), typeof(GetAllUsersQueryHandler));
+			
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

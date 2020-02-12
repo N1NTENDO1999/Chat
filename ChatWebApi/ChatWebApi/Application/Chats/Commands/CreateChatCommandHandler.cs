@@ -5,16 +5,18 @@ using System.Threading.Tasks;
 using ChatWebApi.Infrastructure;
 using ChatWebApi.Interfaces.Requests;
 using ChatWebApi.Infrastructure.Entities;
+using MediatR;
+using System.Threading;
 
 namespace ChatWebApi.Application.Chats.Commands
 {
-	public class CreateChatCommand : ICommand
+	public class CreateChatCommand : IRequest<CommandResult>
 	{
 		public string Name { get; set; }
 		public bool IsPrivate { get; set; }
 	}
 
-	public class CreateChatCommandHandler : BaseCommandHandler<CreateChatCommand>
+	public class CreateChatCommandHandler : IRequestHandler<CreateChatCommand, CommandResult>
 	{
 		private readonly ChatContext _db;
 
@@ -23,7 +25,7 @@ namespace ChatWebApi.Application.Chats.Commands
 			_db = db;
 		}
 
-		protected override async Task<CommandResult> HandleRequest(CreateChatCommand request)
+		public async Task<CommandResult> Handle(CreateChatCommand request, CancellationToken cancellationToken)
 		{
 			var chat = new Chat { DateCreated = DateTime.Now, IsPrivate = request.IsPrivate, Name = request.Name };
 			await _db.Chats.AddAsync(chat);

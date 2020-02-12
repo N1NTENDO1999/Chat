@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using ChatWebApi.Application.Chats.ChatDTOs;
+using ChatWebApi.Application.Chats.Commands;
 using ChatWebApi.Application.Messages.MessageDTOs;
 using ChatWebApi.Application.PersonalMessages.PersonalMessageDTOs;
 using ChatWebApi.Application.ScheduledMessages.ScheduledMessagesDTOs;
@@ -29,6 +30,9 @@ namespace ChatWebApi.Application
                 .ReverseMap();
 
             CreateMap<ScheduledMessage, ScheduledMessageDTO>()
+                .ReverseMap();
+
+            CreateMap<Chat, AddChatPictureCommand>()
                 .ReverseMap();
         }
     }

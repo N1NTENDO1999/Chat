@@ -5,8 +5,10 @@ using System.Threading.Tasks;
 using ChatWebApi.Application;
 using ChatWebApi.Application.Chats.Commands;
 using ChatWebApi.Application.Chats.Queries;
+using ChatWebApi.Application.UserChats.Commands;
 using ChatWebApi.Infrastructure.Entities;
 using ChatWebApi.Interfaces.Requests;
+using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,37 +18,42 @@ namespace ChatWebApi.Controllers
     [ApiController]
     public class ChatsController : ControllerBase
     {
-        private CommandDispatcher _commandDispatcher;
-        private QueryDispatcher _queryDispatcher;
+        private readonly IMediator _mediator;
 
-        public ChatsController(CommandDispatcher cdis, QueryDispatcher qdis)
+        public ChatsController(IMediator mediator)
         {
-            _commandDispatcher = cdis;
-            _queryDispatcher = qdis;
+            _mediator = mediator;
         }
 
         [HttpGet("chat/{name}")]
         public async Task<FindChatsByNameResult> Get(string name)
         {
-            return await _queryDispatcher.Handle<FindChatsByNameQuery, FindChatsByNameResult>(new FindChatsByNameQuery { Name = name });
+            return await _mediator.Send(new FindChatsByNameQuery { Name = name });
         }
 
         [HttpGet()]
         public async Task<FindChatsByNameResult> Get()
         {
-            return await _queryDispatcher.Handle<GetAllChatsQuery, FindChatsByNameResult>(new GetAllChatsQuery());
+            return await _mediator.Send(new GetAllChatsQuery());
         }
 
         [HttpPost]
         public async Task<CommandResult> CreateChat(CreateChatCommand request)
         {
-            return await _commandDispatcher.Execute(request);
+            return await _mediator.Send(request);
+        }
+
+        [HttpPost]
+        [Route("chat/{chatId}/user/{userId}")]
+        public async Task<CommandResult> AddUserToChat(int chatId, int userId)
+        {
+            return await _mediator.Send(new AddUserToChatCommand { ChatId = chatId, UserId = userId });
         }
 
         [HttpPut]
         public async Task<CommandResult> ChangeChatPrivacy(ChangeChatCommand request)
         {
-            return await _commandDispatcher.Execute(request);
+            return await _mediator.Send(request);
         }
 
         [HttpPut]
@@ -54,8 +61,7 @@ namespace ChatWebApi.Controllers
         public async Task<CommandResult> ChangeChatPicture(AddChatPictureCommand request, int id)
         {
             request.Id = id;
-            return await _commandDispatcher.Execute(request);
+            return await _mediator.Send(request);
         }
-
     }
 }
