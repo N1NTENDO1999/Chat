@@ -17,9 +17,6 @@ namespace ChatWebApi.Application
                 .ReverseMap();
 
             CreateMap<Chat, ChatDTO>()
-                .ForMember(dest => 
-                dest.Users,
-                opt => opt.MapFrom(src => src.UserChats.Select(p => p.User)))
                 .ReverseMap();
         }
     }
