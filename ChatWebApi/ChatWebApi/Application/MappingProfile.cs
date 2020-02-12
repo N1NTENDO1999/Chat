@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using ChatWebApi.Application.Chats.ChatDTOs;
+using ChatWebApi.Application.Messages.MessageDTOs;
 using ChatWebApi.Application.Users.Queries.UserDTOs;
 using ChatWebApi.Infrastructure.Entities;
 
@@ -17,6 +18,9 @@ namespace ChatWebApi.Application
                 .ReverseMap();
 
             CreateMap<Chat, ChatDTO>()
+                .ReverseMap();
+
+            CreateMap<Message, MessageDTO>()
                 .ReverseMap();
         }
     }
