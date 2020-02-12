@@ -24,7 +24,6 @@ namespace ChatWebApi.Controllers
         }
 
         [AllowAnonymous]
-        [HttpPost("get/token")]
         public async Task<GetTokenQueryResult> GetToken(GetTokenQuery request)
         {
             return await _queryDispatcher.Handle<GetTokenQuery, GetTokenQueryResult>(request);

@@ -8,6 +8,12 @@ using ChatWebApi.Infrastructure.Entities;
 
 namespace ChatWebApi.Application.Chats.Commands
 {
+	public class CreateChatCommand : ICommand
+	{
+		public string Name { get; set; }
+		public bool IsPrivate { get; set; }
+	}
+
 	public class CreateChatCommandHandler : BaseCommandHandler<CreateChatCommand>
 	{
 		private readonly ChatContext _db;

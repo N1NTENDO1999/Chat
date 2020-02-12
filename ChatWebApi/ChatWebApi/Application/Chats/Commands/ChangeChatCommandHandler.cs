@@ -8,6 +8,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ChatWebApi.Application.Chats.Commands
 {
+	public class ChangeChatCommand : ICommand
+	{
+		public int Id { get; set; }
+		public bool IsPrivate { get; set; }
+		public string Name { get; set; }
+	}
+
 	public class ChangeChatCommandHandler : BaseCommandHandler<ChangeChatCommand>
 	{
 		private readonly ChatContext _db;

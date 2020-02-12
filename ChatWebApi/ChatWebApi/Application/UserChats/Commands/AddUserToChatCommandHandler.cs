@@ -9,6 +9,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ChatWebApi.Application.UserChats.Commands
 {
+	public class AddUserToChatCommand : ICommand
+	{
+		public int UserId { get; set; }
+		public int ChatId { get; set; }
+	}
+
 	public class AddUserToChatCommandHandler : BaseCommandHandler<AddUserToChatCommand>
 	{
 		private ChatContext _db;
