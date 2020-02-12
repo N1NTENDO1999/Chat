@@ -94,7 +94,6 @@ namespace ChatWebApi
 
 			services.AddScoped(typeof(ICommandHandler<CreateChatCommand>), typeof(CreateChatCommandHandler));
 			services.AddScoped(typeof(ICommandHandler<ChangeChatCommand>), typeof(ChangeChatCommandHandler));
-			services.AddScoped(typeof(ICommandHandler<AddChatPictureCommand>), typeof(AddChatPictureCommandHandler));
 			services.AddScoped(typeof(ICommandHandler<CreateUserCommand>), typeof(CreateUserCommandHandler));
 			services.AddScoped(typeof(ICommandHandler<AddUserToChatCommand>), typeof(AddUserToChatCommandHandler));
 

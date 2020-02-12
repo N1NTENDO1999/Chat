@@ -57,7 +57,7 @@ namespace ChatWebApi.Controllers
         public async Task<CommandResult> ChangeChatPicture(AddChatPictureCommand request, int id)
         {
             request.Id = id;
-            return await _commandDispatcher.Execute(request);
+            return await _mediator.Send(request);
         }
 
     }
