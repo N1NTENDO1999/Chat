@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using ChatWebApi.Application.Users.Queries.UserDTOs;
 using ChatWebApi.Infrastructure;
 using ChatWebApi.Interfaces.Requests;
@@ -22,26 +23,21 @@ namespace ChatWebApi.Application.Users.Queries
 	public class GetAllUsersQueryHandler : IQueryHandler<GetAllUsersQuery, UsersQueryResult>
 	{
 		private ChatContext _db;
+		private readonly IMapper _mapper;
 
-		public GetAllUsersQueryHandler(ChatContext chatContext)
+		public GetAllUsersQueryHandler(ChatContext chatContext, IMapper mapper)
 		{
 			_db = chatContext;
+			_mapper = mapper;
 		}
 
 		public async Task<UsersQueryResult> Handle(GetAllUsersQuery request)
 		{
-			var users = await _db.Users.Select(p => new UserDTO
-			{
-				ActiveDateTime = p.ActiveDateTime,
-				DateCreated = p.DateCreated,
-				Email = p.Email,
-				FirstName = p.FirstName,
-				Id = p.Id,
-				LastName = p.LastName,
-				Nickname = p.Nickname
-			}).ToListAsync();
+			var users = await _db.Users.ToListAsync();
 
-			return new UsersQueryResult { Users = users };
+			var u = _mapper.Map<List<UserDTO>>(users);
+
+			return new UsersQueryResult { Users = u };
 		}
 	}
 }
