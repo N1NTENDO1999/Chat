@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -14,6 +15,7 @@ using ChatWebApi.Application.Users.Queries;
 using ChatWebApi.Infrastructure;
 using ChatWebApi.Infrastructure.Entities;
 using ChatWebApi.Interfaces.Requests;
+using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -45,6 +47,7 @@ namespace ChatWebApi
 				options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
 			services.AddAutoMapper(typeof(Startup));
+			services.AddMediatR(Assembly.GetExecutingAssembly());
 
 			services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
@@ -97,7 +100,6 @@ namespace ChatWebApi
 
 			services.AddScoped(typeof(IQueryHandler<GetTokenQuery, GetTokenQueryResult>), typeof(GetTokenQueryHandler));
 			services.AddScoped(typeof(IQueryHandler<FindChatsByNameQuery, FindChatsByNameResult>), typeof(FindChatsByNameQueryHandler));
-			services.AddScoped(typeof(IQueryHandler<GetAllChatsQuery, FindChatsByNameResult>), typeof(GetAllChatsQueryHandler));
 			services.AddScoped(typeof(IQueryHandler<GetAllUsersQuery, UsersQueryResult>), typeof(GetAllUsersQueryHandler));
 		}
 

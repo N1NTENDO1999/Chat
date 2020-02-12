@@ -7,6 +7,7 @@ using ChatWebApi.Application.Chats.Commands;
 using ChatWebApi.Application.Chats.Queries;
 using ChatWebApi.Infrastructure.Entities;
 using ChatWebApi.Interfaces.Requests;
+using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,11 +19,13 @@ namespace ChatWebApi.Controllers
     {
         private CommandDispatcher _commandDispatcher;
         private QueryDispatcher _queryDispatcher;
+        private readonly IMediator _mediator;
 
-        public ChatsController(CommandDispatcher cdis, QueryDispatcher qdis)
+        public ChatsController(CommandDispatcher cdis, QueryDispatcher qdis, IMediator mediator)
         {
             _commandDispatcher = cdis;
             _queryDispatcher = qdis;
+            _mediator = mediator;
         }
 
         [HttpGet("chat/{name}")]
@@ -34,7 +37,7 @@ namespace ChatWebApi.Controllers
         [HttpGet()]
         public async Task<FindChatsByNameResult> Get()
         {
-            return await _queryDispatcher.Handle<GetAllChatsQuery, FindChatsByNameResult>(new GetAllChatsQuery());
+            return await _mediator.Send(new GetAllChatsQuery());
         }
 
         [HttpPost]
