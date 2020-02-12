@@ -98,9 +98,6 @@ namespace ChatWebApi
 			services.AddScoped(typeof(ICommandHandler<CreateUserCommand>), typeof(CreateUserCommandHandler));
 			services.AddScoped(typeof(ICommandHandler<AddUserToChatCommand>), typeof(AddUserToChatCommandHandler));
 
-			services.AddScoped(typeof(IQueryHandler<GetTokenQuery, GetTokenQueryResult>), typeof(GetTokenQueryHandler));
-			services.AddScoped(typeof(IQueryHandler<FindChatsByNameQuery, FindChatsByNameResult>), typeof(FindChatsByNameQueryHandler));
-			services.AddScoped(typeof(IQueryHandler<GetAllUsersQuery, UsersQueryResult>), typeof(GetAllUsersQueryHandler));
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

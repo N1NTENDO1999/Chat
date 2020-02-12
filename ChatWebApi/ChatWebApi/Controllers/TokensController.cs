@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using ChatWebApi.Application;
 using ChatWebApi.Application.Tokens.Queries;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -14,19 +15,17 @@ namespace ChatWebApi.Controllers
     [ApiController]
     public class TokensController : ControllerBase
     {
-        private CommandDispatcher _commandDispatcher;
-        private QueryDispatcher _queryDispatcher;
+        private readonly IMediator _mediator;
 
-        public TokensController(CommandDispatcher cdis, QueryDispatcher qdis)
+        public TokensController(IMediator mediator)
         {
-            _commandDispatcher = cdis;
-            _queryDispatcher = qdis;
+            _mediator = mediator;
         }
 
         [AllowAnonymous]
         public async Task<GetTokenQueryResult> GetToken(GetTokenQuery request)
         {
-            return await _queryDispatcher.Handle<GetTokenQuery, GetTokenQueryResult>(request);
+            return await _mediator.Send(request);
         }
     }
 }
