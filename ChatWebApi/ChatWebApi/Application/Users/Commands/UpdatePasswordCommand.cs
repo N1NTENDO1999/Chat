@@ -33,9 +33,7 @@ namespace ChatWebApi.Application.Users.Commands
 
 		private string HashedPassword(string password, User user)
 		{
-			var stringSalt = user.PasswordSalt;
-			byte[] salt = Encoding.ASCII.GetBytes(stringSalt);
-
+			var salt = user.PasswordSalt;
 
 			string hashed = Convert.ToBase64String(KeyDerivation.Pbkdf2(
 				password: password,

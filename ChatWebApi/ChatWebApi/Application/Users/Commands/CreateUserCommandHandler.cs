@@ -66,7 +66,6 @@ namespace ChatWebApi.Application.Users.Commands
 			AssertRequestIsValid(request);
 
 			var hashedPassword = HashedPassword(request.Password, out byte[] salt);
-			var stringSalt = Encoding.ASCII.GetString(salt);
 
 			var user = new User
 			{
@@ -77,7 +76,7 @@ namespace ChatWebApi.Application.Users.Commands
 				ActiveDateTime = DateTime.Now,
 				DateCreated = DateTime.Now,
 				PasswordHash = hashedPassword,
-				PasswordSalt = stringSalt
+				PasswordSalt = salt
 				
 			};
 

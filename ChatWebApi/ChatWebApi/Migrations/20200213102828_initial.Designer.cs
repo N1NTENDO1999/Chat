@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ChatWebApi.Migrations
 {
     [DbContext(typeof(ChatContext))]
-    [Migration("20200207100247_FixConnectionBetweenChatAndUser")]
-    partial class FixConnectionBetweenChatAndUser
+    [Migration("20200213102828_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -166,7 +166,7 @@ namespace ChatWebApi.Migrations
 
                     b.Property<string>("PasswordHash");
 
-                    b.Property<string>("PasswordSalt");
+                    b.Property<byte[]>("PasswordSalt");
 
                     b.HasKey("Id");
 
@@ -228,7 +228,7 @@ namespace ChatWebApi.Migrations
                     b.HasOne("ChatWebApi.Infrastructure.Entities.User", "Sender")
                         .WithMany("PersonalMessagesSent")
                         .HasForeignKey("SenderId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("ChatWebApi.Infrastructure.Entities.ScheduledMessage", b =>
