@@ -45,8 +45,6 @@ namespace ChatWebApi.Application.Users.Commands
 			return hashed;
 		}
 
-		
-
 		public async Task<CommandResult> Handle(UpdatePasswordCommand request, CancellationToken cancellationToken)
 		{
 			var user = await _db.Users.FirstAsync(p => p.Id == request.UserId);
