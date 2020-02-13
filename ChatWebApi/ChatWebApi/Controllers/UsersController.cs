@@ -37,6 +37,13 @@ namespace ChatWebApi.Controllers
             return await _mediator.Send(new GetUserQuery { Id = id });
         }
 
+        [HttpGet]
+        [Route("{nickname}")]
+        public async Task<GetUsersByNicknameQueryResult> GetUsers(string nickname)
+        {
+            return await _mediator.Send(new GetUsersByNicknameQuery { Nickname = nickname });
+        }
+
         [HttpPost]
         public async Task<CommandResult> CreateUser(CreateUserCommand request)
         {
