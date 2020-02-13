@@ -37,5 +37,12 @@ namespace ChatWebApi.Controllers
             return await _mediator.Send(request);
         }
 
+        [HttpPut]
+        [Route("user/{id}/password")]
+        public async Task<CommandResult> UpdatePassword(UpdatePasswordCommand request)
+        {
+            return await _mediator.Send(request);
+        }
+
     }
 }

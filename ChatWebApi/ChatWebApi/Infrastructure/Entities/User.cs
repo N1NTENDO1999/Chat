@@ -13,7 +13,7 @@ namespace ChatWebApi.Infrastructure.Entities
         public string Nickname { get; set; }
         public string Email { get; set; }
         public string PasswordHash { get; set; }
-        public string PasswordSalt { get; set; }
+        public byte[] PasswordSalt { get; set; }
         public DateTime DateCreated { get; set; }
         public DateTime ActiveDateTime { get; set; }
 
