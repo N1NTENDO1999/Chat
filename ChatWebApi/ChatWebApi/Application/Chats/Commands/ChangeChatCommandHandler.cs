@@ -23,7 +23,7 @@ namespace ChatWebApi.Application.Chats.Commands
 
 		public ChangeChatCommandHandler(ChatContext db)
 		{
-			_db = db;
+			_db = db ?? throw new ArgumentNullException(nameof(db));
 		}
 
 		public async Task<CommandResult> Handle(ChangeChatCommand request, CancellationToken cancellationToken)

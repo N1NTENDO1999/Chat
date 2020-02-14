@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.DirectoryServices.AccountManagement;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
@@ -10,6 +11,7 @@ using ChatWebApi.Infrastructure;
 using ChatWebApi.Infrastructure.Entities;
 using ChatWebApi.Interfaces.Requests;
 using MediatR;
+using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -46,9 +48,8 @@ namespace ChatWebApi.Application.Tokens.Queries
 
 		private string BuildToken(User user)
 		{
-			//TODO: Should I use claims and why?
 			var claims = new[] {
-				new Claim(JwtRegisteredClaimNames.Sub, user.Nickname),
+				new Claim(ClaimTypes.Name, user.Nickname),
 				new Claim(JwtRegisteredClaimNames.Email, user.Email),
 				new Claim(JwtRegisteredClaimNames.Birthdate, user.DateCreated.ToString("yyyy-MM-dd")),
 				new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
@@ -69,7 +70,10 @@ namespace ChatWebApi.Application.Tokens.Queries
 		private async Task<User> Authenticate(GetTokenQuery login)
 		{
 			var user = await _db.Users.FirstAsync(p => p.Email == login.Email);
-			//TODO: Password check
+			var hashedPassword = HashedPassword(login.Password, user);
+
+			if (user.PasswordHash != hashedPassword) throw new PasswordException("Invalid Password");
+
 			return user;
 		}
 
@@ -80,12 +84,24 @@ namespace ChatWebApi.Application.Tokens.Queries
 				throw new ArgumentNullException(nameof(request), "Request Is Empty");
 			}
 
-			//TODO: Add some validation
-
 			var user = await Authenticate(request);
 			var tokenString = BuildToken(user);
 
 			return new GetTokenQueryResult(tokenString);
+		}
+
+		private string HashedPassword(string password, User user)
+		{
+			var salt = user.PasswordSalt;
+
+			string hashed = Convert.ToBase64String(KeyDerivation.Pbkdf2(
+				password: password,
+				salt: salt,
+				prf: KeyDerivationPrf.HMACSHA1,
+				iterationCount: 10000,
+				numBytesRequested: 256 / 8));
+
+			return hashed;
 		}
 	}
 }

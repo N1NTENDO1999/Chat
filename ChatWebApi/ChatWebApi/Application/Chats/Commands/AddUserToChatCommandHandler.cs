@@ -23,7 +23,7 @@ namespace ChatWebApi.Application.UserChats.Commands
 
 		public AddUserToChatCommandHandler(ChatContext chatContext)
 		{
-			_db = chatContext;
+			_db = chatContext ?? throw new ArgumentNullException(nameof(chatContext));
 		}
 
 		public async Task<CommandResult> Handle(AddUserToChatCommand request, CancellationToken cancellationToken)

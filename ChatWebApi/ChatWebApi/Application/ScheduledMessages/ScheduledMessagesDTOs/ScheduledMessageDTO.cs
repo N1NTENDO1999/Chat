@@ -16,8 +16,5 @@ namespace ChatWebApi.Application.ScheduledMessages.ScheduledMessagesDTOs
 
 		public int ChatId { get; set; }
 		public ChatDTO Chat { get; set; }
-
-		public int SenderId { get; set; }
-		public UserDTO Sender { get; set; }
 	}
 }

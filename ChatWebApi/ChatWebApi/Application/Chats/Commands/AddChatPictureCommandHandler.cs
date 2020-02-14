@@ -24,8 +24,8 @@ namespace ChatWebApi.Application.Chats.Commands
 
 		public AddChatPictureCommandHandler(ChatContext db, IMapper mapper)
 		{
-			_db = db;
-			_mapper = mapper;
+			_db = db ?? throw new ArgumentNullException(nameof(db));
+			_mapper = mapper ?? throw new ArgumentNullException(nameof(_mapper));
 		}
 
 		public async Task<CommandResult> Handle(AddChatPictureCommand request, CancellationToken cancellationToken)
