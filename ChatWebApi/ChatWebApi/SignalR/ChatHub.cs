@@ -21,13 +21,13 @@ namespace ChatWebApi.SignalR
 		public async Task SendMessageToChat(int userId, int chatId, string message)
 		{
 			await _mediator.Send(new SendMessageCommand { ChatId = chatId, SenderId = userId, Text = message });
-			await Clients.All.SendAsync("UpdateChatMessages", chatId, userId, message);
+			await Clients.Groups(chatId.ToString()).SendAsync("UpdateChatMessages", chatId, userId, message);
 		}
 
 		public async Task GetChatMessages(int chatId)
 		{
 			var result = await _mediator.Send(new GetChatMessagesQuery { ChatId = chatId });
-			await Clients.All.SendAsync("GetChatMessages", chatId, result.Messages);
+			await Clients.Caller.SendAsync("GetChatMessages", chatId, result.Messages);
 		}
 	}
 }
