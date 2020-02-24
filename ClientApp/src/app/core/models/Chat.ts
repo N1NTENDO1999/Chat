@@ -1,4 +1,4 @@
-export class Hero {
+export class Chat {
     id: number;
     name: string;
     picture: string;
