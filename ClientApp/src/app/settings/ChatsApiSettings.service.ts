@@ -6,7 +6,7 @@ import { BaseApiSettingsService } from './BaseApiSettings.service';
 export class ChatsApiSettingsService extends BaseApiSettingsService {
     
 
-    chatsBaseUri = 'api/chats/';
+    chatsBaseUri = 'api/chats';
 
     getDefaultChatsUri(): string{
         return this.defaultUrl + this.chatsBaseUri;

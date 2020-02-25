@@ -8,14 +8,13 @@ import { Chat } from '../models/Chat';
 @Injectable()
 export class ChatService {
 
-    
-
     constructor(
         private http: HttpClient,
         private config: ChatsApiSettingsService,
-        private httpOptions = config.httpOptions
     ) { }
-   
+    
+    private httpOptions = this.config.httpOptions
+    
     getChats(): Observable<Chat []> {
         //TODO: Create Component to show all chats
         return this.http.get<Chat []>(this.config.getDefaultChatsUri());
