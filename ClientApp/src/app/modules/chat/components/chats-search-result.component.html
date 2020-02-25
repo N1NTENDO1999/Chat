@@ -1,11 +1,9 @@
 <div id="search-component">
     <h4>Chats</h4>
-  
+    
     <ul class="search-result">
       <li *ngFor="let chat of allChats" >
-        <a routerLink="/detail/{{chat.id}}">
-          {{chat.name}}
-        </a>
+        {{chat.name}}
       </li>
     </ul>
   </div>

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Chat } from 'src/app/core/models/Chat';
 import { ChatService } from 'src/app/core/http/Chat.service';
+import { AllChatsDTO } from 'src/app/core/http/DTOs/AllChatsDTO';
 
 @Component({
     selector: 'chats-search-result-component',
@@ -16,11 +17,11 @@ export class ChatsSearchResultComponent implements OnInit {
         private chatService: ChatService
     ) { }
 
+    getAllChats(): void {
+        
+    }
+
     ngOnInit() {
-        this.chatService.getChats()
-        .subscribe(p => this.allChats = p);
-       this.allChats.forEach(function (value){
-           console.log(value.name)
-       });
+        this.chatService.getChats().subscribe(p => this.allChats = p.chats);
     }
 }

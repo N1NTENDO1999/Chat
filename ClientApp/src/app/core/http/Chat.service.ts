@@ -4,6 +4,7 @@ import { Injectable } from '@angular/core';
 import { ChatsApiSettingsService } from 'src/app/settings/ChatsApiSettings.service';
 import { Observable } from 'rxjs';
 import { Chat } from '../models/Chat';
+import { AllChatsDTO } from './DTOs/AllChatsDTO';
 
 @Injectable()
 export class ChatService {
@@ -12,12 +13,12 @@ export class ChatService {
         private http: HttpClient,
         private config: ChatsApiSettingsService,
     ) { }
-    
+
     private httpOptions = this.config.httpOptions
     
-    getChats(): Observable<Chat []> {
+    getChats(): Observable<AllChatsDTO> {
         //TODO: Create Component to show all chats
-        return this.http.get<Chat []>(this.config.getDefaultChatsUri());
+        return this.http.get<AllChatsDTO>(this.config.getDefaultChatsUri());
       }
 
 }
