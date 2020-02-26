@@ -3,12 +3,12 @@ import { Routes, RouterModule } from '@angular/router';
 
 
 const routes: Routes = [
-  { path: 'chats', component: ChatComponent},
+  { path: 'chats', component: ChatComponent },
+  { path: 'login', component: LoginComponent }
 ];
 
-import { ChatService } from './core/http/Chat.service';
-
 import { ChatComponent } from './modules/chat/pages/chat.component';
+import { LoginComponent } from './shared/components/login.component';
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

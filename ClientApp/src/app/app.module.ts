@@ -10,12 +10,14 @@ import { ChatsApiSettingsService } from './settings/ChatsApiSettings.service';
 import { HttpClientModule } from '@angular/common/http';
 import { ChatComponent } from './modules/chat/pages/chat.component';
 import { ChatsSearchResultComponent } from './modules/chat/components/chats-search-result.component';
+import { LoginComponent } from './shared/components/login.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     ChatComponent,
-    ChatsSearchResultComponent
+    ChatsSearchResultComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
