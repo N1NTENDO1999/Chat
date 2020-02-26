@@ -14,13 +14,21 @@ import { LoginComponent } from './shared/components/login.component';
 import { AlertService } from './core/services/Alert.service';
 import { JwtInterceptor } from './core/helpers/jwt.interceptor';
 import { ErrorInterceptor } from './core/helpers/error.interceptor';
+import { HeaderComponent } from './core/header/header.component';
+import { AlertComponent } from './core/alert/alert.component';
+import { RegisterComponent } from './core/register/register.component';
+import { UserService } from './core/http/User.service';
+import { AuthGuard } from './core/helpers/auth.guard';
 
 @NgModule({
   declarations: [
     AppComponent,
     ChatComponent,
     ChatsSearchResultComponent,
-    LoginComponent
+    LoginComponent,
+    HeaderComponent,
+    AlertComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,
@@ -35,7 +43,9 @@ import { ErrorInterceptor } from './core/helpers/error.interceptor';
     ChatService,
     BaseApiSettingsService,
     AuthenticationService,
-    AlertService
+    AlertService,
+    UserService,
+    AuthGuard
 
   ],
   bootstrap: [AppComponent]

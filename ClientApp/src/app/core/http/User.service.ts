@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 
 import { User } from '../models/User';
 import { BaseApiSettingsService } from 'src/app/settings/BaseApiSettings.service';
+import { UserDTO } from './DTOs/UserDTO';
 
 @Injectable()
 export class UserService {
@@ -15,8 +16,8 @@ export class UserService {
         return this.http.get<User[]>(this.config.defaultUrl + `/api/users`);
     }
 
-    register(user: User) {
-        return this.http.post(`/users/register`, user);
+    register(user: UserDTO) {
+        return this.http.post(this.config.defaultUrl + `api/users`, user);
     }
 
 }
