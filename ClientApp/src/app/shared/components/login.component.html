@@ -1,1 +1,24 @@
-<h1> login.component component generated </h1>
+<h2>Login</h2>
+<form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" formControlName="email" class="" [ngClass]="{ 'is-invalid': submitted && f.email.errors }" />
+        <div *ngIf="submitted && f.email.errors" class="">
+            <div *ngIf="f.email.errors.required">Email is required</div>
+        </div>
+    </div>
+    <div class="">
+        <label for="password">Password</label>
+        <input type="password" formControlName="password" class="" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
+        <div *ngIf="submitted && f.password.errors" class="">
+            <div *ngIf="f.password.errors.required">Password is required</div>
+        </div>
+    </div>
+    <div class="">
+        <button [disabled]="loading" class="">
+            <span *ngIf="loading" class=""></span>
+            Login
+        </button>
+        <a routerLink="/register" class="">Register</a>
+    </div>
+</form>

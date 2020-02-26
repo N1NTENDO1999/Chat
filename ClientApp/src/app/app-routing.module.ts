@@ -10,10 +10,6 @@ const routes: Routes = [
 import { ChatComponent } from './modules/chat/pages/chat.component';
 import { LoginComponent } from './shared/components/login.component';
 
-import { AuthenticationService } from './core/services/Authentication.service';
-
-import { UserService } from './core/http/User.service';
-
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]

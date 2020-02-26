@@ -1,16 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-selector: 'chat-component',
-templateUrl: './chat.component.html',
-styleUrls: ['./chat.component.css']
+    selector: 'chat-component',
+    templateUrl: './chat.component.html',
+    styleUrls: ['./chat.component.css']
 })
 export class ChatComponent implements OnInit {
 
-constructor() {
-}
+    constructor() {
+    }
 
-ngOnInit(){
-
-}
+    ngOnInit() {
+        console.log(JSON.parse(localStorage.getItem('currentUser')));
+    }
 }
