@@ -5,8 +5,8 @@ import { FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ChatService } from './core/http/Chat.service';
+import { AuthenticationService } from './core/services/Authentication.service';
 import { BaseApiSettingsService } from './settings/BaseApiSettings.service';
-import { ChatsApiSettingsService } from './settings/ChatsApiSettings.service';
 import { HttpClientModule } from '@angular/common/http';
 import { ChatComponent } from './modules/chat/pages/chat.component';
 import { ChatsSearchResultComponent } from './modules/chat/components/chats-search-result.component';
@@ -28,8 +28,7 @@ import { LoginComponent } from './shared/components/login.component';
   providers: [
     ChatService,
     BaseApiSettingsService,
-    ChatsApiSettingsService,
-    ChatService
+    AuthenticationService
 
   ],
   bootstrap: [AppComponent]
