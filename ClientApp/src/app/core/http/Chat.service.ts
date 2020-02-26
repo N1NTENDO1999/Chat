@@ -17,7 +17,6 @@ export class ChatService {
     private httpOptions = this.config.httpOptions
     
     getChats(): Observable<AllChatsDTO> {
-        //TODO: Create Component to show all chats
         return this.http.get<AllChatsDTO>(this.config.getDefaultChatsUri());
       }
 
