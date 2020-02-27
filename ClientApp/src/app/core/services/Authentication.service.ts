@@ -42,17 +42,19 @@ export class AuthenticationService {
 
     signInWithGoogle(): void {
         this.authService.signIn(GoogleLoginProvider.PROVIDER_ID);
-        this.authService.authState.subscribe((user) => {
-            
+        this.authService.authState.subscribe((user) => {  
             localStorage.setItem('currentUser', JSON.stringify(user));
-            //this.currentUserSubject.next(user);
+            //this.currentUserSubject.next`
             this.loggedIn = (user != null);
           });
           console.log(JSON.parse(localStorage.getItem('currentUser')));
       }
 
     logout() {
-        // remove user from local storage to log user oust
+        if(this.loggedIn){
+            this.loggedIn = false;
+            this.authService.signOut();
+        }
         localStorage.removeItem('currentUser');
         this.currentUserSubject.next(null);
     }
