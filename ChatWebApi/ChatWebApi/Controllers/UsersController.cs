@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace ChatWebApi.Controllers
 {
     [Route("api/[controller]")]
+    [Authorize(AuthenticationSchemes = "Bearer")]
     [ApiController]
     public class UsersController : ControllerBase
     {

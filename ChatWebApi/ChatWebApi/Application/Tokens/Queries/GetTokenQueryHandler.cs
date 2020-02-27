@@ -7,6 +7,8 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using AutoMapper;
+using ChatWebApi.Application.Users.Queries.UserDTOs;
 using ChatWebApi.Infrastructure;
 using ChatWebApi.Infrastructure.Entities;
 using ChatWebApi.Interfaces.Requests;
@@ -28,10 +30,12 @@ namespace ChatWebApi.Application.Tokens.Queries
 	public class GetTokenQueryResult 
 	{
 		public string Token { get; set; }
+		public UserDTO User { get; set; }
 
-		public GetTokenQueryResult(string token)
+		public GetTokenQueryResult(string token, UserDTO user)
 		{
 			Token = token;
+			User = user;
 		}
 	}
 
@@ -39,11 +43,13 @@ namespace ChatWebApi.Application.Tokens.Queries
 	{
 		private ChatContext _db;
 		private IConfiguration _config;
+		private readonly IMapper _mapper;
 
-		public GetTokenQueryHandler(ChatContext chatContext, IConfiguration config)
+		public GetTokenQueryHandler(ChatContext chatContext, IConfiguration config, IMapper mapper)
 		{
 			_db = chatContext;
 			_config = config;
+			_mapper = mapper;
 		}
 
 		private string BuildToken(User user)
@@ -87,7 +93,9 @@ namespace ChatWebApi.Application.Tokens.Queries
 			var user = await Authenticate(request);
 			var tokenString = BuildToken(user);
 
-			return new GetTokenQueryResult(tokenString);
+			var userResult = _mapper.Map<UserDTO>(user);
+
+			return new GetTokenQueryResult(tokenString, userResult);
 		}
 
 		private string HashedPassword(string password, User user)

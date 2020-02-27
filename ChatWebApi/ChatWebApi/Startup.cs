@@ -15,6 +15,7 @@ using ChatWebApi.Application.Users.Queries;
 using ChatWebApi.Infrastructure;
 using ChatWebApi.Infrastructure.Entities;
 using ChatWebApi.Interfaces.Requests;
+using ChatWebApi.SignalR;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -50,6 +51,8 @@ namespace ChatWebApi
 			services.AddMediatR(Assembly.GetExecutingAssembly());
 
 			services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+			services.AddSignalR();
 
 			var sharedKey = new SymmetricSecurityKey(
 				Encoding.UTF8.GetBytes(Configuration["JWTSecurity:Key"]));
@@ -104,6 +107,11 @@ namespace ChatWebApi
 			}
 
 			app.UseCors("CorsPolicy");
+
+			app.UseSignalR(routes =>
+			{
+				routes.MapHub<ChatHub>("/chatHub");
+			});
 
 			app.UseHttpsRedirection();
 			app.UseMvc();
