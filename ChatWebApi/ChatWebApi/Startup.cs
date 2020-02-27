@@ -115,7 +115,7 @@ namespace ChatWebApi
 
 			app.UseSwaggerUI(c =>
 			{
-				c.SwaggerEndpoint("/swagger/V1/swagger.json", "Api");
+				c.SwaggerEndpoint("/swagger/v1/swagger.json", "Api");
 			});
 			
 			app.UseCors("CorsPolicy");
