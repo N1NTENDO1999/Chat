@@ -30,12 +30,12 @@ namespace ChatWebApi.Application.Tokens.Queries
 	public class GetTokenQueryResult 
 	{
 		public string Token { get; set; }
-		public UserDTO User { get; set; }
+		public string Email { get; set; }
 
-		public GetTokenQueryResult(string token, UserDTO user)
+		public GetTokenQueryResult(string token, string email)
 		{
 			Token = token;
-			User = user;
+			Email = email;
 		}
 	}
 
@@ -93,9 +93,7 @@ namespace ChatWebApi.Application.Tokens.Queries
 			var user = await Authenticate(request);
 			var tokenString = BuildToken(user);
 
-			var userResult = _mapper.Map<UserDTO>(user);
-
-			return new GetTokenQueryResult(tokenString, userResult);
+			return new GetTokenQueryResult(tokenString, user.Email);
 		}
 
 		private string HashedPassword(string password, User user)
