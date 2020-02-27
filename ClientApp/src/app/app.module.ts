@@ -20,6 +20,20 @@ import { RegisterComponent } from './core/register/register.component';
 import { UserService } from './core/http/User.service';
 import { AuthGuard } from './core/helpers/auth.guard';
 
+import { SocialLoginModule, AuthServiceConfig } from "angularx-social-login";
+import { GoogleLoginProvider} from "angularx-social-login";
+
+let config = new AuthServiceConfig([
+  {
+    id: GoogleLoginProvider.PROVIDER_ID,
+    provider: new GoogleLoginProvider("718282698881-d7qcm2riessqm92o9cup9o51fpf2ooi9.apps.googleusercontent.com")
+  }
+]);
+
+export function provideConfig() {
+  return config;
+}
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -35,7 +49,8 @@ import { AuthGuard } from './core/helpers/auth.guard';
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    SocialLoginModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
@@ -45,7 +60,11 @@ import { AuthGuard } from './core/helpers/auth.guard';
     AuthenticationService,
     AlertService,
     UserService,
-    AuthGuard
+    AuthGuard,
+    {
+      provide: AuthServiceConfig,
+      useFactory: provideConfig
+    }
 
   ],
   bootstrap: [AppComponent]

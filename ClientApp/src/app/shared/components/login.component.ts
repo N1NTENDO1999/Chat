@@ -66,4 +66,8 @@ export class LoginComponent implements OnInit {
                     this.loading = false;
                 });
     }
+
+    googleSignIn(): void{
+        this.authenticationService.signInWithGoogle();
+    }
 }
