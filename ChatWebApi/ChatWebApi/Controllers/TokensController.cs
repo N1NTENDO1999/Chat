@@ -23,9 +23,18 @@ namespace ChatWebApi.Controllers
         }
 
         [AllowAnonymous]
+        [HttpPost]
         public async Task<GetTokenQueryResult> GetToken(GetTokenQuery request)
         {
             return await _mediator.Send(request);
         }
+
+        [AllowAnonymous]
+        [HttpPost("google")]
+        public async Task<GetGoogleUserTokenQueryResult> GetGoogleToken(GetGoogleUserTokenQuery request)
+        {
+            return await _mediator.Send(request);
+        }
+
     }
 }

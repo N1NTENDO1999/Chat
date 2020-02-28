@@ -21,4 +21,10 @@
         </button>
         <a routerLink="/register" class="">Register</a>
     </div>
+    <div>
+        <button [disabled]="loading" (click)="googleSignIn()">
+            <span *ngIf="loading" class=""></span>
+            Google SignIn
+        </button>
+    </div>
 </form>

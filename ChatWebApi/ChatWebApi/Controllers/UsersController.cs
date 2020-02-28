@@ -45,6 +45,7 @@ namespace ChatWebApi.Controllers
             return await _mediator.Send(new GetUsersByNicknameQuery { Nickname = nickname });
         }
 
+        [AllowAnonymous]
         [HttpPost]
         public async Task<CommandResult> CreateUser(CreateUserCommand request)
         {
