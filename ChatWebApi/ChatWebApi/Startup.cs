@@ -29,6 +29,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 
 namespace ChatWebApi
 {
@@ -56,6 +57,11 @@ namespace ChatWebApi
 
 			var sharedKey = new SymmetricSecurityKey(
 				Encoding.UTF8.GetBytes(Configuration["JWTSecurity:Key"]));
+
+			services.AddSwaggerGen(c =>
+			{
+				c.SwaggerDoc("v1", new OpenApiInfo { Title = "Chat API", Version = "v1" });
+			});
 
 			services.AddCors(options =>
 			{
@@ -106,6 +112,15 @@ namespace ChatWebApi
 				app.UseHsts();
 			}
 
+			app.UseStaticFiles();
+
+			app.UseSwagger(c => c.RouteTemplate = "swagger/{documentName}/swagger.json");
+
+			app.UseSwaggerUI(c =>
+			{
+				c.SwaggerEndpoint("/swagger/v1/swagger.json", "Api");
+			});
+			
 			app.UseCors("CorsPolicy");
 
 			app.UseSignalR(routes =>
@@ -114,8 +129,10 @@ namespace ChatWebApi
 			});
 
 			app.UseHttpsRedirection();
+	
 			app.UseMvc();
 			app.UseAuthentication();
+
 
 		}
 	}

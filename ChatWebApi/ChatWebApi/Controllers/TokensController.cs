@@ -22,6 +22,7 @@ namespace ChatWebApi.Controllers
             _mediator = mediator;
         }
 
+        [HttpGet]
         [AllowAnonymous]
         [HttpPost]
         public async Task<GetTokenQueryResult> GetToken(GetTokenQuery request)
