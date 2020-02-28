@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { User } from '../models/User';
-import { BaseApiSettingsService } from 'src/app/settings/BaseApiSettings.service';
+import { BaseApiSettingsService } from '../../settings/BaseApiSettings.service';
 import { AuthService, GoogleLoginProvider } from 'angularx-social-login';
 import { Router } from '@angular/router';
 

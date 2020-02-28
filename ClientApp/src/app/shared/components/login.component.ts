@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
-import { AuthenticationService } from 'src/app/core/services/Authentication.service';
-import { AlertService } from 'src/app/core/services/Alert.service';
+import { AuthenticationService } from '../../core/services/Authentication.service';
+import { AlertService } from '../../core/services/Alert.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
@@ -68,14 +68,6 @@ export class LoginComponent implements OnInit {
     }
 
     googleSignIn(){
-        this.loading = true;
-        this.authenticationService.signInWithGoogle();
-        if(this.authenticationService.currentUserValue != null){
-            this.router.navigate([this.returnUrl]);
-        }
-        else{
-            this.alertService.error("Cant SignIn with Google Service");
-            this.loading = false;
-        }
+        this.authenticationService.signInWithGoogle();    
     }
 }
