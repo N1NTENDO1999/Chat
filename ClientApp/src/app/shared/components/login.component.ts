@@ -67,7 +67,15 @@ export class LoginComponent implements OnInit {
                 });
     }
 
-    googleSignIn(): void{
+    googleSignIn(){
+        this.loading = true;
         this.authenticationService.signInWithGoogle();
+        if(this.authenticationService.currentUserValue != null){
+            this.router.navigate([this.returnUrl]);
+        }
+        else{
+            this.alertService.error("Cant SignIn with Google Service");
+            this.loading = false;
+        }
     }
 }

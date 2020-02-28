@@ -6,6 +6,7 @@ import { map } from 'rxjs/operators';
 import { User } from '../models/User';
 import { BaseApiSettingsService } from 'src/app/settings/BaseApiSettings.service';
 import { AuthService, GoogleLoginProvider } from 'angularx-social-login';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class AuthenticationService {
@@ -17,6 +18,7 @@ export class AuthenticationService {
     constructor(
         private http: HttpClient,
         private authService: AuthService,
+        private router: Router,
         private config: BaseApiSettingsService) {
         this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('currentUser')));
         this.currentUser = this.currentUserSubject.asObservable();
@@ -29,25 +31,39 @@ export class AuthenticationService {
     login(email: string, password: string) {
         return this.http.post<any>(this.config.defaultUrl + `api/tokens`, { email, password })
             .pipe(map(user => {
-                // login successful if there's a jwt token in the response
                 if (user && user.token) {
-                    // store user details and jwt token in local storage to keep user logged in between page refreshes
                     localStorage.setItem('currentUser', JSON.stringify(user));
                     this.currentUserSubject.next(user);
+                    
                 }
 
                 return user;
             }));
     }
 
+    sendToRestApiMethod(token: string) : void {
+        this.http.post<User>("https://localhost:44312/api/tokens/google",
+           {
+              token: token
+           }
+        ).subscribe(
+           onSuccess => {
+            if (onSuccess && onSuccess.token) {
+                localStorage.setItem('currentUser', JSON.stringify(onSuccess));
+                this.currentUserSubject.next(onSuccess);
+                this.router.navigate(['/']);
+            }
+           }, onFail => {
+              console.log(onFail);
+           }
+        );
+     }
+
     signInWithGoogle(): void {
-        this.authService.signIn(GoogleLoginProvider.PROVIDER_ID);
-        this.authService.authState.subscribe((user) => {  
-            localStorage.setItem('currentUser', JSON.stringify(user));
-            //this.currentUserSubject.next`
-            this.loggedIn = (user != null);
-          });
-          console.log(JSON.parse(localStorage.getItem('currentUser')));
+        this.authService.signIn(GoogleLoginProvider.PROVIDER_ID)
+        .then(user => {
+            this.sendToRestApiMethod(user.idToken);
+        });
       }
 
     logout() {
