@@ -22,6 +22,7 @@ import { AuthGuard } from './core/helpers/auth.guard';
 
 import { SocialLoginModule, AuthServiceConfig } from "angularx-social-login";
 import { GoogleLoginProvider} from "angularx-social-login";
+import { ApiModule } from './core/api/api.module';
 
 let config = new AuthServiceConfig([
   {
@@ -50,7 +51,8 @@ export function provideConfig() {
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
-    SocialLoginModule
+    SocialLoginModule,
+    ApiModule.forRoot({ rootUrl: "http://localhost:55056"}),
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
