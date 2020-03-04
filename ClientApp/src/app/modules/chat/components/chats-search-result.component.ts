@@ -1,10 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Chat } from 'src/app/core/models/Chat';
-import { ChatService } from 'src/app/core/http/Chat.service';
-import { AllChatsDTO } from 'src/app/core/http/DTOs/AllChatsDTO';
 import { ChatsService } from 'src/app/core/api/services';
 import { ChatDto } from 'src/app/core/api/models';
+import { first } from 'rxjs/operators';
 
 @Component({
     selector: 'chats-search-result-component',
@@ -20,11 +18,13 @@ export class ChatsSearchResultComponent implements OnInit {
     ) { }
 
     getAllChats(): void {
-        
+
     }
 
     ngOnInit() {
-        this.chatService.apiChatsGet$Json().subscribe(p =>{ this.allChats = p.Chats; console.log(p)});
+        this.chatService.apiChatsGet$Json().subscribe(p => {
+             this.allChats = p.Chats as ChatDto[]; console.log(p) 
+            });
         console.log(this.allChats);
     }
 }
