@@ -13,5 +13,6 @@
     "serviceIndex": true,
     "apiModule": true,
     "enumModule": true,
-    "generateExamples": false
+    "generateExamples": false,
+    "camelCase": true
   }

@@ -23,8 +23,8 @@ export class ChatsSearchResultComponent implements OnInit {
 
     ngOnInit() {
         this.chatService.apiChatsGet$Json().subscribe(p => {
-             this.allChats = p.Chats as ChatDto[]; console.log(p) 
+             this.allChats = p.Chats; 
+             console.log(p.Chats) 
             });
-        console.log(this.allChats);
     }
 }
