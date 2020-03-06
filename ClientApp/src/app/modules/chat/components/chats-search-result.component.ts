@@ -11,7 +11,7 @@ import { first } from 'rxjs/operators';
 })
 export class ChatsSearchResultComponent implements OnInit {
 
-    public allChats: Array<ChatDto>;
+    public allChats: ChatDto[] = [];
 
     constructor(
         private chatService: ChatsService
@@ -24,7 +24,7 @@ export class ChatsSearchResultComponent implements OnInit {
     ngOnInit() {
         this.chatService.apiChatsGet$Json().subscribe(p => {
              this.allChats = p.Chats; 
-             console.log(p.Chats) 
+             console.log(p.Chats); 
             });
     }
 }
