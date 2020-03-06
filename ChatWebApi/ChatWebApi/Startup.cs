@@ -12,7 +12,6 @@ using ChatWebApi.Application.Tokens.Queries;
 using ChatWebApi.Application.UserChats.Commands;
 using ChatWebApi.Application.Users.Commands;
 using ChatWebApi.Application.Users.Queries;
-using ChatWebApi.Formaters;
 using ChatWebApi.Infrastructure;
 using ChatWebApi.Infrastructure.Entities;
 using ChatWebApi.Interfaces.Requests;
@@ -65,6 +64,7 @@ namespace ChatWebApi
 			services.AddSwaggerGen(c =>
 			{
 				c.SwaggerDoc("v1", new OpenApiInfo { Title = "Chat API", Version = "v1" });
+
 			});
 
 
