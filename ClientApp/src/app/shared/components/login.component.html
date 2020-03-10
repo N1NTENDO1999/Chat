@@ -22,7 +22,7 @@
         <a routerLink="/register" class="">Register</a>
     </div>
     <div>
-        <button [disabled]="loading" (click)="googleSignIn()">
+        <button [disabled]="loading" type="button" class="btn btn-primary" (click)="googleSignIn()">
             <span *ngIf="loading" class=""></span>
             Google SignIn
         </button>
