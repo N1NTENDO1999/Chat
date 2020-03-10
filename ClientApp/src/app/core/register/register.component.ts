@@ -3,8 +3,8 @@ import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
 import { AuthenticationService } from '../services/Authentication.service';
-import { UserService } from '../http/User.service';
 import { AlertService } from '../services/Alert.service';
+import { UsersService } from '../api/services';
 
 @Component({
     selector: 'register-component',
@@ -20,7 +20,7 @@ export class RegisterComponent implements OnInit {
         private formBuilder: FormBuilder,
         private router: Router,
         private authenticationService: AuthenticationService,
-        private userService: UserService,
+        private userService: UsersService,
         private alertService: AlertService
     ) {
         // redirect to home if already logged in
@@ -51,7 +51,7 @@ export class RegisterComponent implements OnInit {
         }
 
         this.loading = true;
-        this.userService.register(this.registerForm.value)
+        this.userService.apiUsersPost$Json({body: this.registerForm.value})
             .pipe(first())
             .subscribe(
                 data => {

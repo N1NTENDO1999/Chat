@@ -30,6 +30,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Newtonsoft.Json.Serialization;
 
 namespace ChatWebApi
 {
@@ -51,7 +52,9 @@ namespace ChatWebApi
 			services.AddAutoMapper(typeof(Startup));
 			services.AddMediatR(Assembly.GetExecutingAssembly());
 
-			services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+			services.AddMvc()
+				.SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
+				.AddJsonOptions(options => options.SerializerSettings.ContractResolver = new DefaultContractResolver());
 
 			services.AddSignalR();
 
@@ -61,7 +64,9 @@ namespace ChatWebApi
 			services.AddSwaggerGen(c =>
 			{
 				c.SwaggerDoc("v1", new OpenApiInfo { Title = "Chat API", Version = "v1" });
+
 			});
+
 
 			services.AddCors(options =>
 			{

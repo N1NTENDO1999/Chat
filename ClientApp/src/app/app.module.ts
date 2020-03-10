@@ -4,7 +4,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { ChatService } from './core/http/Chat.service';
 import { AuthenticationService } from './core/services/Authentication.service';
 import { BaseApiSettingsService } from './settings/BaseApiSettings.service';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -17,11 +16,11 @@ import { ErrorInterceptor } from './core/helpers/error.interceptor';
 import { HeaderComponent } from './core/header/header.component';
 import { AlertComponent } from './core/alert/alert.component';
 import { RegisterComponent } from './core/register/register.component';
-import { UserService } from './core/http/User.service';
 import { AuthGuard } from './core/helpers/auth.guard';
 
 import { SocialLoginModule, AuthServiceConfig } from "angularx-social-login";
 import { GoogleLoginProvider} from "angularx-social-login";
+import { ApiModule } from './core/api/api.module';
 
 let config = new AuthServiceConfig([
   {
@@ -50,16 +49,15 @@ export function provideConfig() {
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
-    SocialLoginModule
+    SocialLoginModule,
+    ApiModule.forRoot({ rootUrl: "http://localhost:55056"}),
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
-    ChatService,
     BaseApiSettingsService,
     AuthenticationService,
     AlertService,
-    UserService,
     AuthGuard,
     {
       provide: AuthServiceConfig,

@@ -31,7 +31,7 @@ export class AuthenticationService {
     login(email: string, password: string) {
         return this.http.post<any>(this.config.defaultUrl + `api/tokens`, { email, password })
             .pipe(map(user => {
-                if (user && user.token) {
+                if (user && user.Token) {
                     localStorage.setItem('currentUser', JSON.stringify(user));
                     this.currentUserSubject.next(user);
                     
@@ -44,11 +44,11 @@ export class AuthenticationService {
     sendToRestApiMethod(token: string) : void {
         this.http.post<User>("https://localhost:44312/api/tokens/google",
            {
-              token: token
+              Token: token
            }
         ).subscribe(
            onSuccess => {
-            if (onSuccess && onSuccess.token) {
+            if (onSuccess && onSuccess.Token) {
                 localStorage.setItem('currentUser', JSON.stringify(onSuccess));
                 this.currentUserSubject.next(onSuccess);
                 this.router.navigate(['/']);
