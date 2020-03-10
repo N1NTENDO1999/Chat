@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { first } from 'rxjs/operators';
 import { AuthenticationService } from '../services/Authentication.service';
 import { AlertService } from '../services/Alert.service';
@@ -34,7 +34,9 @@ export class RegisterComponent implements OnInit {
             firstName: ['', Validators.required],
             lastName: ['', Validators.required],
             nickname: ['', Validators.required],
-            email: ['', [Validators.email, Validators.required]],
+            email: new FormControl('',[
+                Validators.required,
+                Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$")]),
             password: ['', [Validators.required, Validators.minLength(6)]]
         });
     }
