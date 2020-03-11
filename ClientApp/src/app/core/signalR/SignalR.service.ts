@@ -19,7 +19,7 @@ export class SignalrService {
     }
 
     public AddChatMessages(chatId: number, userId: number, message: string) {
-        this.hubConnection.invoke("GetChatMessages", chatId, userId, message)
+        this.hubConnection.invoke("SendMessageToChat", userId, chatId, message)
             .then(() => console.log('AddChatMEssages'))
             .catch(err => console.log('Error while starting connection: ' + err));
     }
@@ -33,11 +33,11 @@ export class SignalrService {
         console.log(message);
     }
 
-    public startConnection = () => {
+    public startConnection = (id: number) => {
         this.hubConnection = new signalR.HubConnectionBuilder()
-            .withUrl('https://localhost:44312/chatHub')
+            .withUrl(`https://localhost:44312/chatHub?UserId=${id}`)
             .build();
-
+       
         this.hubConnection
             .start()
             .then(() => console.log('Connection started'))

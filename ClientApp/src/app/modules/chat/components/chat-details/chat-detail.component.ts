@@ -5,6 +5,8 @@ import { Location } from '@angular/common';
 import { ChatDto } from 'src/app/core/api/models';
 import { MessageDto } from 'src/app/core/models/MessageDto';
 import { SignalrService } from 'src/app/core/signalR/SignalR.service';
+import { User } from 'src/app/core/models/User';
+import { AuthenticationService } from 'src/app/core/services/Authentication.service';
 
 @Component({
     selector: 'chat-detail-component',
@@ -18,16 +20,20 @@ export class ChatDetailComponent implements OnInit, OnChanges {
         private route: ActivatedRoute,
         private chatService: ChatsService,
         private location: Location,
-        private signalRService: SignalrService
+        private signalRService: SignalrService,
+        private authService: AuthenticationService
     ) {
     }
     ngOnChanges(changes: SimpleChanges): void {
-        if(this.chat){
-            this.signalRService.GetChatMessages(this.chat.Id);
+        if (this.chat) {
+            let user: User = this.authService.currentUserValue;
+            this.signalRService.AddChatMessages(this.chat.Id, user.Id, "Hello!");
         }
     }
 
     ngOnInit() {
-        this.signalRService.startConnection();
+        let user: User = this.authService.currentUserValue;
+        this.signalRService.startConnection(user.Id);
+        this.signalRService.addDataListeners();
     }
 }
