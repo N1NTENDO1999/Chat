@@ -20,11 +20,15 @@ export class ChatDetailComponent implements OnInit {
     }
 
     ngOnInit() {
-
+        this.getChat();
     }
 
-    getChat(): void{
+    getChat(): void {
         const id = +this.route.snapshot.paramMap.get('id');
-        //TODO: get chat by id
+        this.chatService.apiChatsIdGet$Json({ id })
+            .subscribe(chat => {
+                this.chat = chat.Chat;
+                console.log(chat.Chat)
+            });
     }
 }
