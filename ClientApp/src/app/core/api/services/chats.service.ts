@@ -13,6 +13,7 @@ import { ChangeChatCommand } from '../models/change-chat-command';
 import { CommandResult } from '../models/command-result';
 import { CreateChatCommand } from '../models/create-chat-command';
 import { FindChatsByNameResult } from '../models/find-chats-by-name-result';
+import { GetChatByIdQueryResult } from '../models/get-chat-by-id-query-result';
 
 @Injectable({
   providedIn: 'root',
@@ -380,6 +381,99 @@ export class ChatsService extends BaseService {
 
     return this.apiChatsPost$Json$Response(params).pipe(
       map((r: StrictHttpResponse<CommandResult>) => r.body as CommandResult)
+    );
+  }
+
+  /**
+   * Path part for operation apiChatsIdGet
+   */
+  static readonly ApiChatsIdGetPath = '/api/Chats/{id}';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `apiChatsIdGet$Plain()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  apiChatsIdGet$Plain$Response(params: {
+    id: number;
+
+  }): Observable<StrictHttpResponse<GetChatByIdQueryResult>> {
+
+    const rb = new RequestBuilder(this.rootUrl, ChatsService.ApiChatsIdGetPath, 'get');
+    if (params) {
+
+      rb.path('id', params.id);
+
+    }
+    return this.http.request(rb.build({
+      responseType: 'text',
+      accept: 'text/plain'
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return r as StrictHttpResponse<GetChatByIdQueryResult>;
+      })
+    );
+  }
+
+  /**
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `apiChatsIdGet$Plain$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  apiChatsIdGet$Plain(params: {
+    id: number;
+
+  }): Observable<GetChatByIdQueryResult> {
+
+    return this.apiChatsIdGet$Plain$Response(params).pipe(
+      map((r: StrictHttpResponse<GetChatByIdQueryResult>) => r.body as GetChatByIdQueryResult)
+    );
+  }
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `apiChatsIdGet$Json()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  apiChatsIdGet$Json$Response(params: {
+    id: number;
+
+  }): Observable<StrictHttpResponse<GetChatByIdQueryResult>> {
+
+    const rb = new RequestBuilder(this.rootUrl, ChatsService.ApiChatsIdGetPath, 'get');
+    if (params) {
+
+      rb.path('id', params.id);
+
+    }
+    return this.http.request(rb.build({
+      responseType: 'json',
+      accept: 'text/json'
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return r as StrictHttpResponse<GetChatByIdQueryResult>;
+      })
+    );
+  }
+
+  /**
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `apiChatsIdGet$Json$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  apiChatsIdGet$Json(params: {
+    id: number;
+
+  }): Observable<GetChatByIdQueryResult> {
+
+    return this.apiChatsIdGet$Json$Response(params).pipe(
+      map((r: StrictHttpResponse<GetChatByIdQueryResult>) => r.body as GetChatByIdQueryResult)
     );
   }
 
