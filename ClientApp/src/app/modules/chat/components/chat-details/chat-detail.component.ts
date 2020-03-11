@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { ChatsService } from 'src/app/core/api/services';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
@@ -10,7 +10,7 @@ import { ChatDto } from 'src/app/core/api/models';
     styleUrls: ['./chat-detail.component.css']
 })
 export class ChatDetailComponent implements OnInit {
-    chat: ChatDto;
+    @Input() chat: ChatDto;
 
     constructor(
         private route: ActivatedRoute,
@@ -20,17 +20,5 @@ export class ChatDetailComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.getChat();
-    }
-
-    getChat(): void {
-        const id = +this.route.snapshot.paramMap.get('id');
-        if (id != 0) {
-            this.chatService.apiChatsIdGet$Json({ id })
-                .subscribe(chat => {
-                    this.chat = chat.Chat;
-                    console.log(chat.Chat)
-                });
-        }
     }
 }
