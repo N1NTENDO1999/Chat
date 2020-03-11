@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnChanges } from '@angular/core';
 import { ChatsService } from 'src/app/core/api/services';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
@@ -9,7 +9,7 @@ import { ChatDto } from 'src/app/core/api/models';
     templateUrl: './chat-detail.component.html',
     styleUrls: ['./chat-detail.component.css']
 })
-export class ChatDetailComponent implements OnInit {
+export class ChatDetailComponent implements OnInit, OnChanges {
     @Input() chat: ChatDto;
 
     constructor(
@@ -17,6 +17,9 @@ export class ChatDetailComponent implements OnInit {
         private chatService: ChatsService,
         private location: Location
     ) {
+    }
+    ngOnChanges(changes: import("@angular/core").SimpleChanges): void {
+        throw new Error("Method not implemented.");
     }
 
     ngOnInit() {
