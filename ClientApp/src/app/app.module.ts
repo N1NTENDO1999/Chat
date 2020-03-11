@@ -21,6 +21,7 @@ import { AuthGuard } from './core/helpers/auth.guard';
 import { SocialLoginModule, AuthServiceConfig } from "angularx-social-login";
 import { GoogleLoginProvider} from "angularx-social-login";
 import { ApiModule } from './core/api/api.module';
+import { ChatDetailComponent } from './modules/chat/components/chat-details/chat-detail.component';
 
 let config = new AuthServiceConfig([
   {
@@ -41,7 +42,8 @@ export function provideConfig() {
     LoginComponent,
     HeaderComponent,
     AlertComponent,
-    RegisterComponent
+    RegisterComponent,
+    ChatDetailComponent
   ],
   imports: [
     BrowserModule,
