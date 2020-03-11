@@ -35,7 +35,6 @@ namespace ChatWebApi.Application.Messages.Queries
 		public async Task<GetChatMessagesQueryResult> Handle(GetChatMessagesQuery request, CancellationToken cancellationToken)
 		{
 			var chat = await _db.Chats.Include(p => p.Messages)
-				.ThenInclude(p => p.Sender)
 				.FirstAsync(p => p.Id == request.ChatId);
 			var messages =  _mapper.Map<List<MessageDTO>>(chat.Messages);
 

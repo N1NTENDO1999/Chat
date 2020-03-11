@@ -22,7 +22,9 @@ export class ChatDetailComponent implements OnInit, OnChanges {
     ) {
     }
     ngOnChanges(changes: SimpleChanges): void {
-        
+        if(this.chat){
+            this.signalRService.GetChatMessages(this.chat.Id);
+        }
     }
 
     ngOnInit() {
