@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using ChatWebApi.Application.Messages.Commands;
 using ChatWebApi.Application.Messages.Queries;
+using ChatWebApi.Application.Users.Queries;
 using MediatR;
 using Microsoft.AspNetCore.SignalR;
 
@@ -22,8 +23,12 @@ namespace ChatWebApi.SignalR
 		public override Task OnConnectedAsync()
 		{
 			var httpContext = Context.GetHttpContext();
-			var someHeaderValue = Convert.ToInt32(httpContext.Request.Query["UserId"]);
-			Groups.AddToGroupAsync(Context.ConnectionId, "1");
+			var userId = Convert.ToInt32(httpContext.Request.Query["UserId"]);
+			var chats = _mediator.Send(new GetUserChatsQuery { Id = userId }).Result;
+			foreach (var chat in chats.ChatsId)
+			{
+				Groups.AddToGroupAsync(Context.ConnectionId, chat.ToString());
+			}
 			return base.OnConnectedAsync();
 		}
 
