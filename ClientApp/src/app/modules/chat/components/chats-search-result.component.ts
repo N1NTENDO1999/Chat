@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ChatsService } from 'src/app/core/api/services';
 import { ChatDto } from 'src/app/core/api/models';
@@ -13,9 +13,15 @@ export class ChatsSearchResultComponent implements OnInit {
 
     public allChats: ChatDto[] = [];
 
+    @Output() chat = new EventEmitter<ChatDto>();
+
     constructor(
         private chatService: ChatsService
     ) { }
+
+    getChat(chat: ChatDto) {
+        this.chat.emit(chat);
+    }
 
     getAllChats(): void {
 
@@ -23,8 +29,8 @@ export class ChatsSearchResultComponent implements OnInit {
 
     ngOnInit() {
         this.chatService.apiChatsGet$Json().subscribe(p => {
-             this.allChats = p.Chats; 
-             console.log(p.Chats); 
-            });
+            this.allChats = p.Chats;
+            console.log(p.Chats);
+        });
     }
 }

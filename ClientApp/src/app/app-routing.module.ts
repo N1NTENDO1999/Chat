@@ -3,12 +3,11 @@ import { Routes, RouterModule } from '@angular/router';
 
 
 const routes: Routes = [
-  { path: 'chats', component: ChatComponent, canActivate: [AuthGuard] },
+  { path: 'chats/:id', component: ChatComponent, canActivate: [AuthGuard] },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
-  { path: 'chat/:id', component: ChatDetailComponent },
 
-  { path: '**', redirectTo: 'chats' }
+  { path: '**', redirectTo: 'chats/' }
 ];
 
 import { ChatComponent } from './modules/chat/pages/chat.component';

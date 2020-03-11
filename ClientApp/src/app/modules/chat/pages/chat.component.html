@@ -1,1 +1,7 @@
-<chats-search-result-component></chats-search-result-component>
+<chats-search-result-component
+    (chat)="getChat($event)"
+></chats-search-result-component>
+<chat-detail-component></chat-detail-component>
+<div *ngIf="chat">
+    <h1>{{chat.Name}}</h1>
+</div>

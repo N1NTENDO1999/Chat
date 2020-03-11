@@ -25,10 +25,12 @@ export class ChatDetailComponent implements OnInit {
 
     getChat(): void {
         const id = +this.route.snapshot.paramMap.get('id');
-        this.chatService.apiChatsIdGet$Json({ id })
-            .subscribe(chat => {
-                this.chat = chat.Chat;
-                console.log(chat.Chat)
-            });
+        if (id != 0) {
+            this.chatService.apiChatsIdGet$Json({ id })
+                .subscribe(chat => {
+                    this.chat = chat.Chat;
+                    console.log(chat.Chat)
+                });
+        }
     }
 }
