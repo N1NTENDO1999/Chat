@@ -47,6 +47,6 @@ export class SignalrService {
 
     public addDataListeners(): void {
         this.hubConnection.on("GetChatMessages", (id, message) => this.updateMessages(id, message));
-        this.hubConnection.on("UpdateChatMessages", (chatId, userID, message) => this.addMessage(message));
+        this.hubConnection.on("UpdateChatMessages", (message) => this.addMessage(message));
     }
 }

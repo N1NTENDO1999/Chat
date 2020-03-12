@@ -34,8 +34,8 @@ namespace ChatWebApi.SignalR
 
 		public async Task SendMessageToChat(int userId, int chatId, string message)
 		{
-			await _mediator.Send(new SendMessageCommand { ChatId = chatId, SenderId = userId, Text = message });
-			await Clients.Groups(chatId.ToString()).SendAsync("UpdateChatMessages", chatId, userId, message);
+			var result = await _mediator.Send(new SendMessageCommand { ChatId = chatId, SenderId = userId, Text = message });
+			await Clients.Groups(chatId.ToString()).SendAsync("UpdateChatMessages", message);
 		}
 
 		public async Task GetChatMessages(int chatId)

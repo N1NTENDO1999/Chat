@@ -11,14 +11,14 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ChatWebApi.Application.Messages.Commands
 {
-	public class SendMessageCommand : IRequest<CommandResult>
+	public class SendMessageCommand : IRequest<CommandCreateResult>
 	{
 		public int ChatId { get; set; }
 		public int SenderId { get; set; }
 		public string Text { get; set; }
 	}
 
-	public class SendMessageCommandHandler : IRequestHandler<SendMessageCommand, CommandResult>
+	public class SendMessageCommandHandler : IRequestHandler<SendMessageCommand, CommandCreateResult>
 	{
 		private readonly ChatContext _db;
 
@@ -27,7 +27,7 @@ namespace ChatWebApi.Application.Messages.Commands
 			_db = chatContext;
 		}
 
-		public async Task<CommandResult> Handle(SendMessageCommand request, CancellationToken cancellationToken)
+		public async Task<CommandCreateResult> Handle(SendMessageCommand request, CancellationToken cancellationToken)
 		{
 			if (string.IsNullOrWhiteSpace(request.Text))
 				throw new ArgumentNullException("No Text In Message", nameof(request));
@@ -39,7 +39,7 @@ namespace ChatWebApi.Application.Messages.Commands
 			await _db.Messages.AddAsync(message);
 			await _db.SaveChangesAsync();
 
-			return new CommandResult();
+			return new CommandCreateResult(message.Id);
 		}
 	}
 }
