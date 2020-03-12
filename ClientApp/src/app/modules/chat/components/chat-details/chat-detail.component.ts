@@ -49,6 +49,7 @@ export class ChatDetailComponent implements OnInit, OnChanges {
         }
         let user: User = this.authService.currentUserValue;
         this.signalRService.AddChatMessages(this.chat.Id, user.Id, this.messageForm.controls.message.value);
+        this.messageForm.controls.message.setValue(null);
            
     }
 
