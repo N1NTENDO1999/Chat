@@ -20,7 +20,7 @@ export class ChatDetailComponent implements OnInit, OnChanges {
         private route: ActivatedRoute,
         private chatService: ChatsService,
         private location: Location,
-        private signalRService: SignalrService,
+        public signalRService: SignalrService,
         private authService: AuthenticationService
     ) {
     }

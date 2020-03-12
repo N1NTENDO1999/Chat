@@ -56,7 +56,8 @@ namespace ChatWebApi
 				.SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
 				.AddJsonOptions(options => options.SerializerSettings.ContractResolver = new DefaultContractResolver());
 
-			services.AddSignalR();
+			services.AddSignalR()
+				.AddJsonProtocol(opt => opt.PayloadSerializerSettings.ContractResolver = new DefaultContractResolver());
 
 			var sharedKey = new SymmetricSecurityKey(
 				Encoding.UTF8.GetBytes(Configuration["JWTSecurity:Key"]));

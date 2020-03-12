@@ -26,11 +26,12 @@ export class SignalrService {
 
     private updateMessages(id: number, messages: MessageDto[]) {
         console.log(messages);
-        console.log(id);
+        this.chatMessages = messages;
     }
 
     private addMessage(message: MessageDto) {
         console.log(message);
+        this.chatMessages.push(message);
     }
 
     public startConnection = (id: number) => {
