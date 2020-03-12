@@ -27,7 +27,7 @@ export class ChatDetailComponent implements OnInit, OnChanges {
     ngOnChanges(changes: SimpleChanges): void {
         if (this.chat) {
             let user: User = this.authService.currentUserValue;
-            this.signalRService.AddChatMessages(this.chat.Id, user.Id, "Hello!");
+            this.signalRService.GetChatMessages(this.chat.Id);
         }
     }
 
