@@ -4,3 +4,8 @@
 <div class="container" *ngFor="let message of signalRService.chatMessages">
     <p>{{message.Sender.Nickname}}: {{message.Text}}</p>
 </div>
+<form [formGroup]="messageForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+        <input type="text" formControlName="message" class="form-control mb-4" placeholder="message" />
+    </div>
+</form>
