@@ -26,6 +26,7 @@ namespace ChatWebApi.Application.Tokens.Queries
 
 	public class GetGoogleUserTokenQueryResult
 	{
+		public int Id { get; set; }
 		public string Token { get; set; }
 		public string Email { get; set; }
 	}
@@ -68,7 +69,7 @@ namespace ChatWebApi.Application.Tokens.Queries
 
 			string token = BuildToken(user);
 
-            return new GetGoogleUserTokenQueryResult { Email = googleApiTokenInfo.email, Token = token };
+            return new GetGoogleUserTokenQueryResult { Email = googleApiTokenInfo.email, Token = token, Id = user.Id };
         }
 
 		private string BuildToken(User user)

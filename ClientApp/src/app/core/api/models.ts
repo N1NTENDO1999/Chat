@@ -3,6 +3,7 @@ export { FindChatsByNameResult } from './models/find-chats-by-name-result';
 export { CreateChatCommand } from './models/create-chat-command';
 export { CommandResult } from './models/command-result';
 export { ChangeChatCommand } from './models/change-chat-command';
+export { GetChatByIdQueryResult } from './models/get-chat-by-id-query-result';
 export { AddChatPictureCommand } from './models/add-chat-picture-command';
 export { GetTokenQuery } from './models/get-token-query';
 export { GetTokenQueryResult } from './models/get-token-query-result';

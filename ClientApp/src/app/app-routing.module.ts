@@ -14,6 +14,9 @@ import { ChatComponent } from './modules/chat/pages/chat.component';
 import { LoginComponent } from './shared/components/login.component';
 import { RegisterComponent } from './core/register/register.component';
 import { AuthGuard } from './core/helpers/auth.guard';
+import { ChatDetailComponent } from './modules/chat/components/chat-details/chat-detail.component';
+
+import { SignalrService } from './core/signalR/SignalR.service';
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

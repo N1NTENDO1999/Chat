@@ -21,6 +21,8 @@ import { AuthGuard } from './core/helpers/auth.guard';
 import { SocialLoginModule, AuthServiceConfig } from "angularx-social-login";
 import { GoogleLoginProvider} from "angularx-social-login";
 import { ApiModule } from './core/api/api.module';
+import { ChatDetailComponent } from './modules/chat/components/chat-details/chat-detail.component';
+import { SignalrService } from './core/signalR/SignalR.service';
 
 let config = new AuthServiceConfig([
   {
@@ -41,7 +43,8 @@ export function provideConfig() {
     LoginComponent,
     HeaderComponent,
     AlertComponent,
-    RegisterComponent
+    RegisterComponent,
+    ChatDetailComponent
   ],
   imports: [
     BrowserModule,
@@ -56,6 +59,7 @@ export function provideConfig() {
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
     BaseApiSettingsService,
+    SignalrService,
     AuthenticationService,
     AlertService,
     AuthGuard,

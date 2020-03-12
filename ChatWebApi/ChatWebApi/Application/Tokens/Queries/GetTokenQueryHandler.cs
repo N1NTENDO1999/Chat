@@ -31,11 +31,13 @@ namespace ChatWebApi.Application.Tokens.Queries
 	{
 		public string Token { get; set; }
 		public string Email { get; set; }
+		public int Id { get; set; }
 
-		public GetTokenQueryResult(string token, string email)
+		public GetTokenQueryResult(string token, string email, int id)
 		{
 			Token = token;
 			Email = email;
+			Id = id;
 		}
 	}
 
@@ -93,7 +95,7 @@ namespace ChatWebApi.Application.Tokens.Queries
 			var user = await Authenticate(request);
 			var tokenString = BuildToken(user);
 
-			return new GetTokenQueryResult(tokenString, user.Email);
+			return new GetTokenQueryResult(tokenString, user.Email, user.Id);
 		}
 
 		private string HashedPassword(string password, User user)

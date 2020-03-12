@@ -15,5 +15,6 @@ namespace ChatWebApi.Application.Users.Queries.UserDTOs
         public string Email { get; set; }
         public DateTime DateCreated { get; set; }
         public DateTime ActiveDateTime { get; set; }
+
     }
 }
