@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import * as signalR from "@aspnet/signalr";
 import { MessageDto } from '../models/MessageDto';
+import { AlertService } from '../services/Alert.service';
 
 @Injectable()
 export class SignalrService {
@@ -9,7 +10,7 @@ export class SignalrService {
     chatMessages: MessageDto[] = [];
 
     constructor(
-
+        private alertService: AlertService
     ) { }
 
     public GetChatMessages(id: number) {
@@ -38,13 +39,33 @@ export class SignalrService {
         this.hubConnection = new signalR.HubConnectionBuilder()
             .withUrl(`https://localhost:44312/chatHub?UserId=${id}`)
             .build();
-       
+
+        this.hubConnection.onclose(() => setTimeout(() => { this.ConnectAgain(); }, 5000));
+
         this.hubConnection
             .start()
             .then(() => console.log('Connection started'))
-            .catch(err => console.log('Error while starting connection: ' + err));
+            .catch(err => {
+                console.log('Error while starting connection: ' + err);
+                this.alertService.error("Cant Connect to server!");
+                setTimeout(() => { this.ConnectAgain(); }, 5000)
+            });
     }
-
+    public ConnectAgain() {
+        if (this.hubConnection.state) {
+            return;
+        }
+        this.alertService.error("Lost Connetction with server!", true);
+        //       this.hubConnection.stop();
+        this.hubConnection.start().then(() => {
+            console.log('Connection started');
+            this.alertService.success("Connected!");
+        });
+        console.log(this.hubConnection.state);
+        if (!this.hubConnection.state) {
+            setTimeout(() => { this.ConnectAgain(); }, 5000);
+        }
+    }
     public addDataListeners(): void {
         this.hubConnection.on("GetChatMessages", (id, message) => this.updateMessages(id, message));
         this.hubConnection.on("UpdateChatMessages", (message) => this.addMessage(message));

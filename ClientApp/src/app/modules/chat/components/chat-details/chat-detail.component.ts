@@ -26,6 +26,7 @@ export class ChatDetailComponent implements OnInit, OnChanges {
         private authService: AuthenticationService,
         private formBuilder: FormBuilder
     ) {
+        
     }
     ngOnChanges(changes: SimpleChanges): void {
         if (this.chat) {
