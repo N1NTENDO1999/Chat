@@ -32,6 +32,18 @@ namespace ChatWebApi.SignalR
 			return base.OnConnectedAsync();
 		}
 
+		public override Task OnDisconnectedAsync(Exception exception)
+		{
+			var httpContext = Context.GetHttpContext();
+			var userId = Convert.ToInt32(httpContext.Request.Query["UserId"]);
+			var chats = _mediator.Send(new GetUserChatsQuery { Id = userId }).Result;
+			foreach (var chat in chats.ChatsId)
+			{
+				Groups.RemoveFromGroupAsync(Context.ConnectionId, chat.ToString());
+			}
+			return base.OnDisconnectedAsync(exception);
+		}
+
 		public async Task SendMessageToChat(int userId, int chatId, string message)
 		{
 			var result = await _mediator.Send(new SendMessageCommand { ChatId = chatId, SenderId = userId, Text = message });

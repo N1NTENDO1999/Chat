@@ -48,15 +48,21 @@ export class SignalrService {
             .catch(err => {
                 console.log('Error while starting connection: ' + err);
                 this.alertService.error("Cant Connect to server!");
-                //              setTimeout( () => { this.ConnectAgain(); }, 5000)
+                setTimeout(() => { this.ConnectAgain(); }, 5000)
             });
     }
     public ConnectAgain() {
+        if (this.hubConnection.state) {
+            return;
+        }
         this.alertService.error("Lost Connetction with server!", true);
-        this.hubConnection.start().then(() => console.log('Connection started'));
+        //       this.hubConnection.stop();
+        this.hubConnection.start().then(() => {
+            console.log('Connection started');
+            this.alertService.success("Connected!");
+        });
         console.log(this.hubConnection.state);
         if (!this.hubConnection.state) {
-            //        this.hubConnection.stop();
             setTimeout(() => { this.ConnectAgain(); }, 5000);
         }
     }
