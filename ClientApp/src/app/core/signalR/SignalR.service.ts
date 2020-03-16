@@ -40,7 +40,7 @@ export class SignalrService {
             .withUrl(`https://localhost:44312/chatHub?UserId=${id}`)
             .build();
 
-        this.hubConnection.onclose(() => setTimeout( () => { this.ConnectAgain(); }, 5000));
+        this.hubConnection.onclose(() => setTimeout(() => { this.ConnectAgain(); }, 5000));
 
         this.hubConnection
             .start()
@@ -48,16 +48,16 @@ export class SignalrService {
             .catch(err => {
                 console.log('Error while starting connection: ' + err);
                 this.alertService.error("Cant Connect to server!");
-                setTimeout( () => { this.ConnectAgain(); }, 5000)
+                //              setTimeout( () => { this.ConnectAgain(); }, 5000)
             });
     }
     public ConnectAgain() {
         this.alertService.error("Lost Connetction with server!", true);
-        this.hubConnection.start();
+        this.hubConnection.start().then(() => console.log('Connection started'));
         console.log(this.hubConnection.state);
         if (!this.hubConnection.state) {
-            this.hubConnection.stop();
-            setTimeout( () => { this.ConnectAgain(); }, 5000);
+            //        this.hubConnection.stop();
+            setTimeout(() => { this.ConnectAgain(); }, 5000);
         }
     }
     public addDataListeners(): void {
