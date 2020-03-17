@@ -20,28 +20,28 @@ namespace ChatWebApi.SignalR
 			_mediator = mediator;
 		}
 
-		public override Task OnConnectedAsync()
+		public override async Task OnConnectedAsync()
 		{
 			var httpContext = Context.GetHttpContext();
 			var userId = Convert.ToInt32(httpContext.Request.Query["UserId"]);
-			var chats = _mediator.Send(new GetUserChatsQuery { Id = userId }).Result;
+			var chats = await _mediator.Send(new GetUserChatsQuery { Id = userId });
 			foreach (var chat in chats.ChatsId)
 			{
-				Groups.AddToGroupAsync(Context.ConnectionId, chat.ToString());
+			    await Groups.AddToGroupAsync(Context.ConnectionId, chat.ToString());
 			}
-			return base.OnConnectedAsync();
+			await base.OnConnectedAsync();
 		}
 
-		public override Task OnDisconnectedAsync(Exception exception)
+		public override async Task OnDisconnectedAsync(Exception exception)
 		{
 			var httpContext = Context.GetHttpContext();
 			var userId = Convert.ToInt32(httpContext.Request.Query["UserId"]);
-			var chats = _mediator.Send(new GetUserChatsQuery { Id = userId }).Result;
+			var chats = await _mediator.Send(new GetUserChatsQuery { Id = userId });
 			foreach (var chat in chats.ChatsId)
 			{
-				Groups.RemoveFromGroupAsync(Context.ConnectionId, chat.ToString());
+			    await Groups.RemoveFromGroupAsync(Context.ConnectionId, chat.ToString());
 			}
-			return base.OnDisconnectedAsync(exception);
+			await base.OnDisconnectedAsync(exception);
 		}
 
 		public async Task SendMessageToChat(int userId, int chatId, string message)
