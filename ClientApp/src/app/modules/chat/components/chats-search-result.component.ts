@@ -2,7 +2,7 @@ import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ChatsService, UsersService } from 'src/app/core/api/services';
 import { ChatDto } from 'src/app/core/api/models';
-import { first } from 'rxjs/operators';
+import { first, map } from 'rxjs/operators';
 import { AuthenticationService } from 'src/app/core/services/Authentication.service';
 
 @Component({
@@ -11,7 +11,6 @@ import { AuthenticationService } from 'src/app/core/services/Authentication.serv
     styleUrls: ['./chats-search-result.component.css']
 })
 export class ChatsSearchResultComponent implements OnInit {
-
     public allChats: ChatDto[] = [];
 
     @Output() chat = new EventEmitter<ChatDto>();
@@ -23,7 +22,21 @@ export class ChatsSearchResultComponent implements OnInit {
     ) { }
 
     getChat(chat: ChatDto) {
-        this.chat.emit(chat);
+        this.chatService
+            .apiChatsChatChatIdUserUserIdGet$Json({ userId: this.authService.currentUserValue.Id, chatId: chat.Id })
+            .subscribe(p => this.validateChat(chat, p));
+    }
+
+    validateChat(chat: ChatDto, isConnected: boolean): void {
+        if (isConnected) {
+            console.log("Hi");
+            this.chat.emit(chat);
+        }
+        else{
+            let result = window.confirm("Connect to chat?");
+            console.log("Reverse Hi!");
+        }
+
     }
 
     search(term: string): void {
