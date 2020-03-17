@@ -25,9 +25,9 @@ namespace ChatWebApi.SignalR
 			var httpContext = Context.GetHttpContext();
 			var userId = Convert.ToInt32(httpContext.Request.Query["UserId"]);
 			var chats = await _mediator.Send(new GetUserChatsQuery { Id = userId });
-			foreach (var chat in chats.ChatsId)
+			foreach (var chat in chats.Chats)
 			{
-			    await Groups.AddToGroupAsync(Context.ConnectionId, chat.ToString());
+			    await Groups.AddToGroupAsync(Context.ConnectionId, chat.Id.ToString());
 			}
 			await base.OnConnectedAsync();
 		}
@@ -37,9 +37,9 @@ namespace ChatWebApi.SignalR
 			var httpContext = Context.GetHttpContext();
 			var userId = Convert.ToInt32(httpContext.Request.Query["UserId"]);
 			var chats = await _mediator.Send(new GetUserChatsQuery { Id = userId });
-			foreach (var chat in chats.ChatsId)
+			foreach (var chat in chats.Chats)
 			{
-			    await Groups.RemoveFromGroupAsync(Context.ConnectionId, chat.ToString());
+			    await Groups.RemoveFromGroupAsync(Context.ConnectionId, chat.Id.ToString());
 			}
 			await base.OnDisconnectedAsync(exception);
 		}
