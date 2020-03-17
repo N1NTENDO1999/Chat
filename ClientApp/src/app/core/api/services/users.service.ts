@@ -11,6 +11,7 @@ import { map, filter } from 'rxjs/operators';
 import { CommandResult } from '../models/command-result';
 import { CreateUserCommand } from '../models/create-user-command';
 import { EditUserProfileCommand } from '../models/edit-user-profile-command';
+import { GetUserChatsQueryResult } from '../models/get-user-chats-query-result';
 import { GetUserQueryResult } from '../models/get-user-query-result';
 import { GetUsersByNicknameQueryResult } from '../models/get-users-by-nickname-query-result';
 import { UpdatePasswordCommand } from '../models/update-password-command';
@@ -482,6 +483,99 @@ export class UsersService extends BaseService {
 
     return this.apiUsersNicknameGet$Json$Response(params).pipe(
       map((r: StrictHttpResponse<GetUsersByNicknameQueryResult>) => r.body as GetUsersByNicknameQueryResult)
+    );
+  }
+
+  /**
+   * Path part for operation apiUsersUserIdChatsGet
+   */
+  static readonly ApiUsersUserIdChatsGetPath = '/api/Users/user/{id}/chats';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `apiUsersUserIdChatsGet$Plain()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  apiUsersUserIdChatsGet$Plain$Response(params: {
+    id: number;
+
+  }): Observable<StrictHttpResponse<GetUserChatsQueryResult>> {
+
+    const rb = new RequestBuilder(this.rootUrl, UsersService.ApiUsersUserIdChatsGetPath, 'get');
+    if (params) {
+
+      rb.path('id', params.id);
+
+    }
+    return this.http.request(rb.build({
+      responseType: 'text',
+      accept: 'text/plain'
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return r as StrictHttpResponse<GetUserChatsQueryResult>;
+      })
+    );
+  }
+
+  /**
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `apiUsersUserIdChatsGet$Plain$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  apiUsersUserIdChatsGet$Plain(params: {
+    id: number;
+
+  }): Observable<GetUserChatsQueryResult> {
+
+    return this.apiUsersUserIdChatsGet$Plain$Response(params).pipe(
+      map((r: StrictHttpResponse<GetUserChatsQueryResult>) => r.body as GetUserChatsQueryResult)
+    );
+  }
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `apiUsersUserIdChatsGet$Json()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  apiUsersUserIdChatsGet$Json$Response(params: {
+    id: number;
+
+  }): Observable<StrictHttpResponse<GetUserChatsQueryResult>> {
+
+    const rb = new RequestBuilder(this.rootUrl, UsersService.ApiUsersUserIdChatsGetPath, 'get');
+    if (params) {
+
+      rb.path('id', params.id);
+
+    }
+    return this.http.request(rb.build({
+      responseType: 'json',
+      accept: 'text/json'
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return r as StrictHttpResponse<GetUserChatsQueryResult>;
+      })
+    );
+  }
+
+  /**
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `apiUsersUserIdChatsGet$Json$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  apiUsersUserIdChatsGet$Json(params: {
+    id: number;
+
+  }): Observable<GetUserChatsQueryResult> {
+
+    return this.apiUsersUserIdChatsGet$Json$Response(params).pipe(
+      map((r: StrictHttpResponse<GetUserChatsQueryResult>) => r.body as GetUserChatsQueryResult)
     );
   }
 

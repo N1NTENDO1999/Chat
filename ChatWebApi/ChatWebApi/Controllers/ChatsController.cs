@@ -33,6 +33,13 @@ namespace ChatWebApi.Controllers
             return await _mediator.Send(new FindChatsByNameQuery { Name = name });
         }
 
+        [HttpGet]
+        [Route("chat/{chatId}/user/{userId}")]
+        public async Task<bool> IsUserInChat(int chatId, int userId)
+        {
+            return await _mediator.Send(new IsUserInChatQuery { ChatId = chatId, UserId = userId });
+        }
+
         [HttpGet()]
         public async Task<FindChatsByNameResult> Get()
         {

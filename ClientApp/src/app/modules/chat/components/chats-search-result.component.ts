@@ -1,8 +1,11 @@
 import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ChatsService } from 'src/app/core/api/services';
+import { ChatsService, UsersService } from 'src/app/core/api/services';
 import { ChatDto } from 'src/app/core/api/models';
-import { first } from 'rxjs/operators';
+import { first, map } from 'rxjs/operators';
+import { AuthenticationService } from 'src/app/core/services/Authentication.service';
+import { SignalrService } from 'src/app/core/signalR/SignalR.service';
+import { AlertService } from 'src/app/core/services/Alert.service';
 
 @Component({
     selector: 'chats-search-result-component',
@@ -10,25 +13,55 @@ import { first } from 'rxjs/operators';
     styleUrls: ['./chats-search-result.component.css']
 })
 export class ChatsSearchResultComponent implements OnInit {
-
     public allChats: ChatDto[] = [];
 
     @Output() chat = new EventEmitter<ChatDto>();
 
     constructor(
-        private chatService: ChatsService
+        private chatService: ChatsService,
+        private userService: UsersService,
+        private authService: AuthenticationService,
+        public signalRService: SignalrService,
+        private alertService: AlertService
     ) { }
 
     getChat(chat: ChatDto) {
-        this.chat.emit(chat);
+        this.chatService
+            .apiChatsChatChatIdUserUserIdGet$Json({ userId: this.authService.currentUserValue.Id, chatId: chat.Id })
+            .subscribe(p => this.validateChat(chat, p));
     }
 
-    getAllChats(): void {
+    validateChat(chat: ChatDto, isConnected: boolean): void {
+        if (isConnected) {
+            this.chat.emit(chat);
+        }
+        else{
+            let result = window.confirm("Connect to chat?");
+            if (result){
+                this.signalRService.AddUserToChat(chat.Id, this.authService.currentUserValue.Id);
+                this.chat.emit(chat);
+                return;
+            }
+            this.alertService.error("Cant connect to chat: " + chat.Name);
+        }
 
+    }
+
+    search(term: string): void {
+        if (!term.trim()) {
+            this.userService.apiUsersUserIdChatsGet$Json({ id: this.authService.currentUserValue.Id }).subscribe(p => {
+                this.allChats = p.Chats;
+            });
+        }
+        else {
+            this.chatService.apiChatsChatNameGet$Json({ name: term }).subscribe(p => {
+                this.allChats = p.Chats;
+            });
+        }
     }
 
     ngOnInit() {
-        this.chatService.apiChatsGet$Json().subscribe(p => {
+        this.userService.apiUsersUserIdChatsGet$Json({ id: this.authService.currentUserValue.Id }).subscribe(p => {
             this.allChats = p.Chats;
             console.log(p.Chats);
         });

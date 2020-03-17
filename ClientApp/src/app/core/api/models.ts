@@ -1,7 +1,7 @@
 export { ChatDto } from './models/chat-dto';
 export { FindChatsByNameResult } from './models/find-chats-by-name-result';
-export { CreateChatCommand } from './models/create-chat-command';
 export { CommandResult } from './models/command-result';
+export { CreateChatCommand } from './models/create-chat-command';
 export { ChangeChatCommand } from './models/change-chat-command';
 export { GetChatByIdQueryResult } from './models/get-chat-by-id-query-result';
 export { AddChatPictureCommand } from './models/add-chat-picture-command';
@@ -15,5 +15,6 @@ export { CreateUserCommand } from './models/create-user-command';
 export { GetUserQueryResult } from './models/get-user-query-result';
 export { EditUserProfileCommand } from './models/edit-user-profile-command';
 export { GetUsersByNicknameQueryResult } from './models/get-users-by-nickname-query-result';
+export { GetUserChatsQueryResult } from './models/get-user-chats-query-result';
 export { UpdatePasswordCommand } from './models/update-password-command';
 export { UpdateUserPictureCommand } from './models/update-user-picture-command';
