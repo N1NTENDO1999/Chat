@@ -26,8 +26,17 @@ export class ChatsSearchResultComponent implements OnInit {
         this.chat.emit(chat);
     }
 
-    getAllChats(): void {
-
+    search(term: string): void {
+        if (!term.trim()) {
+            this.userService.apiUsersUserIdChatsGet$Json({ id: this.authService.currentUserValue.Id }).subscribe(p => {
+                this.allChats = p.Chats;
+            });
+        }
+        else {
+            this.chatService.apiChatsChatNameGet$Json({ name: term }).subscribe(p => {
+                this.allChats = p.Chats;
+            });
+        }
     }
 
     ngOnInit() {

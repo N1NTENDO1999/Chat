@@ -1,6 +1,8 @@
 <div id="container">
   <h4>Chats</h4>
 
+  <input #searchBox id="search-box" (input)="search(searchBox.value)" />
+  
   <ul class="search-result">
     <li *ngFor="let chat of allChats">
       <div (click)="getChat(chat)">
