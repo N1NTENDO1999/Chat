@@ -15,5 +15,6 @@ export { CreateUserCommand } from './models/create-user-command';
 export { GetUserQueryResult } from './models/get-user-query-result';
 export { EditUserProfileCommand } from './models/edit-user-profile-command';
 export { GetUsersByNicknameQueryResult } from './models/get-users-by-nickname-query-result';
+export { GetUserChatsQueryResult } from './models/get-user-chats-query-result';
 export { UpdatePasswordCommand } from './models/update-password-command';
 export { UpdateUserPictureCommand } from './models/update-user-picture-command';
