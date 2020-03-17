@@ -4,6 +4,8 @@ import { ChatsService, UsersService } from 'src/app/core/api/services';
 import { ChatDto } from 'src/app/core/api/models';
 import { first, map } from 'rxjs/operators';
 import { AuthenticationService } from 'src/app/core/services/Authentication.service';
+import { SignalrService } from 'src/app/core/signalR/SignalR.service';
+import { AlertService } from 'src/app/core/services/Alert.service';
 
 @Component({
     selector: 'chats-search-result-component',
@@ -18,7 +20,9 @@ export class ChatsSearchResultComponent implements OnInit {
     constructor(
         private chatService: ChatsService,
         private userService: UsersService,
-        private authService: AuthenticationService
+        private authService: AuthenticationService,
+        public signalRService: SignalrService,
+        private alertService: AlertService
     ) { }
 
     getChat(chat: ChatDto) {
@@ -29,12 +33,16 @@ export class ChatsSearchResultComponent implements OnInit {
 
     validateChat(chat: ChatDto, isConnected: boolean): void {
         if (isConnected) {
-            console.log("Hi");
             this.chat.emit(chat);
         }
         else{
             let result = window.confirm("Connect to chat?");
-            console.log("Reverse Hi!");
+            if (result){
+                this.signalRService.AddUserToChat(chat.Id, this.authService.currentUserValue.Id);
+                this.chat.emit(chat);
+                return;
+            }
+            this.alertService.error("Cant connect to chat: " + chat.Name);
         }
 
     }

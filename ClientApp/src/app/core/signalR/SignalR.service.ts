@@ -25,6 +25,11 @@ export class SignalrService {
             .catch(err => console.log('Error while starting connection: ' + err));
     }
 
+    public AddUserToChat(chatId: number, userId: number): void {
+        this.hubConnection.invoke("AddUserToChat", userId, chatId)
+            .then(_ => console.log("Add User To Chat"))
+            .catch(err => console.log("Error when Add User To Chat: " + err));
+    }
     private updateMessages(id: number, messages: MessageDto[]) {
         console.log(messages);
         this.chatMessages = messages;
