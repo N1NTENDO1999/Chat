@@ -1,7 +1,7 @@
 export { ChatDto } from './models/chat-dto';
 export { FindChatsByNameResult } from './models/find-chats-by-name-result';
-export { CreateChatCommand } from './models/create-chat-command';
 export { CommandResult } from './models/command-result';
+export { CreateChatCommand } from './models/create-chat-command';
 export { ChangeChatCommand } from './models/change-chat-command';
 export { GetChatByIdQueryResult } from './models/get-chat-by-id-query-result';
 export { AddChatPictureCommand } from './models/add-chat-picture-command';
