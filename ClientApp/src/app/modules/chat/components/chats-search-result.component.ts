@@ -1,8 +1,9 @@
 import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ChatsService } from 'src/app/core/api/services';
+import { ChatsService, UsersService } from 'src/app/core/api/services';
 import { ChatDto } from 'src/app/core/api/models';
 import { first } from 'rxjs/operators';
+import { AuthenticationService } from 'src/app/core/services/Authentication.service';
 
 @Component({
     selector: 'chats-search-result-component',
@@ -16,7 +17,9 @@ export class ChatsSearchResultComponent implements OnInit {
     @Output() chat = new EventEmitter<ChatDto>();
 
     constructor(
-        private chatService: ChatsService
+        private chatService: ChatsService,
+        private userService: UsersService,
+        private authService: AuthenticationService
     ) { }
 
     getChat(chat: ChatDto) {
@@ -28,7 +31,7 @@ export class ChatsSearchResultComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.chatService.apiChatsGet$Json().subscribe(p => {
+        this.userService.apiUsersUserIdChatsGet$Json({ id: this.authService.currentUserValue.Id }).subscribe(p => {
             this.allChats = p.Chats;
             console.log(p.Chats);
         });
