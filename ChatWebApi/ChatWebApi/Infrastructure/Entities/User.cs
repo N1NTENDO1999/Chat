@@ -23,7 +23,7 @@ namespace ChatWebApi.Infrastructure.Entities
         public List<PersonalMessage> PersonalMessagesSent { get; set; }
         public List<PersonalMessage> PersonalMessagesReceived { get; set; }
         public List<UserChat> UserChats { get; set; }
-
+        public List<Chat> CreatedChats { get; set; }
         public User()
         {
             ScheduledMessages = new List<ScheduledMessage>();
