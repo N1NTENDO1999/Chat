@@ -38,6 +38,7 @@ export class ChatDetailComponent implements OnInit, OnChanges {
     }
 
     ngOnInit() {
+        console.log("On Init Chat Detail");
         let user: User = this.authService.currentUserValue;
         this.signalRService.startConnection(user.Id);
         this.signalRService.addDataListeners();
