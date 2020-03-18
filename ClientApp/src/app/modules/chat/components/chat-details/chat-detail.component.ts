@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, SimpleChanges, OnDestroy } from '@angular/core';
 import { ChatsService } from 'src/app/core/api/services';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
@@ -14,7 +14,7 @@ import { FormBuilder, FormControl, Validators, FormGroup } from '@angular/forms'
     templateUrl: './chat-detail.component.html',
     styleUrls: ['./chat-detail.component.css']
 })
-export class ChatDetailComponent implements OnInit, OnChanges {
+export class ChatDetailComponent implements OnInit, OnChanges, OnDestroy {
     @Input() chat: ChatDto;
     messageForm: FormGroup;
 
@@ -26,7 +26,11 @@ export class ChatDetailComponent implements OnInit, OnChanges {
         private authService: AuthenticationService,
         private formBuilder: FormBuilder
     ) {
-        
+
+    }
+    ngOnDestroy(): void {
+        this.chat = null;
+        this.signalRService.chatMessages = [];
     }
     ngOnChanges(changes: SimpleChanges): void {
         if (this.chat) {
@@ -34,14 +38,15 @@ export class ChatDetailComponent implements OnInit, OnChanges {
         }
         this.messageForm = new FormGroup({
             message: new FormControl('', [Validators.required])
-         });
+        });
     }
 
     ngOnInit() {
-        console.log("On Init Chat Detail");
-        let user: User = this.authService.currentUserValue;
-        this.signalRService.startConnection(user.Id);
-        this.signalRService.addDataListeners();
+        if (!this.signalRService.isConnected()) {
+            let user: User = this.authService.currentUserValue;
+            this.signalRService.startConnection(user.Id);
+            this.signalRService.addDataListeners();
+        }
     }
 
     onSubmit() {
@@ -52,7 +57,7 @@ export class ChatDetailComponent implements OnInit, OnChanges {
         let user: User = this.authService.currentUserValue;
         this.signalRService.AddChatMessages(this.chat.Id, user.Id, this.messageForm.controls.message.value);
         this.messageForm.controls.message.setValue(null);
-           
+
     }
 
 }

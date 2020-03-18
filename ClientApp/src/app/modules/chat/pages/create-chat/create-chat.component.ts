@@ -58,8 +58,7 @@ export class CreateChatComponent implements OnInit {
             .subscribe(
                 data => {
                     this.signalRService.AddUserToChat(data.Id, this.authService.currentUserValue.Id);
-                    window.location.reload();
-                    this.router.navigate([""]);
+                    this.router.navigate(["/"]);
                 },
                 error => {
                     this.alertService.error(error);
