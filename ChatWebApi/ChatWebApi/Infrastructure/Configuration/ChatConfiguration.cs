@@ -32,6 +32,10 @@ namespace ChatWebApi.Infrastructure.Configuration
 				.WithOne(c => c.Chat)
 				.HasForeignKey(c => c.ChatId)
 				.OnDelete(DeleteBehavior.Cascade);
+
+			builder.HasOne(c => c.Owner)
+				.WithMany(c => c.CreatedChats)
+				.HasForeignKey(c => c.OwnerId);
 		}
 	}
 }

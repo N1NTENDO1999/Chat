@@ -13,6 +13,9 @@ namespace ChatWebApi.Infrastructure.Entities
 		public DateTime DateCreated { get; set; }
 		public bool IsPrivate { get; set; }
 
+		public int OwnerId { get; set; }
+		public User Owner { get; set; }
+
 		public List<Message> Messages { get; set; }
 		public List<ScheduledMessage> ScheduledMessages { get; set; }
 		public List<UserChat> UserChats { get; set; }

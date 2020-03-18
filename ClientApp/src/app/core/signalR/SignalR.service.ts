@@ -56,6 +56,19 @@ export class SignalrService {
                 setTimeout(() => { this.ConnectAgain(); }, 5000)
             });
     }
+
+    public isConnected(): boolean{
+        if(this.hubConnection === undefined){
+            return false;
+        }
+        else if(this.hubConnection.state){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
     public ConnectAgain() {
         if (this.hubConnection.state) {
             return;

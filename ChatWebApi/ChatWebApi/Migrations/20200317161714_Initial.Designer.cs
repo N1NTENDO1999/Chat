@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ChatWebApi.Migrations
 {
     [DbContext(typeof(ChatContext))]
-    [Migration("20200213102828_initial")]
-    partial class initial
+    [Migration("20200317161714_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -35,9 +35,13 @@ namespace ChatWebApi.Migrations
                         .IsRequired()
                         .HasMaxLength(255);
 
+                    b.Property<int>("OwnerId");
+
                     b.Property<string>("Picture");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("OwnerId");
 
                     b.ToTable("Chats");
                 });
@@ -168,6 +172,8 @@ namespace ChatWebApi.Migrations
 
                     b.Property<byte[]>("PasswordSalt");
 
+                    b.Property<string>("Picture");
+
                     b.HasKey("Id");
 
                     b.ToTable("Users");
@@ -203,6 +209,14 @@ namespace ChatWebApi.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("UserRoles");
+                });
+
+            modelBuilder.Entity("ChatWebApi.Infrastructure.Entities.Chat", b =>
+                {
+                    b.HasOne("ChatWebApi.Infrastructure.Entities.User", "Owner")
+                        .WithMany("CreatedChats")
+                        .HasForeignKey("OwnerId")
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("ChatWebApi.Infrastructure.Entities.Message", b =>

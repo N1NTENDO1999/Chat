@@ -6,6 +6,7 @@ const routes: Routes = [
   { path: 'chats', component: ChatComponent, canActivate: [AuthGuard] },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
+  { path: 'create', component: CreateChatComponent, canActivate: [AuthGuard] },
 
   { path: '**', redirectTo: 'chats' }
 ];
@@ -17,6 +18,7 @@ import { AuthGuard } from './core/helpers/auth.guard';
 import { ChatDetailComponent } from './modules/chat/components/chat-details/chat-detail.component';
 
 import { SignalrService } from './core/signalR/SignalR.service';
+import { CreateChatComponent } from './modules/chat/pages/create-chat/create-chat.component';
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
