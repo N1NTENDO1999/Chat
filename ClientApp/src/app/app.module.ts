@@ -23,6 +23,7 @@ import { GoogleLoginProvider} from "angularx-social-login";
 import { ApiModule } from './core/api/api.module';
 import { ChatDetailComponent } from './modules/chat/components/chat-details/chat-detail.component';
 import { SignalrService } from './core/signalR/SignalR.service';
+import { CreateChatComponent } from './modules/chat/pages/create-chat/create-chat.component';
 
 let config = new AuthServiceConfig([
   {
@@ -44,7 +45,8 @@ export function provideConfig() {
     HeaderComponent,
     AlertComponent,
     RegisterComponent,
-    ChatDetailComponent
+    ChatDetailComponent,
+    CreateChatComponent
   ],
   imports: [
     BrowserModule,
