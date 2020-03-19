@@ -23,7 +23,7 @@
     "@fortawesome/fontawesome-free": "^5.12.1",
     "angularx-social-login": "^2.2.1",
     "bootstrap": "^4.4.1",
-    "mobx": "^5.15.4",
+    "mobx": "^5.14.2",
     "rxjs": "~6.4.0",
     "tslib": "^1.10.0",
     "zone.js": "~0.9.1"

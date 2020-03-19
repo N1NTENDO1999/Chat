@@ -6,6 +6,7 @@ import { first, map } from 'rxjs/operators';
 import { AuthenticationService } from 'src/app/core/services/Authentication.service';
 import { SignalrService } from 'src/app/core/signalR/SignalR.service';
 import { AlertService } from 'src/app/core/services/Alert.service';
+import { ChatsStore } from 'src/app/core/stores/chatsStore';
 
 @Component({
     selector: 'chats-search-result-component',
@@ -22,7 +23,8 @@ export class ChatsSearchResultComponent implements OnInit {
         private userService: UsersService,
         private authService: AuthenticationService,
         public signalRService: SignalrService,
-        private alertService: AlertService
+        private alertService: AlertService,
+        private chatsStore: ChatsStore
     ) { }
 
     getChat(chat: ChatDto) {
@@ -62,8 +64,8 @@ export class ChatsSearchResultComponent implements OnInit {
 
     ngOnInit() {
         this.userService.apiUsersUserIdChatsGet$Json({ id: this.authService.currentUserValue.Id }).subscribe(p => {
+            this.chatsStore.setChats(p.Chats);
             this.allChats = p.Chats;
-            console.log(p.Chats);
         });
     }
 }

@@ -24,6 +24,7 @@ import { ApiModule } from './core/api/api.module';
 import { ChatDetailComponent } from './modules/chat/components/chat-details/chat-detail.component';
 import { SignalrService } from './core/signalR/SignalR.service';
 import { CreateChatComponent } from './modules/chat/pages/create-chat/create-chat.component';
+import { ChatsStore } from './core/stores/chatsStore';
 
 let config = new AuthServiceConfig([
   {
@@ -62,6 +63,7 @@ export function provideConfig() {
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
     BaseApiSettingsService,
     SignalrService,
+    ChatsStore,
     AuthenticationService,
     AlertService,
     AuthGuard,
