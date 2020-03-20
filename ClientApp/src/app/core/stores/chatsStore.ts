@@ -23,9 +23,16 @@ export class ChatsStore {
         this.chats = chats;
     }
 
+    @action addChat(chat: ChatDto){
+        this.chats = [...this.chats, chat];
+    }
+
     @action selectChat(chatId: number) {
-        console.log(toJS(this.chats.find(p => p.Id == chatId )));
         this.selectedChat = this.chats.find(p => p.Id == chatId );
+    }
+
+    @action addSelectedChat(chat: ChatDto){
+        this.selectedChat = chat;
     }
 
     @action clearSelected(){

@@ -53,7 +53,7 @@ namespace ChatWebApi.Controllers
         }
 
         [HttpPost]
-        public async Task<CommandCreateResult> CreateChat(CreateChatCommand request)
+        public async Task<CommandChatResult> CreateChat(CreateChatCommand request)
         {
             return await _mediator.Send(request);
         }

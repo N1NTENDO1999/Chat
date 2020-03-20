@@ -10,7 +10,7 @@ import { map, filter } from 'rxjs/operators';
 
 import { AddChatPictureCommand } from '../models/add-chat-picture-command';
 import { ChangeChatCommand } from '../models/change-chat-command';
-import { CommandCreateResult } from '../models/command-create-result';
+import { CommandChatResult } from '../models/command-chat-result';
 import { CommandResult } from '../models/command-result';
 import { CreateChatCommand } from '../models/create-chat-command';
 import { FindChatsByNameResult } from '../models/find-chats-by-name-result';
@@ -507,7 +507,7 @@ export class ChatsService extends BaseService {
    */
   apiChatsPost$Plain$Response(params?: {
       body?: CreateChatCommand
-  }): Observable<StrictHttpResponse<CommandCreateResult>> {
+  }): Observable<StrictHttpResponse<CommandChatResult>> {
 
     const rb = new RequestBuilder(this.rootUrl, ChatsService.ApiChatsPostPath, 'post');
     if (params) {
@@ -521,7 +521,7 @@ export class ChatsService extends BaseService {
     })).pipe(
       filter((r: any) => r instanceof HttpResponse),
       map((r: HttpResponse<any>) => {
-        return r as StrictHttpResponse<CommandCreateResult>;
+        return r as StrictHttpResponse<CommandChatResult>;
       })
     );
   }
@@ -534,10 +534,10 @@ export class ChatsService extends BaseService {
    */
   apiChatsPost$Plain(params?: {
       body?: CreateChatCommand
-  }): Observable<CommandCreateResult> {
+  }): Observable<CommandChatResult> {
 
     return this.apiChatsPost$Plain$Response(params).pipe(
-      map((r: StrictHttpResponse<CommandCreateResult>) => r.body as CommandCreateResult)
+      map((r: StrictHttpResponse<CommandChatResult>) => r.body as CommandChatResult)
     );
   }
 
@@ -549,7 +549,7 @@ export class ChatsService extends BaseService {
    */
   apiChatsPost$Json$Response(params?: {
       body?: CreateChatCommand
-  }): Observable<StrictHttpResponse<CommandCreateResult>> {
+  }): Observable<StrictHttpResponse<CommandChatResult>> {
 
     const rb = new RequestBuilder(this.rootUrl, ChatsService.ApiChatsPostPath, 'post');
     if (params) {
@@ -563,7 +563,7 @@ export class ChatsService extends BaseService {
     })).pipe(
       filter((r: any) => r instanceof HttpResponse),
       map((r: HttpResponse<any>) => {
-        return r as StrictHttpResponse<CommandCreateResult>;
+        return r as StrictHttpResponse<CommandChatResult>;
       })
     );
   }
@@ -576,10 +576,10 @@ export class ChatsService extends BaseService {
    */
   apiChatsPost$Json(params?: {
       body?: CreateChatCommand
-  }): Observable<CommandCreateResult> {
+  }): Observable<CommandChatResult> {
 
     return this.apiChatsPost$Json$Response(params).pipe(
-      map((r: StrictHttpResponse<CommandCreateResult>) => r.body as CommandCreateResult)
+      map((r: StrictHttpResponse<CommandChatResult>) => r.body as CommandChatResult)
     );
   }
 
