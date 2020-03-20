@@ -26,7 +26,6 @@ export class ChatComponent implements OnInit {
     }
 
     ngOnInit() {
-        //console.log(this.signalRService.isConnected());
         if (!this.signalRService.isConnected()) {
             let user: User = this.authService.currentUserValue;
             this.signalRService.startConnection(user.Id);

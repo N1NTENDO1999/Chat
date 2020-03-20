@@ -10,7 +10,15 @@ export class MessagesStore{
         return toJS(this.messages);
     }
 
-    set message(value: MessageDto){
+    @action addMessage(value: MessageDto){
         this.messages = [...this.messages, value];
+    }
+
+    @action setMessages(messages: MessageDto[]){
+        this.messages = [...messages];
+    }
+
+    @action clearMessages(){
+        this.messages = [];
     }
 }

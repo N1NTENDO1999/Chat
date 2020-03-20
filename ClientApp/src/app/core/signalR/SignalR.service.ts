@@ -2,15 +2,17 @@ import { Injectable } from '@angular/core';
 import * as signalR from "@aspnet/signalr";
 import { MessageDto } from '../models/MessageDto';
 import { AlertService } from '../services/Alert.service';
+import { MessagesStore } from '../stores/MessagesStore';
 
 @Injectable()
 export class SignalrService {
 
     private hubConnection: signalR.HubConnection
-    chatMessages: MessageDto[] = [];
+    //chatMessages: MessageDto[] = [];
 
     constructor(
-        private alertService: AlertService
+        private alertService: AlertService,
+        private messagesStore: MessagesStore
     ) { }
 
     public GetChatMessages(id: number) {
@@ -31,13 +33,11 @@ export class SignalrService {
             .catch(err => console.log("Error when Add User To Chat: " + err));
     }
     private updateMessages(id: number, messages: MessageDto[]) {
-        console.log(messages);
-        this.chatMessages = messages;
+        this.messagesStore.setMessages(messages);
     }
 
     private addMessage(message: MessageDto) {
-        console.log(message);
-        this.chatMessages.push(message);
+        this.messagesStore.addMessage(message);
     }
 
     public startConnection = (id: number) => {

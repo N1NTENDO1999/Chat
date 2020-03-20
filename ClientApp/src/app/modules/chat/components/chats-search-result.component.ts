@@ -16,8 +16,6 @@ import { ChatsStore } from 'src/app/core/stores/chatsStore';
 export class ChatsSearchResultComponent implements OnInit {
     public allChats: ChatDto[] = [];
 
-    //@Output() chat = new EventEmitter<ChatDto>();
-
     constructor(
         private chatService: ChatsService,
         private userService: UsersService,
@@ -28,7 +26,6 @@ export class ChatsSearchResultComponent implements OnInit {
     ) { }
 
     getChat(chat: ChatDto) {
-        console.log(this.chatsStore.chat);
         this.chatService
             .apiChatsChatChatIdUserUserIdGet$Json({ userId: this.authService.currentUserValue.Id, chatId: chat.Id })
             .subscribe(p => this.validateChat(chat, p));
@@ -66,7 +63,6 @@ export class ChatsSearchResultComponent implements OnInit {
     ngOnInit() {
         this.userService.apiUsersUserIdChatsGet$Json({ id: this.authService.currentUserValue.Id }).subscribe(p => {
             this.chatsStore.setChats(p.Chats);
-            // this.allChats = p.Chats;
         });
     }
 }

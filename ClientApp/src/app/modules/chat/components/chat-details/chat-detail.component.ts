@@ -9,7 +9,7 @@ import { User } from 'src/app/core/models/User';
 import { AuthenticationService } from 'src/app/core/services/Authentication.service';
 import { FormBuilder, FormControl, Validators, FormGroup } from '@angular/forms';
 import { ChatsStore } from 'src/app/core/stores/chatsStore';
-import { toJS } from 'mobx';
+import { MessagesStore } from 'src/app/core/stores/MessagesStore';
 
 
 @Component({
@@ -18,28 +18,17 @@ import { toJS } from 'mobx';
     styleUrls: ['./chat-detail.component.css']
 })
 
-export class ChatDetailComponent implements OnInit, OnDestroy {
+export class ChatDetailComponent implements OnInit {
    // @Input() chat: ChatDto;
     messageForm: FormGroup;
     
     constructor(
-        private route: ActivatedRoute,
-        private chatService: ChatsService,
-        private location: Location,
         public signalRService: SignalrService,
         private authService: AuthenticationService,
-        private formBuilder: FormBuilder,
-        public chatsStore: ChatsStore
-    ) {
-
-    }
-    ngOnDestroy(): void {
-        console.log("Destroy");
-        //this.chat = null;
-        this.signalRService.chatMessages = [];
-    }
-    
-
+        public chatsStore: ChatsStore,
+        public messagesStore: MessagesStore
+    ) { }
+  
     ngOnInit() {
         this.messageForm = new FormGroup({
             message: new FormControl('', [Validators.required])

@@ -39,9 +39,6 @@ export class CreateChatComponent implements OnInit {
             name: ['', Validators.required],
             isPrivate: new FormControl(false)
         });
-
-        // get return url from route parameters or default to '/'
-       // this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
     }
 
     onSubmit() {
