@@ -13,5 +13,6 @@ namespace ChatWebApi.Application.Chats.ChatDTOs
 		public string Picture { get; set; }
 		public DateTime DateCreated { get; set; }
 		public bool IsPrivate { get; set; }
+		public int OwnerId { get; set; }
 	}
 }
