@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { UsersService, ChatsService } from 'src/app/core/api/services';
 import { UsersStore } from 'src/app/core/stores/UsersStore';
+import { Location } from '@angular/common';
 
 @Component({
     selector: 'users-search-component',
@@ -14,7 +15,8 @@ export class UsersSearchComponent implements OnInit {
         private router: Router,
         private userService: UsersService,
         private chatService: ChatsService,
-        public usersStore: UsersStore
+        public usersStore: UsersStore,
+        private location: Location
     ) {
     }
 
@@ -29,6 +31,10 @@ export class UsersSearchComponent implements OnInit {
         })
 
     }
+
+    goBack(): void {
+        this.location.back();
+      }
 
     ngOnInit() {
 

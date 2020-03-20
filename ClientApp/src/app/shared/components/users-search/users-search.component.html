@@ -3,9 +3,11 @@
   
     <input #searchBox (input)="search(searchBox.value)" />
     
+    <button class="btn btn-primary" (click)="goBack()">Back</button>
+
     <ul class="search-result">
       <li *ngFor="let user of usersStore.AllUsers">
-        <span><img src="{{user.Picture}}" alt="Image"> {{user.Nickname}} </span>
+        <span> {{user.Nickname}} </span>
       </li>
     </ul>
   </div>
