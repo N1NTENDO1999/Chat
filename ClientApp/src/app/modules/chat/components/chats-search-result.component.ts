@@ -29,10 +29,10 @@ export class ChatsSearchResultComponent implements OnInit {
     ) { }
 
     getChat(chat: ChatDto) {
-        console.log(toJS(chat));
+        console.log(this.chatsStore.chat);
         this.chatService
             .apiChatsChatChatIdUserUserIdGet$Json({ userId: this.authService.currentUserValue.Id, chatId: chat.Id })
-            .subscribe(p => this.validateChat(toJS(chat), p));
+            .subscribe(p => this.validateChat(chat, p));
     }
 
     validateChat(chat: ChatDto, isConnected: boolean): void {

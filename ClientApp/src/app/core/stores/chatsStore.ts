@@ -8,11 +8,11 @@ export class ChatsStore {
     @observable selectedChat: ChatDto;
     
     @computed get chat(): ChatDto {
-        return this.selectedChat;
+        return toJS(this.selectedChat);
     }
 
     @computed get allChats(): ChatDto[]{
-        return this.chats;
+        return toJS(this.chats);
     }
 
     @computed get selectedChatId(): number{
