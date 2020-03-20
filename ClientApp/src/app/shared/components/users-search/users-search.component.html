@@ -8,6 +8,7 @@
     <ul class="search-result">
       <li *ngFor="let user of usersStore.AllUsers">
         <span> {{user.Nickname}} </span>
+        <button (click)="addUser(user)">Add</button>
       </li>
     </ul>
   </div>
