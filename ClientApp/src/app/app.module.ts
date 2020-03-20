@@ -26,6 +26,8 @@ import { SignalrService } from './core/signalR/SignalR.service';
 import { CreateChatComponent } from './modules/chat/pages/create-chat/create-chat.component';
 import { ChatsStore } from './core/stores/chatsStore';
 import { MessagesStore } from './core/stores/MessagesStore';
+import { UsersSearchComponent } from './shared/components/users-search/users-search.component';
+import { UsersStore } from './core/stores/UsersStore';
 
 let config = new AuthServiceConfig([
   {
@@ -48,7 +50,8 @@ export function provideConfig() {
     AlertComponent,
     RegisterComponent,
     ChatDetailComponent,
-    CreateChatComponent
+    CreateChatComponent,
+    UsersSearchComponent
   ],
   imports: [
     BrowserModule,
@@ -66,6 +69,7 @@ export function provideConfig() {
     SignalrService,
     ChatsStore,
     MessagesStore,
+    UsersStore,
     AuthenticationService,
     AlertService,
     AuthGuard,

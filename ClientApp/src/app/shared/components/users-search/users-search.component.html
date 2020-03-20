@@ -1,0 +1,11 @@
+<div id="container">
+    <h4>Users</h4>
+  
+    <input #searchBox (input)="search(searchBox.value)" />
+    
+    <ul class="search-result">
+      <li *ngFor="let user of usersStore.AllUsers">
+        <span><img src="{{user.Picture}}" alt="Image"> {{user.Nickname}} </span>
+      </li>
+    </ul>
+  </div>

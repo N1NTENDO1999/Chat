@@ -3,15 +3,23 @@ import { Injectable } from '@angular/core';
 import { UserDto } from '../api/models';
 
 @Injectable()
-export class UsersStore{
+export class UsersStore {
     @observable Users: UserDto[] = [];
-    @observable ChatUsers: UserDto[] = [];
+    // @observable ChatUsers: UserDto[] = [];
 
-    @computed get AllUsers(): UserDto[]{
+    @computed get AllUsers(): UserDto[] {
         return toJS(this.Users);
     }
 
-    @action setUsers(users: UserDto[]){
-        this.Users = [...users.filter(p => this.ChatUsers.findIndex(z => z.Id == p.Id) === -1)];
+    // @action setUsers(users: UserDto[]){
+    //     this.Users = [...users.filter(p => this.ChatUsers.findIndex(z => z.Id == p.Id) === -1)];
+    // }
+
+    @action setUsers(users: UserDto[]) {
+        this.Users = [...users];
+    }
+
+    @action clearUsers() {
+        this.Users = [];
     }
 }
