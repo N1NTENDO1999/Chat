@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { UsersService, ChatsService } from 'src/app/core/api/services';
 import { UsersStore } from 'src/app/core/stores/UsersStore';
@@ -13,7 +13,7 @@ import { SignalrService } from 'src/app/core/signalR/SignalR.service';
     templateUrl: './users-search.component.html',
     styleUrls: ['./users-search.component.css']
 })
-export class UsersSearchComponent implements OnInit {
+export class UsersSearchComponent implements OnInit, OnDestroy {
 
     constructor(
         private router: Router,
@@ -25,6 +25,9 @@ export class UsersSearchComponent implements OnInit {
         private alertService: AlertService,
         private signalRService: SignalrService
     ) {
+    }
+    ngOnDestroy(): void {
+        this.usersStore.clearUsers();
     }
 
     search(term: string): void {
