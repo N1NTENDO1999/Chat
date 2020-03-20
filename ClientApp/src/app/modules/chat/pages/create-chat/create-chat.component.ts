@@ -6,6 +6,8 @@ import { AlertService } from 'src/app/core/services/Alert.service';
 import { first } from 'rxjs/operators';
 import { ChatsService } from 'src/app/core/api/services';
 import { SignalrService } from 'src/app/core/signalR/SignalR.service';
+import { ChatDto } from 'src/app/core/api/models';
+import { ChatsStore } from 'src/app/core/stores/chatsStore';
 
 @Component({
     selector: 'create-chat-component',
@@ -26,7 +28,8 @@ export class CreateChatComponent implements OnInit {
         private authService: AuthenticationService,
         private chatService: ChatsService,
         private alertService: AlertService,
-        private signalRService: SignalrService
+        private signalRService: SignalrService,
+        private chatsStore: ChatsStore
     ) { }
 
     get f() { return this.createForm.controls; }
@@ -36,9 +39,6 @@ export class CreateChatComponent implements OnInit {
             name: ['', Validators.required],
             isPrivate: new FormControl(false)
         });
-
-        // get return url from route parameters or default to '/'
-       // this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
     }
 
     onSubmit() {
@@ -57,7 +57,8 @@ export class CreateChatComponent implements OnInit {
             .pipe(first())
             .subscribe(
                 data => {
-                    this.signalRService.AddUserToChat(data.Id, this.authService.currentUserValue.Id);
+                    this.signalRService.AddUserToChat(data.Chat.Id, this.authService.currentUserValue.Id);
+                    this.chatsStore.addSelectedChat(data.Chat);
                     this.router.navigate(["/"]);
                 },
                 error => {

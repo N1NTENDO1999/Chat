@@ -6,6 +6,7 @@ import { first, map } from 'rxjs/operators';
 import { AuthenticationService } from 'src/app/core/services/Authentication.service';
 import { SignalrService } from 'src/app/core/signalR/SignalR.service';
 import { AlertService } from 'src/app/core/services/Alert.service';
+import { ChatsStore } from 'src/app/core/stores/chatsStore';
 
 @Component({
     selector: 'chats-search-result-component',
@@ -15,14 +16,13 @@ import { AlertService } from 'src/app/core/services/Alert.service';
 export class ChatsSearchResultComponent implements OnInit {
     public allChats: ChatDto[] = [];
 
-    @Output() chat = new EventEmitter<ChatDto>();
-
     constructor(
         private chatService: ChatsService,
         private userService: UsersService,
         private authService: AuthenticationService,
         public signalRService: SignalrService,
-        private alertService: AlertService
+        private alertService: AlertService,
+        public chatsStore: ChatsStore
     ) { }
 
     getChat(chat: ChatDto) {
@@ -33,37 +33,36 @@ export class ChatsSearchResultComponent implements OnInit {
 
     validateChat(chat: ChatDto, isConnected: boolean): void {
         if (isConnected) {
-            this.chat.emit(chat);
+            this.chatsStore.selectChat(chat.Id);
         }
-        else{
+        else {
             let result = window.confirm("Connect to chat?");
-            if (result){
-                this.signalRService.AddUserToChat(chat.Id, this.authService.currentUserValue.Id);
-                this.chat.emit(chat);
+            if (!result) {
+                this.alertService.error("Cant connect to chat: " + chat.Name);
                 return;
             }
-            this.alertService.error("Cant connect to chat: " + chat.Name);
+            this.signalRService.AddUserToChat(chat.Id, this.authService.currentUserValue.Id);
+            this.chatsStore.selectChat(chat.Id);
         }
-
+        this.signalRService.GetChatMessages(chat.Id);
     }
 
     search(term: string): void {
         if (!term.trim()) {
             this.userService.apiUsersUserIdChatsGet$Json({ id: this.authService.currentUserValue.Id }).subscribe(p => {
-                this.allChats = p.Chats;
+                this.chatsStore.setChats(p.Chats);
             });
         }
         else {
             this.chatService.apiChatsChatNameGet$Json({ name: term }).subscribe(p => {
-                this.allChats = p.Chats;
+                this.chatsStore.setChats(p.Chats);
             });
         }
     }
 
     ngOnInit() {
         this.userService.apiUsersUserIdChatsGet$Json({ id: this.authService.currentUserValue.Id }).subscribe(p => {
-            this.allChats = p.Chats;
-            console.log(p.Chats);
+            this.chatsStore.setChats(p.Chats);
         });
     }
 }
