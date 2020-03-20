@@ -1,4 +1,4 @@
-import { observable, computed, action } from "mobx";
+import { observable, computed, action, toJS } from "mobx";
 import { Injectable } from '@angular/core';
 import { ChatDto } from '../api/models';
 
@@ -6,26 +6,26 @@ import { ChatDto } from '../api/models';
 export class ChatsStore {
     @observable chats: ChatDto[] = [];
     @observable selectedChat: ChatDto;
-
-    @computed get chat() {
+    
+    @computed get chat(): ChatDto {
         return this.selectedChat;
     }
 
-    @computed get allChats(){
+    @computed get allChats(): ChatDto[]{
         return this.chats;
     }
 
-    @computed get selectedChatId(){
+    @computed get selectedChatId(): number{
         return this.selectedChat.Id;
     }
 
     @action setChats(chats: ChatDto[]) {
-        console.log(chats);
         this.chats = chats;
     }
 
-    @action selectChat(chat: ChatDto) {
-        this.selectedChat = chat;
+    @action selectChat(chatId: number) {
+        console.log(toJS(this.chats.find(p => p.Id == chatId )));
+        this.selectedChat = this.chats.find(p => p.Id == chatId );
     }
 
     @action clearSelected(){

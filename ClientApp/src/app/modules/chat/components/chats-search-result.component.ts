@@ -7,6 +7,7 @@ import { AuthenticationService } from 'src/app/core/services/Authentication.serv
 import { SignalrService } from 'src/app/core/signalR/SignalR.service';
 import { AlertService } from 'src/app/core/services/Alert.service';
 import { ChatsStore } from 'src/app/core/stores/chatsStore';
+import { toJS } from 'mobx';
 
 @Component({
     selector: 'chats-search-result-component',
@@ -16,7 +17,7 @@ import { ChatsStore } from 'src/app/core/stores/chatsStore';
 export class ChatsSearchResultComponent implements OnInit {
     public allChats: ChatDto[] = [];
 
-    @Output() chat = new EventEmitter<ChatDto>();
+    //@Output() chat = new EventEmitter<ChatDto>();
 
     constructor(
         private chatService: ChatsService,
@@ -24,24 +25,27 @@ export class ChatsSearchResultComponent implements OnInit {
         private authService: AuthenticationService,
         public signalRService: SignalrService,
         private alertService: AlertService,
-        private chatsStore: ChatsStore
+        public chatsStore: ChatsStore
     ) { }
 
     getChat(chat: ChatDto) {
+        console.log(toJS(chat));
         this.chatService
             .apiChatsChatChatIdUserUserIdGet$Json({ userId: this.authService.currentUserValue.Id, chatId: chat.Id })
-            .subscribe(p => this.validateChat(chat, p));
+            .subscribe(p => this.validateChat(toJS(chat), p));
     }
 
     validateChat(chat: ChatDto, isConnected: boolean): void {
         if (isConnected) {
-            this.chat.emit(chat);
+            this.chatsStore.selectChat(chat.Id);
+            this.signalRService.GetChatMessages(chat.Id);
+            //this.chat.emit(chat);
         }
         else{
             let result = window.confirm("Connect to chat?");
             if (result){
                 this.signalRService.AddUserToChat(chat.Id, this.authService.currentUserValue.Id);
-                this.chat.emit(chat);
+                //this.chat.emit(chat);
                 return;
             }
             this.alertService.error("Cant connect to chat: " + chat.Name);
@@ -65,7 +69,7 @@ export class ChatsSearchResultComponent implements OnInit {
     ngOnInit() {
         this.userService.apiUsersUserIdChatsGet$Json({ id: this.authService.currentUserValue.Id }).subscribe(p => {
             this.chatsStore.setChats(p.Chats);
-            this.allChats = p.Chats;
+           // this.allChats = p.Chats;
         });
     }
 }

@@ -8,45 +8,42 @@ import { SignalrService } from 'src/app/core/signalR/SignalR.service';
 import { User } from 'src/app/core/models/User';
 import { AuthenticationService } from 'src/app/core/services/Authentication.service';
 import { FormBuilder, FormControl, Validators, FormGroup } from '@angular/forms';
+import { ChatsStore } from 'src/app/core/stores/chatsStore';
+import { toJS } from 'mobx';
+
 
 @Component({
     selector: 'chat-detail-component',
     templateUrl: './chat-detail.component.html',
     styleUrls: ['./chat-detail.component.css']
 })
-export class ChatDetailComponent implements OnInit, OnChanges, OnDestroy {
-    @Input() chat: ChatDto;
-    messageForm: FormGroup;
 
+export class ChatDetailComponent implements OnInit, OnDestroy {
+   // @Input() chat: ChatDto;
+    messageForm: FormGroup;
+    
     constructor(
         private route: ActivatedRoute,
         private chatService: ChatsService,
         private location: Location,
         public signalRService: SignalrService,
         private authService: AuthenticationService,
-        private formBuilder: FormBuilder
+        private formBuilder: FormBuilder,
+        public chatsStore: ChatsStore
     ) {
 
     }
     ngOnDestroy(): void {
-        this.chat = null;
+        console.log("Destroy");
+        //this.chat = null;
         this.signalRService.chatMessages = [];
     }
-    ngOnChanges(changes: SimpleChanges): void {
-        if (this.chat) {
-            this.signalRService.GetChatMessages(this.chat.Id);
-        }
+    
+
+    ngOnInit() {
         this.messageForm = new FormGroup({
             message: new FormControl('', [Validators.required])
         });
-    }
-
-    ngOnInit() {
-        if (!this.signalRService.isConnected()) {
-            let user: User = this.authService.currentUserValue;
-            this.signalRService.startConnection(user.Id);
-            this.signalRService.addDataListeners();
-        }
     }
 
     onSubmit() {
@@ -55,7 +52,7 @@ export class ChatDetailComponent implements OnInit, OnChanges, OnDestroy {
             return;
         }
         let user: User = this.authService.currentUserValue;
-        this.signalRService.AddChatMessages(this.chat.Id, user.Id, this.messageForm.controls.message.value);
+        this.signalRService.AddChatMessages(this.chatsStore.selectedChatId, user.Id, this.messageForm.controls.message.value);
         this.messageForm.controls.message.setValue(null);
 
     }
