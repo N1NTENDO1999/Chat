@@ -37,7 +37,7 @@ namespace ChatWebApi.Application.Users.Queries
 			if (string.IsNullOrWhiteSpace(request.Nickname)) 
 				throw new ArgumentNullException("Nickname is empty", nameof(request));
 
-			var users = await _db.Users.Where(p => p.Nickname == request.Nickname)
+			var users = await _db.Users.Where(p => p.Nickname.Contains(request.Nickname, StringComparison.InvariantCultureIgnoreCase))
 				.Select(p => _mapper.Map<UserDTO>(p))
 				.ToListAsync();
 
