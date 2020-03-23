@@ -52,6 +52,7 @@ export class SignalrService {
     }
 
     private addMessage(message: MessageDto) {
+        console.log(message);
         this.messagesStore.addMessage(message);
     }
 
