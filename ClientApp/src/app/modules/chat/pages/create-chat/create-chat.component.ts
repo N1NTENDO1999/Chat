@@ -8,6 +8,7 @@ import { ChatsService } from 'src/app/core/api/services';
 import { SignalrService } from 'src/app/core/signalR/SignalR.service';
 import { ChatDto } from 'src/app/core/api/models';
 import { ChatsStore } from 'src/app/core/stores/chatsStore';
+import { MessagesStore } from 'src/app/core/stores/MessagesStore';
 
 @Component({
     selector: 'create-chat-component',
@@ -29,7 +30,8 @@ export class CreateChatComponent implements OnInit {
         private chatService: ChatsService,
         private alertService: AlertService,
         private signalRService: SignalrService,
-        private chatsStore: ChatsStore
+        private chatsStore: ChatsStore,
+        private messageStore: MessagesStore
     ) { }
 
     get f() { return this.createForm.controls; }
@@ -59,6 +61,7 @@ export class CreateChatComponent implements OnInit {
                 data => {
                     this.signalRService.AddUserToChat(data.Chat.Id, this.authService.currentUserValue.Id);
                     this.chatsStore.addSelectedChat(data.Chat);
+                    this.messageStore.clearMessages();
                     this.router.navigate(["/"]);
                 },
                 error => {
