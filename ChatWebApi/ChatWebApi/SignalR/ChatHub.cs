@@ -27,10 +27,20 @@ namespace ChatWebApi.SignalR
 			var httpContext = Context.GetHttpContext();
 			var userId = Convert.ToInt32(httpContext.Request.Query["UserId"]);
 			var chats = await _mediator.Send(new GetUserChatsQuery { Id = userId });
+			var usersId = await _mediator.Send(new GetAllUsersIdQuery());
+
+			foreach (var user in usersId)
+			{
+				var min = Math.Min(user, userId).ToString();
+				var max = Math.Max(user, userId).ToString();
+				await Groups.AddToGroupAsync(Context.ConnectionId, min + "+" + max);
+			}
+
 			foreach (var chat in chats.Chats)
 			{
 			    await Groups.AddToGroupAsync(Context.ConnectionId, chat.Id.ToString());
 			}
+
 			await base.OnConnectedAsync();
 		}
 
