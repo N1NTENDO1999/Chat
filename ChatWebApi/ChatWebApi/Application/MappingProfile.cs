@@ -40,9 +40,9 @@ namespace ChatWebApi.Application
                 .ReverseMap();
 
             CreateMap<User, ChatDTO>()
-                .ForMember(p => p.IsPersonal, opt => opt.AddTransform((x) => true))
-                .ForMember(p => p.IsPrivate, opt => opt.AddTransform((x) => true))
-                .ForMember(p => p.Name, opt => opt.MapFrom(src => src.FirstName + src.LastName))
+                .ForMember(p => p.IsPersonal, opt => opt.MapFrom(src => true))
+                .ForMember(p => p.IsPrivate, opt => opt.MapFrom(src => true))
+                .ForMember(p => p.Name, opt => opt.MapFrom(src => src.Nickname))
                 .ReverseMap();
         }
     }

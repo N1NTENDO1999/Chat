@@ -48,11 +48,17 @@ namespace ChatWebApi.Application.Chats.Queries
 
 			var chats = await _db.Chats
 				.Where(p => p.Name.Contains(request.Name, StringComparison.InvariantCultureIgnoreCase) & !p.IsPrivate)
+				.Select(p => _mapper.Map<ChatDTO>(p))
 				.ToListAsync();
 
-			var chatsDto = _mapper.Map<List<ChatDTO>>(chats);
+			var users = await _db.Users
+				.Where(p => p.Nickname.Contains(request.Name, StringComparison.InvariantCultureIgnoreCase))
+				.Select(p => _mapper.Map<ChatDTO>(p))
+				.ToListAsync();
 
-			return new FindChatsByNameResult(chatsDto);
+			var result = chats.Union(users);
+
+			return new FindChatsByNameResult(result);
 		}
 	}
 }

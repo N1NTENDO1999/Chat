@@ -26,7 +26,10 @@ export class ChatsSearchResultComponent implements OnInit {
     ) { }
 
     getChat(chat: ChatDto) {
-        console.log(chat);
+        if(chat.IsPersonal){
+            console.log(chat);
+            return; 
+        }
         this.chatService
             .apiChatsChatChatIdUserUserIdGet$Json({ userId: this.authService.currentUserValue.Id, chatId: chat.Id })
             .subscribe(p => this.validateChat(chat, p));
