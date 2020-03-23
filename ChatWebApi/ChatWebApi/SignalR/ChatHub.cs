@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using ChatWebApi.Application.Messages.Commands;
 using ChatWebApi.Application.Messages.Queries;
+using ChatWebApi.Application.PersonalMessages.Commands;
 using ChatWebApi.Application.PersonalMessages.Queries;
 using ChatWebApi.Application.UserChats.Commands;
 using ChatWebApi.Application.Users.Queries;
@@ -31,9 +32,8 @@ namespace ChatWebApi.SignalR
 
 			foreach (var user in usersId)
 			{
-				var min = Math.Min(user, userId).ToString();
-				var max = Math.Max(user, userId).ToString();
-				await Groups.AddToGroupAsync(Context.ConnectionId, min + "+" + max);
+				var connectionString = twoUsersConnectionString(user, userId);
+				await Groups.AddToGroupAsync(Context.ConnectionId, connectionString);
 			}
 
 			foreach (var chat in chats.Chats)
@@ -44,11 +44,26 @@ namespace ChatWebApi.SignalR
 			await base.OnConnectedAsync();
 		}
 
+		private string twoUsersConnectionString(int sender, int receiver)
+		{
+			var min = Math.Min(sender, receiver).ToString();
+			var max = Math.Max(sender, receiver).ToString();
+			return min + "+" + max;
+		}
+
 		public override async Task OnDisconnectedAsync(Exception exception)
 		{
 			var httpContext = Context.GetHttpContext();
 			var userId = Convert.ToInt32(httpContext.Request.Query["UserId"]);
 			var chats = await _mediator.Send(new GetUserChatsQuery { Id = userId });
+			var usersId = await _mediator.Send(new GetAllUsersIdQuery());
+
+			foreach (var user in usersId)
+			{
+				var connectionString = twoUsersConnectionString(user, userId);
+				await Groups.RemoveFromGroupAsync(Context.ConnectionId, connectionString);
+			}
+
 			foreach (var chat in chats.Chats)
 			{
 			    await Groups.RemoveFromGroupAsync(Context.ConnectionId, chat.Id.ToString());
@@ -61,6 +76,15 @@ namespace ChatWebApi.SignalR
 			var result = await _mediator.Send(new SendMessageCommand { ChatId = chatId, SenderId = userId, Text = message });
 			var messageResult = await _mediator.Send(new GetChatMessageByIdQuery { Id = result.Id });
 			await Clients.Groups(chatId.ToString()).SendAsync("UpdateChatMessages", messageResult.Message);
+		}
+
+		public async Task SendPersonalMessage(int senderId, int receiverId, string message)
+		{
+			var result = await _mediator
+				.Send(new SendPersonalMessageCommand { SenderId = senderId, ReceiverId = receiverId, Text = message });
+			var personalResult = await _mediator.Send(new GetPersonalMessageByIdQuery { Id = result.Id });
+			var connectedString = twoUsersConnectionString(senderId, receiverId);
+			await Clients.Groups(connectedString).SendAsync("UpdateChatMessages", personalResult.Message);
 		}
 
 		public async Task GetChatMessages(int chatId)
