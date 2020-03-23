@@ -8,8 +8,7 @@ import { MessagesStore } from '../stores/MessagesStore';
 export class SignalrService {
 
     private hubConnection: signalR.HubConnection
-    //chatMessages: MessageDto[] = [];
-
+   
     constructor(
         private alertService: AlertService,
         private messagesStore: MessagesStore

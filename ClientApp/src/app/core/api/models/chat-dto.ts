@@ -4,5 +4,6 @@ export interface ChatDto {
   Id?: number;
   IsPrivate?: boolean;
   Name?: null | string;
+  OwnerId?: number;
   Picture?: null | string;
 }

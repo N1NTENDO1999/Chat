@@ -1,0 +1,14 @@
+<div id="container">
+    <h4>Users</h4>
+  
+    <input #searchBox (input)="search(searchBox.value)" />
+    
+    <button class="btn btn-primary" (click)="goBack()">Back</button>
+
+    <ul class="search-result">
+      <li *ngFor="let user of usersStore.AllUsers">
+        <span> {{user.Nickname}} </span>
+        <button (click)="addUser(user)">Add</button>
+      </li>
+    </ul>
+  </div>

@@ -19,20 +19,25 @@ import { MessagesStore } from 'src/app/core/stores/MessagesStore';
 })
 
 export class ChatDetailComponent implements OnInit {
-   // @Input() chat: ChatDto;
     messageForm: FormGroup;
     
     constructor(
         public signalRService: SignalrService,
         private authService: AuthenticationService,
         public chatsStore: ChatsStore,
-        public messagesStore: MessagesStore
+        public messagesStore: MessagesStore,
+        private authenticationService: AuthenticationService
     ) { }
   
     ngOnInit() {
         this.messageForm = new FormGroup({
             message: new FormControl('', [Validators.required])
         });
+    }
+    
+    isOwner(): boolean{
+        const currentUser = this.authenticationService.currentUserValue;
+        return this.chatsStore.chat.OwnerId == currentUser.Id || !this.chatsStore.chat.IsPrivate;
     }
 
     onSubmit() {
