@@ -28,6 +28,8 @@ export class ChatsSearchResultComponent implements OnInit {
     getChat(chat: ChatDto) {
         if(chat.IsPersonal){
             console.log(chat);
+            this.chatsStore.addSelectedChat(chat);
+            this.signalRService.GetPersonalMessages(chat.Id);
             return; 
         }
         this.chatService

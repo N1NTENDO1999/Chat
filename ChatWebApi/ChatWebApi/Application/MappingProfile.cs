@@ -27,7 +27,7 @@ namespace ChatWebApi.Application
             CreateMap<Message, MessageDTO>()
                 .ReverseMap();
 
-            CreateMap<PersonalMessage, PersonalMessageDTO>()
+            CreateMap<PersonalMessage, MessageDTO>()
                 .ReverseMap();
 
             CreateMap<ScheduledMessage, ScheduledMessageDTO>()

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using ChatWebApi.Application.Messages.Commands;
 using ChatWebApi.Application.Messages.Queries;
+using ChatWebApi.Application.PersonalMessages.Queries;
 using ChatWebApi.Application.UserChats.Commands;
 using ChatWebApi.Application.Users.Queries;
 using MediatR;
@@ -56,6 +57,11 @@ namespace ChatWebApi.SignalR
 		{
 			var result = await _mediator.Send(new GetChatMessagesQuery { ChatId = chatId });
 			await Clients.Caller.SendAsync("GetChatMessages", chatId, result.Messages);
+		}
+		public async Task GetPersonalMessages(int senderId, int userId)
+		{
+			var result = await _mediator.Send(new GetUserPersonalMessagesQuery { SenderId = senderId, ReceiverId = userId });
+			await Clients.Caller.SendAsync("GetChatMessages", senderId, result.Messages);
 		}
 
 		public async Task AddUserToChat(int userId, int chatId) 

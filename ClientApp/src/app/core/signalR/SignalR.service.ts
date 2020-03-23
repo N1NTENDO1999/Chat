@@ -3,16 +3,25 @@ import * as signalR from "@aspnet/signalr";
 import { MessageDto } from '../models/MessageDto';
 import { AlertService } from '../services/Alert.service';
 import { MessagesStore } from '../stores/MessagesStore';
+import { User } from '../models/User';
 
 @Injectable()
 export class SignalrService {
 
     private hubConnection: signalR.HubConnection
-   
+
     constructor(
         private alertService: AlertService,
         private messagesStore: MessagesStore
     ) { }
+
+    public GetPersonalMessages(id: number) {
+        let currentUser: User = JSON.parse(localStorage.getItem('currentUser'));
+        this.hubConnection.invoke("GetPersonalMessages", id, currentUser.Id)
+            .then(() => console.log('GetPersonalMEssages'))
+            .catch(err => console.log('Error while starting connection: ' + err));
+        return;
+    }
 
     public GetChatMessages(id: number) {
         this.hubConnection.invoke("GetChatMessages", id)
@@ -32,6 +41,7 @@ export class SignalrService {
             .catch(err => console.log("Error when Add User To Chat: " + err));
     }
     private updateMessages(id: number, messages: MessageDto[]) {
+        console.log(messages);
         this.messagesStore.setMessages(messages);
     }
 
@@ -56,14 +66,14 @@ export class SignalrService {
             });
     }
 
-    public isConnected(): boolean{
-        if(this.hubConnection === undefined){
+    public isConnected(): boolean {
+        if (this.hubConnection === undefined) {
             return false;
         }
-        else if(this.hubConnection.state){
+        else if (this.hubConnection.state) {
             return true;
         }
-        else{
+        else {
             return false;
         }
     }
@@ -86,5 +96,6 @@ export class SignalrService {
     public addDataListeners(): void {
         this.hubConnection.on("GetChatMessages", (id, message) => this.updateMessages(id, message));
         this.hubConnection.on("UpdateChatMessages", (message) => this.addMessage(message));
+        this.hubConnection.on("GetPersonalMessages", (id, message) => this.updateMessages(id, message));
     }
 }
