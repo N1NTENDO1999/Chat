@@ -38,6 +38,12 @@ namespace ChatWebApi.Application
 
             CreateMap<User, EditUserProfileCommand>()
                 .ReverseMap();
+
+            CreateMap<User, ChatDTO>()
+                .ForMember(p => p.IsPersonal, opt => opt.AddTransform((x) => true))
+                .ForMember(p => p.IsPrivate, opt => opt.AddTransform((x) => true))
+                .ForMember(p => p.Name, opt => opt.MapFrom(src => src.FirstName + src.LastName))
+                .ReverseMap();
         }
     }
 }

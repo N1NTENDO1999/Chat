@@ -14,5 +14,6 @@ namespace ChatWebApi.Application.Chats.ChatDTOs
 		public DateTime DateCreated { get; set; }
 		public bool IsPrivate { get; set; }
 		public int OwnerId { get; set; }
+		public bool IsPersonal { get; set; }
 	}
 }
