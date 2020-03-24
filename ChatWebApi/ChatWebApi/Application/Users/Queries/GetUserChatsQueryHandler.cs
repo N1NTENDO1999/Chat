@@ -37,27 +37,27 @@ namespace ChatWebApi.Application.Users.Queries
 			var user = await _db.Users
 				.Include(p => p.UserChats)
 				.ThenInclude(p => p.Chat)
-				//.Include(p => p.PersonalMessagesReceived)
-				//.ThenInclude(p => p.Sender)
-				//.Include(p => p.PersonalMessagesSent)
-				//.ThenInclude(p => p.Receiver)
+				.Include(p => p.PersonalMessagesReceived)
+				.ThenInclude(p => p.Sender)
+				.Include(p => p.PersonalMessagesSent)
+				.ThenInclude(p => p.Receiver)
 				.FirstAsync(p => p.Id == request.Id);
 
 			var chats = user.UserChats.Select(p => _mapper.Map<ChatDTO>(p.Chat)).ToList();
 
-			//var userChatsRec = user.PersonalMessagesReceived
-			//	.GroupBy(p => p.SenderId)
-			//	.Select(p => _mapper.Map<ChatDTO>(p.First().Sender));
+			var userChatsRec = user.PersonalMessagesReceived
+				.GroupBy(p => p.SenderId)
+				.Select(p => _mapper.Map<ChatDTO>(p.First().Sender));
 
-			//var userChatsSent = user.PersonalMessagesSent
-			//	.GroupBy(p => p.ReceiverId)
-			//	.Select(p => _mapper.Map<ChatDTO>(p.First().Receiver));
+			var userChatsSent = user.PersonalMessagesSent
+				.GroupBy(p => p.ReceiverId)
+				.Select(p => _mapper.Map<ChatDTO>(p.First().Receiver));
 
-			//var userChats = userChatsRec.Union(userChatsSent, new ChatDTOEqualityComparer()).ToList();
+			var userChats = userChatsRec.Union(userChatsSent, new ChatDTOEqualityComparer()).ToList();
 
-			//var result = chats.Union(userChats).ToList();
+			var result = chats.Union(userChats).ToList();
 
-			return new GetUserChatsQueryResult { Chats = chats };
+			return new GetUserChatsQueryResult { Chats = result};
 		}
 	}
 }
