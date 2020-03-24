@@ -26,8 +26,8 @@ export class ChatsSearchResultComponent implements OnInit {
     ) { }
 
     getChat(chat: ChatDto) {
+        console.log(chat);
         if(chat.IsPersonal){
-            console.log(chat);
             this.chatsStore.addSelectedChat(chat);
             this.signalRService.GetPersonalMessages(chat.Id);
             return; 

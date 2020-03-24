@@ -4,6 +4,7 @@ import { AuthenticationService } from '../services/Authentication.service';
 import { Router } from '@angular/router';
 import { ChatsStore } from '../stores/chatsStore';
 import { MessagesStore } from '../stores/MessagesStore';
+import { SignalrService } from '../signalR/SignalR.service';
 
 @Component({
     selector: 'header-component',
@@ -18,7 +19,8 @@ export class HeaderComponent implements OnInit {
         private router: Router,
         private authenticationService: AuthenticationService,
         private chatsStore: ChatsStore,
-        private messagesStore: MessagesStore
+        private messagesStore: MessagesStore,
+        private signalRService: SignalrService
     ) {}
 
     logout() {
@@ -26,6 +28,7 @@ export class HeaderComponent implements OnInit {
         this.messagesStore.clearMessages();
         this.chatsStore.clearchats();
         this.chatsStore.clearSelected();
+        this.signalRService.disconnect();
         this.router.navigate(['/login']);
     }
 

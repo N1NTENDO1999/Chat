@@ -61,7 +61,7 @@ export class SignalrService {
             .withUrl(`https://localhost:44312/chatHub?UserId=${id}`)
             .build();
 
-        this.hubConnection.onclose(() => setTimeout(() => { this.ConnectAgain(); }, 5000));
+        //this.hubConnection.onclose(() => setTimeout(() => { this.ConnectAgain(); }, 5000));
 
         this.hubConnection
             .start()
@@ -71,6 +71,11 @@ export class SignalrService {
                 this.alertService.error("Cant Connect to server!");
                 setTimeout(() => { this.ConnectAgain(); }, 5000)
             });
+    }
+
+    public disconnect() {
+        this.hubConnection.stop()
+        console.log("Stoped connection");
     }
 
     public isConnected(): boolean {
