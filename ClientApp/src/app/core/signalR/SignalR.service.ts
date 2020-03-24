@@ -48,6 +48,11 @@ export class SignalrService {
             .then(_ => console.log("Add User To Chat"))
             .catch(err => console.log("Error when Add User To Chat: " + err));
     }
+
+    public SendScheduledMessage(senderId: number, receiverId: number, text: string, isPersonal: boolean, delivery = new Date() ){
+
+    }
+
     private updateMessages(id: number, messages: MessageDto[]) {
         console.log(messages);
         this.messagesStore.setMessages(messages);

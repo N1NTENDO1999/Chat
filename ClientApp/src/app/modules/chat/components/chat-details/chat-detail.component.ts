@@ -40,6 +40,23 @@ export class ChatDetailComponent implements OnInit {
         return this.chatsStore.chat.OwnerId == currentUser.Id || !this.chatsStore.chat.IsPrivate;
     }
 
+    sendAsSchedule(){
+        if(this.messageForm.invalid){
+            return;
+        }
+        let user: User = this.authService.currentUserValue;
+
+        if (this.chatsStore.selectedChat.IsPersonal) {
+            this.signalRService
+                .AddPersonalMessages(user.Id, this.chatsStore.selectedChatId, this.messageForm.controls.message.value);
+        }
+        else {
+            this.signalRService.AddChatMessages(this.chatsStore.selectedChatId, user.Id, this.messageForm.controls.message.value);
+        }
+        this.messageForm.controls.message.setValue(null);
+
+    }
+
     onSubmit() {
         // stop here if form is invalid
         if (this.messageForm.invalid) {
