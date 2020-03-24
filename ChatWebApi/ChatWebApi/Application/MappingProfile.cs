@@ -7,6 +7,7 @@ using ChatWebApi.Application.Chats.ChatDTOs;
 using ChatWebApi.Application.Chats.Commands;
 using ChatWebApi.Application.Messages.MessageDTOs;
 using ChatWebApi.Application.PersonalMessages.PersonalMessageDTOs;
+using ChatWebApi.Application.ScheduledMessages.Commands;
 using ChatWebApi.Application.ScheduledMessages.ScheduledMessagesDTOs;
 using ChatWebApi.Application.Users.Commands;
 using ChatWebApi.Application.Users.Queries.UserDTOs;
@@ -37,6 +38,9 @@ namespace ChatWebApi.Application
                 .ReverseMap();
 
             CreateMap<User, EditUserProfileCommand>()
+                .ReverseMap();
+
+            CreateMap<ScheduledMessage, AddScheduledMessageCommand>()
                 .ReverseMap();
 
             CreateMap<User, ChatDTO>()
