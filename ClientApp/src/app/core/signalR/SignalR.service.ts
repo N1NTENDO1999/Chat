@@ -4,6 +4,7 @@ import { MessageDto } from '../models/MessageDto';
 import { AlertService } from '../services/Alert.service';
 import { MessagesStore } from '../stores/MessagesStore';
 import { User } from '../models/User';
+import { AuthenticationService } from '../services/Authentication.service';
 
 @Injectable()
 export class SignalrService {
@@ -12,7 +13,8 @@ export class SignalrService {
 
     constructor(
         private alertService: AlertService,
-        private messagesStore: MessagesStore
+        private messagesStore: MessagesStore,
+        private authService: AuthenticationService
     ) { }
 
     public GetPersonalMessages(id: number) {
@@ -61,7 +63,7 @@ export class SignalrService {
             .withUrl(`https://localhost:44312/chatHub?UserId=${id}`)
             .build();
 
-        //this.hubConnection.onclose(() => setTimeout(() => { this.ConnectAgain(); }, 5000));
+        this.hubConnection.onclose(() => setTimeout(() => { this.ConnectAgain(); }, 5000));
 
         this.hubConnection
             .start()
@@ -94,12 +96,13 @@ export class SignalrService {
         if (this.hubConnection.state) {
             return;
         }
-        this.alertService.error("Lost Connetction with server!", true);
-        //       this.hubConnection.stop();
-        this.hubConnection.start().then(() => {
-            console.log('Connection started');
-            this.alertService.success("Connected!");
-        });
+        if (this.authService.currentUserValue) {
+            this.alertService.error("Lost Connetction with server!", true);
+            this.hubConnection.start().then(() => {
+                console.log('Connection started');
+                this.alertService.success("Connected!");
+            });
+        }
         console.log(this.hubConnection.state);
         if (!this.hubConnection.state) {
             setTimeout(() => { this.ConnectAgain(); }, 5000);
