@@ -27,7 +27,7 @@ namespace ChatWebApi.Application
             CreateMap<Message, MessageDTO>()
                 .ReverseMap();
 
-            CreateMap<PersonalMessage, PersonalMessageDTO>()
+            CreateMap<PersonalMessage, MessageDTO>()
                 .ReverseMap();
 
             CreateMap<ScheduledMessage, ScheduledMessageDTO>()
@@ -37,6 +37,12 @@ namespace ChatWebApi.Application
                 .ReverseMap();
 
             CreateMap<User, EditUserProfileCommand>()
+                .ReverseMap();
+
+            CreateMap<User, ChatDTO>()
+                .ForMember(p => p.IsPersonal, opt => opt.MapFrom(src => true))
+                .ForMember(p => p.IsPrivate, opt => opt.MapFrom(src => true))
+                .ForMember(p => p.Name, opt => opt.MapFrom(src => src.Nickname))
                 .ReverseMap();
         }
     }

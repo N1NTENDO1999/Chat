@@ -27,10 +27,6 @@ export class ChatsStore {
         this.chats = [...this.chats, chat];
     }
 
-    @action selectChat(chatId: number) {
-        this.selectedChat = this.chats.find(p => p.Id == chatId );
-    }
-
     @action addSelectedChat(chat: ChatDto){
         this.selectedChat = chat;
     }

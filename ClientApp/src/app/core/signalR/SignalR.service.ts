@@ -3,20 +3,37 @@ import * as signalR from "@aspnet/signalr";
 import { MessageDto } from '../models/MessageDto';
 import { AlertService } from '../services/Alert.service';
 import { MessagesStore } from '../stores/MessagesStore';
+import { User } from '../models/User';
+import { AuthenticationService } from '../services/Authentication.service';
 
 @Injectable()
 export class SignalrService {
 
     private hubConnection: signalR.HubConnection
-   
+
     constructor(
         private alertService: AlertService,
-        private messagesStore: MessagesStore
+        private messagesStore: MessagesStore,
+        private authService: AuthenticationService
     ) { }
+
+    public GetPersonalMessages(id: number) {
+        let currentUser: User = JSON.parse(localStorage.getItem('currentUser'));
+        this.hubConnection.invoke("GetPersonalMessages", id, currentUser.Id)
+            .then(() => console.log('GetPersonalMEssages'))
+            .catch(err => console.log('Error while starting connection: ' + err));
+        return;
+    }
 
     public GetChatMessages(id: number) {
         this.hubConnection.invoke("GetChatMessages", id)
             .then(() => console.log('GetChatMEssages'))
+            .catch(err => console.log('Error while starting connection: ' + err));
+    }
+
+    public AddPersonalMessages(senderId: number, receiverId: number, message: string) {
+        this.hubConnection.invoke("SendPersonalMessage", senderId, receiverId, message)
+            .then(() => console.log('AddChatMEssages'))
             .catch(err => console.log('Error while starting connection: ' + err));
     }
 
@@ -32,10 +49,12 @@ export class SignalrService {
             .catch(err => console.log("Error when Add User To Chat: " + err));
     }
     private updateMessages(id: number, messages: MessageDto[]) {
+        console.log(messages);
         this.messagesStore.setMessages(messages);
     }
 
     private addMessage(message: MessageDto) {
+        console.log(message);
         this.messagesStore.addMessage(message);
     }
 
@@ -56,14 +75,19 @@ export class SignalrService {
             });
     }
 
-    public isConnected(): boolean{
-        if(this.hubConnection === undefined){
+    public disconnect() {
+        this.hubConnection.stop()
+        console.log("Stoped connection");
+    }
+
+    public isConnected(): boolean {
+        if (this.hubConnection === undefined) {
             return false;
         }
-        else if(this.hubConnection.state){
+        else if (this.hubConnection.state) {
             return true;
         }
-        else{
+        else {
             return false;
         }
     }
@@ -72,12 +96,13 @@ export class SignalrService {
         if (this.hubConnection.state) {
             return;
         }
-        this.alertService.error("Lost Connetction with server!", true);
-        //       this.hubConnection.stop();
-        this.hubConnection.start().then(() => {
-            console.log('Connection started');
-            this.alertService.success("Connected!");
-        });
+        if (this.authService.currentUserValue) {
+            this.alertService.error("Lost Connetction with server!", true);
+            this.hubConnection.start().then(() => {
+                console.log('Connection started');
+                this.alertService.success("Connected!");
+            });
+        }
         console.log(this.hubConnection.state);
         if (!this.hubConnection.state) {
             setTimeout(() => { this.ConnectAgain(); }, 5000);
@@ -86,5 +111,6 @@ export class SignalrService {
     public addDataListeners(): void {
         this.hubConnection.on("GetChatMessages", (id, message) => this.updateMessages(id, message));
         this.hubConnection.on("UpdateChatMessages", (message) => this.addMessage(message));
+        this.hubConnection.on("GetPersonalMessages", (id, message) => this.updateMessages(id, message));
     }
 }

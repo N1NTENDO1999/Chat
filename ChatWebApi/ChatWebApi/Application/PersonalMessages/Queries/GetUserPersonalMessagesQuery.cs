@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
+using ChatWebApi.Application.Messages.MessageDTOs;
 using ChatWebApi.Application.PersonalMessages.PersonalMessageDTOs;
 using ChatWebApi.Infrastructure;
 using MediatR;
@@ -19,7 +20,7 @@ namespace ChatWebApi.Application.PersonalMessages.Queries
 
 	public class GetUserPersonalMessagesQueryResult
 	{
-		public List<PersonalMessageDTO> Messages { get; set; }
+		public List<MessageDTO> Messages { get; set; }
 	}
 
 	public class GetUserPersonalMessagesQueryHandler : IRequestHandler<GetUserPersonalMessagesQuery, GetUserPersonalMessagesQueryResult>
@@ -40,7 +41,7 @@ namespace ChatWebApi.Application.PersonalMessages.Queries
 						(p.SenderId == request.ReceiverId & p.ReceiverId == request.SenderId))
 				.ToListAsync();
 
-			var result = _mapper.Map<List<PersonalMessageDTO>>(messages);
+			var result = _mapper.Map<List<MessageDTO>>(messages);
 
 			return new GetUserPersonalMessagesQueryResult { Messages = result };
 

@@ -27,6 +27,11 @@ export class ChatsSearchResultComponent implements OnInit {
 
     getChat(chat: ChatDto) {
         console.log(chat);
+        if(chat.IsPersonal){
+            this.chatsStore.addSelectedChat(chat);
+            this.signalRService.GetPersonalMessages(chat.Id);
+            return; 
+        }
         this.chatService
             .apiChatsChatChatIdUserUserIdGet$Json({ userId: this.authService.currentUserValue.Id, chatId: chat.Id })
             .subscribe(p => this.validateChat(chat, p));
@@ -34,7 +39,7 @@ export class ChatsSearchResultComponent implements OnInit {
 
     validateChat(chat: ChatDto, isConnected: boolean): void {
         if (isConnected) {
-            this.chatsStore.selectChat(chat.Id);
+            this.chatsStore.addSelectedChat(chat);
         }
         else {
             let result = window.confirm("Connect to chat?");
@@ -43,7 +48,7 @@ export class ChatsSearchResultComponent implements OnInit {
                 return;
             }
             this.signalRService.AddUserToChat(chat.Id, this.authService.currentUserValue.Id);
-            this.chatsStore.selectChat(chat.Id);
+            this.chatsStore.addSelectedChat(chat);
         }
         this.signalRService.GetChatMessages(chat.Id);
     }
@@ -57,6 +62,7 @@ export class ChatsSearchResultComponent implements OnInit {
         else {
             this.chatService.apiChatsChatNameGet$Json({ name: term }).subscribe(p => {
                 this.chatsStore.setChats(p.Chats);
+                console.log(p.Chats);
             });
         }
     }

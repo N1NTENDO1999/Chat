@@ -20,7 +20,7 @@ import { MessagesStore } from 'src/app/core/stores/MessagesStore';
 
 export class ChatDetailComponent implements OnInit {
     messageForm: FormGroup;
-    
+
     constructor(
         public signalRService: SignalrService,
         private authService: AuthenticationService,
@@ -28,14 +28,14 @@ export class ChatDetailComponent implements OnInit {
         public messagesStore: MessagesStore,
         private authenticationService: AuthenticationService
     ) { }
-  
+
     ngOnInit() {
         this.messageForm = new FormGroup({
             message: new FormControl('', [Validators.required])
         });
     }
-    
-    isOwner(): boolean{
+
+    isOwner(): boolean {
         const currentUser = this.authenticationService.currentUserValue;
         return this.chatsStore.chat.OwnerId == currentUser.Id || !this.chatsStore.chat.IsPrivate;
     }
@@ -46,7 +46,14 @@ export class ChatDetailComponent implements OnInit {
             return;
         }
         let user: User = this.authService.currentUserValue;
-        this.signalRService.AddChatMessages(this.chatsStore.selectedChatId, user.Id, this.messageForm.controls.message.value);
+
+        if (this.chatsStore.selectedChat.IsPersonal) {
+            this.signalRService
+                .AddPersonalMessages(user.Id, this.chatsStore.selectedChatId, this.messageForm.controls.message.value);
+        }
+        else {
+            this.signalRService.AddChatMessages(this.chatsStore.selectedChatId, user.Id, this.messageForm.controls.message.value);
+        }
         this.messageForm.controls.message.setValue(null);
 
     }
