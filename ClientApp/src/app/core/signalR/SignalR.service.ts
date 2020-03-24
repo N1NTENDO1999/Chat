@@ -6,6 +6,7 @@ import { MessagesStore } from '../stores/MessagesStore';
 import { User } from '../models/User';
 import { AuthenticationService } from '../services/Authentication.service';
 import { ScheduledMessageDto } from '../models/ScheduledMessageDto';
+import { ChatsStore } from '../stores/chatsStore';
 
 @Injectable()
 export class SignalrService {
@@ -15,7 +16,8 @@ export class SignalrService {
     constructor(
         private alertService: AlertService,
         private messagesStore: MessagesStore,
-        private authService: AuthenticationService
+        private authService: AuthenticationService,
+        private chatsStore: ChatsStore
     ) { }
 
     public GetPersonalMessages(id: number) {
@@ -68,9 +70,20 @@ export class SignalrService {
         this.messagesStore.setMessages(messages);
     }
 
-    private addMessage(message: MessageDto) {
+    private callerMessageUpdate(message: MessageDto){
+
+    }
+
+    private addMessage(message: MessageDto, receiverId: number, IsPersonal: boolean) {
+        let currentUser: User = JSON.parse(localStorage.getItem('currentUser'));
+       
+        if((this.chatsStore.selectedChatId == receiverId && this.chatsStore.chat.IsPersonal == IsPersonal) 
+        || (currentUser.Id == message.SenderId && IsPersonal ))
+        {
+            this.messagesStore.addMessage(message);
+            return;
+        }
         console.log(message);
-        this.messagesStore.addMessage(message);
     }
 
     private addScheduledMessage(message: ScheduledMessageDto): void {
@@ -129,7 +142,7 @@ export class SignalrService {
     }
     public addDataListeners(): void {
         this.hubConnection.on("GetChatMessages", (id, message) => this.updateMessages(id, message));
-        this.hubConnection.on("UpdateChatMessages", (message) => this.addMessage(message));
+        this.hubConnection.on("UpdateChatMessages", (message, receiverId, IsPersonal) => this.addMessage(message, receiverId, IsPersonal));
         this.hubConnection.on("GetPersonalMessages", (id, message) => this.updateMessages(id, message));
         this.hubConnection.on("AddScheduledMessage", (message) => this.addScheduledMessage(message));
     }

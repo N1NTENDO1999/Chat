@@ -84,7 +84,7 @@ namespace ChatWebApi.SignalR
 		{
 			var result = await _mediator.Send(new SendMessageCommand { ChatId = chatId, SenderId = userId, Text = message });
 			var messageResult = await _mediator.Send(new GetChatMessageByIdQuery { Id = result.Id });
-			await Clients.Groups(chatId.ToString()).SendAsync("UpdateChatMessages", messageResult.Message);
+			await Clients.Groups(chatId.ToString()).SendAsync("UpdateChatMessages", messageResult.Message, chatId, false);
 		}
 
 		public async Task SendPersonalMessage(int senderId, int receiverId, string message)
@@ -93,7 +93,7 @@ namespace ChatWebApi.SignalR
 				.Send(new SendPersonalMessageCommand { SenderId = senderId, ReceiverId = receiverId, Text = message });
 			var personalResult = await _mediator.Send(new GetPersonalMessageByIdQuery { Id = result.Id });
 			var connectedString = twoUsersConnectionString(senderId, receiverId);
-			await Clients.Groups(connectedString).SendAsync("UpdateChatMessages", personalResult.Message);
+			await Clients.Groups(connectedString).SendAsync("UpdateChatMessages", personalResult.Message, senderId, true);
 		}
 
 		public async Task GetChatMessages(int chatId)
