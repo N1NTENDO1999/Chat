@@ -7,6 +7,8 @@ using ChatWebApi.Application.Messages.Commands;
 using ChatWebApi.Application.Messages.Queries;
 using ChatWebApi.Application.PersonalMessages.Commands;
 using ChatWebApi.Application.PersonalMessages.Queries;
+using ChatWebApi.Application.ScheduledMessages.Commands;
+using ChatWebApi.Application.ScheduledMessages.Queries;
 using ChatWebApi.Application.UserChats.Commands;
 using ChatWebApi.Application.Users.Queries;
 using MediatR;
@@ -69,6 +71,13 @@ namespace ChatWebApi.SignalR
 			    await Groups.RemoveFromGroupAsync(Context.ConnectionId, chat.Id.ToString());
 			}
 			await base.OnDisconnectedAsync(exception);
+		}
+
+		public async Task AddScheduledMessage(AddScheduledMessageCommand request)
+		{
+			var success = await _mediator.Send(request);
+			var message = await _mediator.Send(new GetScheduledMessageByIdQuery { Id = success.Id });
+			await Clients.Caller.SendAsync("AddScheduledMessage", message);
 		}
 
 		public async Task SendMessageToChat(int userId, int chatId, string message)

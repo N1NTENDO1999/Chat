@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ChatWebApi.Application.ScheduledMessages.Commands
 {
-	public class AddScheduledMessageCommand : IRequest<CommandResult>
+	public class AddScheduledMessageCommand : IRequest<CommandCreateResult>
 	{
 		public int ReceiverId { get; set; }
 		public int SenderId { get; set; }
@@ -21,7 +21,7 @@ namespace ChatWebApi.Application.ScheduledMessages.Commands
 		public bool IsPersonal { get; set; }
 	}
 
-	public class AddScheduledMessageCommandHandler : IRequestHandler<AddScheduledMessageCommand, CommandResult>
+	public class AddScheduledMessageCommandHandler : IRequestHandler<AddScheduledMessageCommand, CommandCreateResult>
 	{
 		private readonly ChatContext _db;
 		private readonly IMapper _mapper;
@@ -32,7 +32,7 @@ namespace ChatWebApi.Application.ScheduledMessages.Commands
 			_mapper = mapper;
 		}
 
-		public async Task<CommandResult> Handle(AddScheduledMessageCommand request, CancellationToken cancellationToken)
+		public async Task<CommandCreateResult> Handle(AddScheduledMessageCommand request, CancellationToken cancellationToken)
 		{
 			if (string.IsNullOrWhiteSpace(request.Text))
 				throw new ArgumentNullException("No Text In Message", nameof(request));
@@ -45,10 +45,10 @@ namespace ChatWebApi.Application.ScheduledMessages.Commands
 			var user = await _db.Users.FirstAsync(p => p.Id == request.SenderId);
 
 			var message = _mapper.Map<ScheduledMessage>(request);
-			await _db.ScheduledMessages.AddAsync(message);
+			var success = await _db.ScheduledMessages.AddAsync(message);
 			await _db.SaveChangesAsync();
 
-			return new CommandResult();
+			return new CommandCreateResult(success.Entity.Id);
 		}
 	}
 }
