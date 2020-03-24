@@ -38,7 +38,7 @@ namespace ChatWebApi.Application.ScheduledMessages.Commands
 
 			var message = new ScheduledMessage
 			{
-				Chat = chat,
+				Receiver = chat,
 				Sender = user,
 				Text = request.Text,
 				Date = DateTime.UtcNow,

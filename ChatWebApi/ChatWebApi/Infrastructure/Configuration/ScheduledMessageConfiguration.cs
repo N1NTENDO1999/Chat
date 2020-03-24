@@ -28,9 +28,9 @@ namespace ChatWebApi.Infrastructure.Configuration
 				.WithMany(p => p.ScheduledMessages)
 				.HasForeignKey(p => p.SenderId);
 
-			builder.HasOne(p => p.Chat)
+			builder.HasOne(p => p.Receiver)
 				.WithMany(p => p.ScheduledMessages)
-				.HasForeignKey(p => p.ChatId);
+				.HasForeignKey(p => p.ReceiverId);
 		}
 	}
 }

@@ -35,7 +35,7 @@ namespace ChatWebApi.Application.ScheduledMessages.Queries
 		public async Task<GetChatScheduledMessagesQueryResult> Handle(GetChatScheduledMessagesQuery request, CancellationToken cancellationToken)
 		{
 			var messages = await _db.ScheduledMessages
-				.Include(p => p.Chat)
+				.Include(p => p.Receiver)
 				.Where(p => p.SenderId == request.SenderId)
 				.ToListAsync();
 
