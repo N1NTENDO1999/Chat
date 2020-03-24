@@ -45,6 +45,7 @@ namespace ChatWebApi.Application.ScheduledMessages.Commands
 			var user = await _db.Users.FirstAsync(p => p.Id == request.SenderId);
 
 			var message = _mapper.Map<ScheduledMessage>(request);
+			message.Date = DateTime.Now;
 			var success = await _db.ScheduledMessages.AddAsync(message);
 			await _db.SaveChangesAsync();
 
