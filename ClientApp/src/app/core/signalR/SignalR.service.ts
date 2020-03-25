@@ -83,8 +83,11 @@ export class SignalrService {
 
     private addMessage(message: MessageDto, receiverId: number, IsPersonal: boolean) {
         let currentUser: User = JSON.parse(localStorage.getItem('currentUser'));
-
-        if ((this.chatsStore.selectedChatId == receiverId && this.chatsStore.chat.IsPersonal == IsPersonal)
+        console.log(message);
+        console.log(currentUser);
+        console.log(receiverId);
+        console.log(IsPersonal);
+        if (((this.chatsStore.selectedChatId == receiverId || this.chatsStore.selectedChatId == message.SenderId) && this.chatsStore.chat.IsPersonal == IsPersonal)
             || (currentUser.Id == message.SenderId && IsPersonal)) {
             this.messagesStore.addMessage(message);
             return;
