@@ -41,7 +41,7 @@ namespace ChatWebApi.Application.Services
 					continue;
 				}
 				MessageDTO executedMessage = null;
-				if (message != null & message.Delivery <= DateTime.Now)
+				if (message != null && message.Delivery <= DateTime.Now)
 				{
 					if (message.IsPersonal)
 					{
