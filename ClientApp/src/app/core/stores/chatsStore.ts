@@ -6,36 +6,39 @@ import { ChatDto } from '../api/models';
 export class ChatsStore {
     @observable chats: ChatDto[] = [];
     @observable selectedChat: ChatDto;
-    
+
     @computed get chat(): ChatDto {
         return toJS(this.selectedChat);
     }
 
-    @computed get allChats(): ChatDto[]{
+    @computed get allChats(): ChatDto[] {
         return toJS(this.chats);
     }
 
-    @computed get selectedChatId(): number{
-        return this.selectedChat.Id;
+    @computed get selectedChatId(): number {
+        if (this.selectedChat) {
+            return this.selectedChat.Id;
+        }
+        return -1;
     }
 
     @action setChats(chats: ChatDto[]) {
         this.chats = chats;
     }
 
-    @action addChat(chat: ChatDto){
+    @action addChat(chat: ChatDto) {
         this.chats = [...this.chats, chat];
     }
 
-    @action addSelectedChat(chat: ChatDto){
+    @action addSelectedChat(chat: ChatDto) {
         this.selectedChat = chat;
     }
 
-    @action clearSelected(){
+    @action clearSelected() {
         this.selectedChat = null;
     }
 
-    @action clearchats(){
+    @action clearchats() {
         this.chats = [];
     }
 } 

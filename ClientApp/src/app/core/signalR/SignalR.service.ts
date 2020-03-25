@@ -7,6 +7,7 @@ import { User } from '../models/User';
 import { AuthenticationService } from '../services/Authentication.service';
 import { ScheduledMessageDto } from '../models/ScheduledMessageDto';
 import { ChatsStore } from '../stores/chatsStore';
+import { ChatDto } from '../api/models';
 
 @Injectable()
 export class SignalrService {
@@ -52,7 +53,7 @@ export class SignalrService {
             .catch(err => console.log("Error when Add User To Chat: " + err));
     }
 
-    public SendScheduledMessage(senderId: number, receiverId: number, text: string, isPersonal: boolean, delivery = new Date() ){
+    public SendScheduledMessage(senderId: number, receiverId: number, text: string, isPersonal: boolean, delivery = new Date()) {
         let message = {
             ReceiverId: receiverId,
             SenderId: senderId,
@@ -70,16 +71,21 @@ export class SignalrService {
         this.messagesStore.setMessages(messages);
     }
 
-    private callerMessageUpdate(message: MessageDto){
-
+    private updateChats(chat: ChatDto, userId: number) {
+        let currentUser: User = JSON.parse(localStorage.getItem('currentUser'));
+        if (userId == currentUser.Id) {
+            this.hubConnection.invoke("AddToGroup", chat.Id)
+                .then(_ => console.log("User Added to group"))
+                .catch(err => console.log("Error when Add User To Chat: " + err));
+            this.chatsStore.addChat(chat);
+        }
     }
 
     private addMessage(message: MessageDto, receiverId: number, IsPersonal: boolean) {
         let currentUser: User = JSON.parse(localStorage.getItem('currentUser'));
-       
-        if((this.chatsStore.selectedChatId == receiverId && this.chatsStore.chat.IsPersonal == IsPersonal) 
-        || (currentUser.Id == message.SenderId && IsPersonal ))
-        {
+
+        if ((this.chatsStore.selectedChatId == receiverId && this.chatsStore.chat.IsPersonal == IsPersonal)
+            || (currentUser.Id == message.SenderId && IsPersonal)) {
             this.messagesStore.addMessage(message);
             return;
         }
@@ -145,6 +151,7 @@ export class SignalrService {
         this.hubConnection.on("UpdateChatMessages", (message, receiverId, IsPersonal) => this.addMessage(message, receiverId, IsPersonal));
         this.hubConnection.on("GetPersonalMessages", (id, message) => this.updateMessages(id, message));
         this.hubConnection.on("AddScheduledMessage", (message) => this.addScheduledMessage(message));
+        this.hubConnection.on("AddUserToChat", (chat, userId) => this.updateChats(chat, userId));
     }
-    
+
 }

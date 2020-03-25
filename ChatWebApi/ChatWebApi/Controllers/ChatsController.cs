@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ChatWebApi.Application;
+using ChatWebApi.Application.Chats.ChatDTOs;
 using ChatWebApi.Application.Chats.Commands;
 using ChatWebApi.Application.Chats.Queries;
 using ChatWebApi.Application.UserChats.Commands;
@@ -60,7 +61,7 @@ namespace ChatWebApi.Controllers
 
         [HttpPost]
         [Route("chat/{chatId}/user/{userId}")]
-        public async Task<CommandResult> AddUserToChat(int chatId, int userId)
+        public async Task<ChatDTO> AddUserToChat(int chatId, int userId)
         {
             return await _mediator.Send(new AddUserToChatCommand { ChatId = chatId, UserId = userId });
         }

@@ -107,11 +107,16 @@ namespace ChatWebApi.SignalR
 			await Clients.Caller.SendAsync("GetChatMessages", senderId, result.Messages);
 		}
 
+		public async Task AddToGroup(int group)
+		{
+			await Groups.AddToGroupAsync(Context.ConnectionId, group.ToString());
+		}
+
 		public async Task AddUserToChat(int userId, int chatId) 
 		{
 			var result = await _mediator.Send(new AddUserToChatCommand { ChatId = chatId, UserId = userId });
 			await Groups.AddToGroupAsync(Context.ConnectionId, chatId.ToString());
-			//TODO: alert user is added to chat
+			await Clients.All.SendAsync("AddUserToChat", result, userId);
 		}
 	}
 }
