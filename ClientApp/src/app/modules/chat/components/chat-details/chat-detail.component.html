@@ -10,4 +10,7 @@
         <input type="text" formControlName="message" class="form-control mb-4" placeholder="message" />
     </div>
 </form>
+<input type="datetime-local" id="meeting-time"
+       name="meeting-time" value="2018-06-12T19:30"
+       min="2018-06-07T00:00" max="2018-06-14T00:00">
 <button (click)="sendAsSchedule()">Schedule Message</button>
