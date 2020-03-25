@@ -15,6 +15,7 @@ using ChatWebApi.Application.Users.Commands;
 using ChatWebApi.Application.Users.Queries;
 using ChatWebApi.Infrastructure;
 using ChatWebApi.Infrastructure.Entities;
+using ChatWebApi.Interfaces;
 using ChatWebApi.Interfaces.Requests;
 using ChatWebApi.SignalR;
 using MediatR;
@@ -105,7 +106,8 @@ namespace ChatWebApi
 			services.AddScoped(typeof(ChatContext));
 			
 			services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-			services.AddHostedService<ScheduledMessagesSender>();
+			services.AddHostedService<SenderHostedService>();
+			services.AddScoped<IScheduledMessagesSender, ScheduledMessagesSender>();
 
 		}
 

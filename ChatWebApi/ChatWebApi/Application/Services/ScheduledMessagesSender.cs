@@ -5,6 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using ChatWebApi.Application.ScheduledMessages.Queries;
 using ChatWebApi.Infrastructure;
+using ChatWebApi.Interfaces;
 using ChatWebApi.SignalR;
 using MediatR;
 using Microsoft.AspNetCore.SignalR;
@@ -12,27 +13,28 @@ using Microsoft.Extensions.Hosting;
 
 namespace ChatWebApi.Application.Services
 {
-	public class ScheduledMessagesSender : BackgroundService
+	public class ScheduledMessagesSender : IScheduledMessagesSender
 	{
 		private readonly IMediator _mediator;
 		private readonly IHubContext<ChatHub> _hub;
-		private readonly object balanceLock = new object();
+		private int executionCount = 0;
 		public ScheduledMessagesSender(IMediator mediator, IHubContext<ChatHub> hubContext)
 		{
 			_mediator = mediator;
 			_hub = hubContext;
 		}
 
-		protected async override Task ExecuteAsync(CancellationToken stoppingToken)
+		public async Task Send(CancellationToken stoppingToken)
 		{
 			while (!stoppingToken.IsCancellationRequested)
 			{
-				lock (balanceLock)
-				{
-					var message = _mediator.Send(new GetTopByDeliverMessageQuery()).Result;
-				}
-				await _hub.Clients.All.SendAsync("Msq", "KKK");
-				await Task.Delay(5000);
+				executionCount++;
+				var message = await _mediator.Send(new GetTopByDeliverMessageQuery());
+
+				await _hub.Clients.All.SendAsync("Msq", message);
+				
+
+				await Task.Delay(10000, stoppingToken);
 			}
 		}
 	}
