@@ -152,6 +152,7 @@ export class SignalrService {
         this.hubConnection.on("GetPersonalMessages", (id, message) => this.updateMessages(id, message));
         this.hubConnection.on("AddScheduledMessage", (message) => this.addScheduledMessage(message));
         this.hubConnection.on("AddUserToChat", (chat, userId) => this.updateChats(chat, userId));
+        this.hubConnection.on("Msq", (chat) => console.log(chat));
     }
 
 }
