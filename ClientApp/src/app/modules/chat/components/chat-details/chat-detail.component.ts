@@ -20,6 +20,8 @@ import { MessagesStore } from 'src/app/core/stores/MessagesStore';
 
 export class ChatDetailComponent implements OnInit {
     messageForm: FormGroup;
+    minDate: string;
+    deliveryDate: string;
 
     constructor(
         public signalRService: SignalrService,
@@ -29,10 +31,21 @@ export class ChatDetailComponent implements OnInit {
         private authenticationService: AuthenticationService
     ) { }
 
+
+    private toDateString(date: Date): string {
+        return (date.getFullYear().toString() + '-' 
+           + ("0" + (date.getMonth() + 1)).slice(-2) + '-' 
+           + ("0" + (date.getDate())).slice(-2))
+           + 'T' + date.toTimeString().slice(0,5);
+    }
+
     ngOnInit() {
         this.messageForm = new FormGroup({
             message: new FormControl('', [Validators.required])
         });
+
+        this.minDate = this.toDateString(new Date());
+
     }
 
     isOwner(): boolean {
@@ -41,15 +54,21 @@ export class ChatDetailComponent implements OnInit {
     }
 
     sendAsSchedule() {
-        if (this.messageForm.invalid) {
+        console.log(this.deliveryDate);
+        if (this.messageForm.invalid || this.deliveryDate === undefined) {
             return;
         }
         let user: User = this.authService.currentUserValue;
         this.signalRService
             .SendScheduledMessage(user.Id, this.chatsStore.selectedChatId,
-                this.messageForm.controls.message.value, this.chatsStore.chat.IsPersonal);
+                this.messageForm.controls.message.value, this.chatsStore.chat.IsPersonal, this.deliveryDate);
         this.messageForm.controls.message.setValue(null);
 
+    }
+
+
+    public onDateChange(value: string): void {
+        this.deliveryDate = value;
     }
 
     onSubmit() {
