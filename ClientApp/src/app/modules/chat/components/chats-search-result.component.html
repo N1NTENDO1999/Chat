@@ -1,13 +1,13 @@
-<div class="container">
+<div id="container">
   <h4>Chats</h4>
 
   <input #searchBox id="search-box" (input)="search(searchBox.value)" />
   
-  <ul class="search-result">
-    <li *ngFor="let chat of chatsStore.allChats">
+  <div class="list-group">
+    <a class="list-group-item list-group-item-action" *ngFor="let chat of chatsStore.allChats">
       <div (click)="getChat(chat)">
         {{chat.Name}}
       </div>
-    </li>
-  </ul>
+    </a>
+  </div>
 </div>
