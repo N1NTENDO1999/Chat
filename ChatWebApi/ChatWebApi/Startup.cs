@@ -8,12 +8,14 @@ using AutoMapper;
 using ChatWebApi.Application;
 using ChatWebApi.Application.Chats.Commands;
 using ChatWebApi.Application.Chats.Queries;
+using ChatWebApi.Application.Services;
 using ChatWebApi.Application.Tokens.Queries;
 using ChatWebApi.Application.UserChats.Commands;
 using ChatWebApi.Application.Users.Commands;
 using ChatWebApi.Application.Users.Queries;
 using ChatWebApi.Infrastructure;
 using ChatWebApi.Infrastructure.Entities;
+using ChatWebApi.Interfaces;
 using ChatWebApi.Interfaces.Requests;
 using ChatWebApi.SignalR;
 using MediatR;
@@ -23,6 +25,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -101,9 +104,11 @@ namespace ChatWebApi
 			});
 
 			services.AddScoped(typeof(ChatContext));
-
-			services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 			
+			services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+			services.AddHostedService<SenderHostedService>();
+			services.AddScoped<IScheduledMessagesSender, ScheduledMessagesSender>();
+
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -13,8 +13,6 @@ namespace ChatWebApi.Application.ScheduledMessages.ScheduledMessagesDTOs
 		public DateTime Date { get; set; }
 		public DateTime Delivery { get; set; }
 		public string Text { get; set; }
-
-		public int ChatId { get; set; }
-		public ChatDTO Chat { get; set; }
+		public bool IsPersonal { get; set; }
 	}
 }

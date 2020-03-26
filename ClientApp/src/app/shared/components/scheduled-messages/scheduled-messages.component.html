@@ -1,0 +1,7 @@
+<div class="container">
+    <button class="btn btn-primary" (click)="goBack()">Back</button>
+    <div class="container" *ngFor="let message of scheduledStore.allMessages">
+        <p>Delivery Date: {{message.Delivery | date:'medium'}}<p>
+        <p>{{message.Text}}</p>
+    </div>
+</div>

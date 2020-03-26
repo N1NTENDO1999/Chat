@@ -29,8 +29,8 @@ namespace ChatWebApi.Infrastructure.Configuration
 				.OnDelete(DeleteBehavior.Cascade);
 
 			builder.HasMany(c => c.ScheduledMessages)
-				.WithOne(c => c.Chat)
-				.HasForeignKey(c => c.ChatId)
+				.WithOne(c => c.Receiver)
+				.HasForeignKey(c => c.ReceiverId)
 				.OnDelete(DeleteBehavior.Cascade);
 
 			builder.HasOne(c => c.Owner)

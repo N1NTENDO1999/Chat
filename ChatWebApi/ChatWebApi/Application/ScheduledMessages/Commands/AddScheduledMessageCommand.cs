@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using AutoMapper;
 using ChatWebApi.Infrastructure;
 using ChatWebApi.Infrastructure.Entities;
 using ChatWebApi.Interfaces.Requests;
@@ -11,43 +12,44 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ChatWebApi.Application.ScheduledMessages.Commands
 {
-	public class AddScheduledMessageCommand : IRequest<CommandResult>
+	public class AddScheduledMessageCommand : IRequest<CommandCreateResult>
 	{
-		public int ChatId { get; set; }
+		public int ReceiverId { get; set; }
 		public int SenderId { get; set; }
 		public string Text { get; set; }
 		public DateTime Delivery { get; set; }
+		public bool IsPersonal { get; set; }
 	}
 
-	public class AddScheduledMessageCommandHandler : IRequestHandler<AddScheduledMessageCommand, CommandResult>
+	public class AddScheduledMessageCommandHandler : IRequestHandler<AddScheduledMessageCommand, CommandCreateResult>
 	{
 		private readonly ChatContext _db;
+		private readonly IMapper _mapper;
 
-		public AddScheduledMessageCommandHandler(ChatContext chatContext)
+		public AddScheduledMessageCommandHandler(ChatContext chatContext, IMapper mapper)
 		{
 			_db = chatContext;
+			_mapper = mapper;
 		}
 
-		public async Task<CommandResult> Handle(AddScheduledMessageCommand request, CancellationToken cancellationToken)
+		public async Task<CommandCreateResult> Handle(AddScheduledMessageCommand request, CancellationToken cancellationToken)
 		{
 			if (string.IsNullOrWhiteSpace(request.Text))
 				throw new ArgumentNullException("No Text In Message", nameof(request));
 
-			var chat = await _db.Chats.FirstAsync(p => p.Id == request.ChatId);
+			if (request.IsPersonal)
+			{	var receiver = await _db.Users.FirstAsync(p => p.Id == request.ReceiverId);	}
+			else
+			{	var chat = await _db.Chats.FirstAsync(p => p.Id == request.ReceiverId);	}
+
 			var user = await _db.Users.FirstAsync(p => p.Id == request.SenderId);
 
-			var message = new ScheduledMessage
-			{
-				Chat = chat,
-				Sender = user,
-				Text = request.Text,
-				Date = DateTime.UtcNow,
-				Delivery = request.Delivery
-			};
-			await _db.ScheduledMessages.AddAsync(message);
+			var message = _mapper.Map<ScheduledMessage>(request);
+			message.Date = DateTime.Now;
+			var success = await _db.ScheduledMessages.AddAsync(message);
 			await _db.SaveChangesAsync();
 
-			return new CommandResult();
+			return new CommandCreateResult(success.Entity.Id);
 		}
 	}
 }

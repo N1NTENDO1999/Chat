@@ -5,6 +5,10 @@ import { AlertService } from '../services/Alert.service';
 import { MessagesStore } from '../stores/MessagesStore';
 import { User } from '../models/User';
 import { AuthenticationService } from '../services/Authentication.service';
+import { ScheduledMessageDto } from '../models/ScheduledMessageDto';
+import { ChatsStore } from '../stores/chatsStore';
+import { ChatDto } from '../api/models';
+import { ScheduledMessagesStore } from '../stores/SchedluledMessagesStore';
 
 @Injectable()
 export class SignalrService {
@@ -14,7 +18,9 @@ export class SignalrService {
     constructor(
         private alertService: AlertService,
         private messagesStore: MessagesStore,
-        private authService: AuthenticationService
+        private authService: AuthenticationService,
+        private chatsStore: ChatsStore,
+        private scheduledMessagesStore: ScheduledMessagesStore
     ) { }
 
     public GetPersonalMessages(id: number) {
@@ -48,14 +54,63 @@ export class SignalrService {
             .then(_ => console.log("Add User To Chat"))
             .catch(err => console.log("Error when Add User To Chat: " + err));
     }
+
+    public GetScheduledMessages(senderId: number, receiverId: number, isPersonal: boolean){
+        this.hubConnection.invoke("GetScheduledMessages", senderId, receiverId, isPersonal)
+            .then(_ => console.log("Get Scheduled Messages"))
+            .catch(err => console.log("Error when receive scheduled messages: " + err));
+    }
+
+    public SendScheduledMessage(senderId: number, receiverId: number, text: string, isPersonal: boolean, delivery: string) {
+        let message = {
+            ReceiverId: receiverId,
+            SenderId: senderId,
+            Text: text,
+            Delivery: delivery,
+            IsPersonal: isPersonal
+        }
+        this.hubConnection.invoke("AddScheduledMessage", message)
+            .then(_ => console.log("Add Scheduled Message"))
+            .catch(err => console.log("Error when Add User To Chat: " + err));
+    }
+
+    private updateScheduledMessages(messages: ScheduledMessageDto[]){
+        if(messages){
+            this.scheduledMessagesStore.setMessages(messages);
+        }
+    }
+
     private updateMessages(id: number, messages: MessageDto[]) {
         console.log(messages);
         this.messagesStore.setMessages(messages);
     }
 
-    private addMessage(message: MessageDto) {
+    private updateChats(chat: ChatDto, userId: number) {
+        let currentUser: User = JSON.parse(localStorage.getItem('currentUser'));
+        if (userId == currentUser.Id) {
+            this.hubConnection.invoke("AddToGroup", chat.Id)
+                .then(_ => console.log("User Added to group"))
+                .catch(err => console.log("Error when Add User To Chat: " + err));
+            this.chatsStore.addChat(chat);
+        }
+    }
+
+    private addMessage(message: MessageDto, receiverId: number, IsPersonal: boolean) {
+        let currentUser: User = JSON.parse(localStorage.getItem('currentUser'));
         console.log(message);
-        this.messagesStore.addMessage(message);
+        console.log(currentUser);
+        console.log(receiverId);
+        console.log(IsPersonal);
+        if (((this.chatsStore.selectedChatId == receiverId || this.chatsStore.selectedChatId == message.SenderId) && this.chatsStore.chat.IsPersonal == IsPersonal)
+            || (currentUser.Id == message.SenderId && IsPersonal)) {
+            this.messagesStore.addMessage(message);
+            return;
+        }
+        console.log(message);
+    }
+
+    private addScheduledMessage(message: ScheduledMessageDto): void {
+        console.log(message);
     }
 
     public startConnection = (id: number) => {
@@ -110,7 +165,12 @@ export class SignalrService {
     }
     public addDataListeners(): void {
         this.hubConnection.on("GetChatMessages", (id, message) => this.updateMessages(id, message));
-        this.hubConnection.on("UpdateChatMessages", (message) => this.addMessage(message));
+        this.hubConnection.on("UpdateChatMessages", (message, receiverId, IsPersonal) => this.addMessage(message, receiverId, IsPersonal));
         this.hubConnection.on("GetPersonalMessages", (id, message) => this.updateMessages(id, message));
+        this.hubConnection.on("AddScheduledMessage", (message) => this.addScheduledMessage(message));
+        this.hubConnection.on("AddUserToChat", (chat, userId) => this.updateChats(chat, userId));
+        this.hubConnection.on("Msq", (chat) => console.log(chat));
+        this.hubConnection.on("GetScheduledMessages", (messages) => this.updateScheduledMessages(messages));
     }
+
 }

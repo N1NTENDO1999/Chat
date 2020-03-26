@@ -7,6 +7,8 @@ using ChatWebApi.Application.Messages.Commands;
 using ChatWebApi.Application.Messages.Queries;
 using ChatWebApi.Application.PersonalMessages.Commands;
 using ChatWebApi.Application.PersonalMessages.Queries;
+using ChatWebApi.Application.ScheduledMessages.Commands;
+using ChatWebApi.Application.ScheduledMessages.Queries;
 using ChatWebApi.Application.UserChats.Commands;
 using ChatWebApi.Application.Users.Queries;
 using MediatR;
@@ -71,11 +73,18 @@ namespace ChatWebApi.SignalR
 			await base.OnDisconnectedAsync(exception);
 		}
 
+		public async Task AddScheduledMessage(AddScheduledMessageCommand request)
+		{
+			var success = await _mediator.Send(request);
+			var message = await _mediator.Send(new GetScheduledMessageByIdQuery { Id = success.Id });
+			await Clients.Caller.SendAsync("AddScheduledMessage", message);
+		}
+
 		public async Task SendMessageToChat(int userId, int chatId, string message)
 		{
 			var result = await _mediator.Send(new SendMessageCommand { ChatId = chatId, SenderId = userId, Text = message });
 			var messageResult = await _mediator.Send(new GetChatMessageByIdQuery { Id = result.Id });
-			await Clients.Groups(chatId.ToString()).SendAsync("UpdateChatMessages", messageResult.Message);
+			await Clients.Groups(chatId.ToString()).SendAsync("UpdateChatMessages", messageResult.Message, chatId, false);
 		}
 
 		public async Task SendPersonalMessage(int senderId, int receiverId, string message)
@@ -84,7 +93,14 @@ namespace ChatWebApi.SignalR
 				.Send(new SendPersonalMessageCommand { SenderId = senderId, ReceiverId = receiverId, Text = message });
 			var personalResult = await _mediator.Send(new GetPersonalMessageByIdQuery { Id = result.Id });
 			var connectedString = twoUsersConnectionString(senderId, receiverId);
-			await Clients.Groups(connectedString).SendAsync("UpdateChatMessages", personalResult.Message);
+			await Clients.Groups(connectedString).SendAsync("UpdateChatMessages", personalResult.Message, senderId, true);
+		}
+
+		public async Task GetScheduledMessages(int senderId, int receiverId, bool isPersonal)
+		{
+			var result = await _mediator
+				.Send(new GetChatScheduledMessagesQuery { IsPersonal = isPersonal, ReceiverId = receiverId, SenderId = senderId });
+			await Clients.Caller.SendAsync("GetScheduledMessages", result.Messages);
 		}
 
 		public async Task GetChatMessages(int chatId)
@@ -98,10 +114,16 @@ namespace ChatWebApi.SignalR
 			await Clients.Caller.SendAsync("GetChatMessages", senderId, result.Messages);
 		}
 
+		public async Task AddToGroup(int group)
+		{
+			await Groups.AddToGroupAsync(Context.ConnectionId, group.ToString());
+		}
+
 		public async Task AddUserToChat(int userId, int chatId) 
 		{
 			var result = await _mediator.Send(new AddUserToChatCommand { ChatId = chatId, UserId = userId });
 			await Groups.AddToGroupAsync(Context.ConnectionId, chatId.ToString());
+			await Clients.All.SendAsync("AddUserToChat", result, userId);
 		}
 	}
 }
