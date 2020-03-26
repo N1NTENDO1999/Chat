@@ -8,6 +8,7 @@ import { AuthenticationService } from '../services/Authentication.service';
 import { ScheduledMessageDto } from '../models/ScheduledMessageDto';
 import { ChatsStore } from '../stores/chatsStore';
 import { ChatDto } from '../api/models';
+import { ScheduledMessagesStore } from '../stores/SchedluledMessagesStore';
 
 @Injectable()
 export class SignalrService {
@@ -18,7 +19,8 @@ export class SignalrService {
         private alertService: AlertService,
         private messagesStore: MessagesStore,
         private authService: AuthenticationService,
-        private chatsStore: ChatsStore
+        private chatsStore: ChatsStore,
+        private scheduledMessagesStore: ScheduledMessagesStore
     ) { }
 
     public GetPersonalMessages(id: number) {
@@ -70,6 +72,12 @@ export class SignalrService {
         this.hubConnection.invoke("AddScheduledMessage", message)
             .then(_ => console.log("Add Scheduled Message"))
             .catch(err => console.log("Error when Add User To Chat: " + err));
+    }
+
+    private updateScheduledMessages(messages: ScheduledMessageDto[]){
+        if(messages){
+            this.scheduledMessagesStore.setMessages(messages);
+        }
     }
 
     private updateMessages(id: number, messages: MessageDto[]) {
@@ -162,7 +170,7 @@ export class SignalrService {
         this.hubConnection.on("AddScheduledMessage", (message) => this.addScheduledMessage(message));
         this.hubConnection.on("AddUserToChat", (chat, userId) => this.updateChats(chat, userId));
         this.hubConnection.on("Msq", (chat) => console.log(chat));
-        this.hubConnection.on("GetScheduledMessages", (messages) => console.log(messages));
+        this.hubConnection.on("GetScheduledMessages", (messages) => this.updateScheduledMessages(messages));
     }
 
 }
