@@ -28,6 +28,8 @@ import { ChatsStore } from './core/stores/chatsStore';
 import { MessagesStore } from './core/stores/MessagesStore';
 import { UsersSearchComponent } from './shared/components/users-search/users-search.component';
 import { UsersStore } from './core/stores/UsersStore';
+import { ScheduledMessagesComponent } from './shared/components/scheduled-messages/scheduled-messages.component';
+import { ScheduledMessagesStore } from './core/stores/SchedluledMessagesStore';
 
 let config = new AuthServiceConfig([
   {
@@ -51,7 +53,8 @@ export function provideConfig() {
     RegisterComponent,
     ChatDetailComponent,
     CreateChatComponent,
-    UsersSearchComponent
+    UsersSearchComponent,
+    ScheduledMessagesComponent
   ],
   imports: [
     BrowserModule,
@@ -70,6 +73,7 @@ export function provideConfig() {
     ChatsStore,
     MessagesStore,
     UsersStore,
+    ScheduledMessagesStore,
     AuthenticationService,
     AlertService,
     AuthGuard,
