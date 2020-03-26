@@ -53,7 +53,11 @@ export class SignalrService {
             .catch(err => console.log("Error when Add User To Chat: " + err));
     }
 
-
+    public GetScheduledMessages(senderId: number, receiverId: number, isPersonal: boolean){
+        this.hubConnection.invoke("GetScheduledMessages", senderId, receiverId, isPersonal)
+            .then(_ => console.log("Get Scheduled Messages"))
+            .catch(err => console.log("Error when receive scheduled messages: " + err));
+    }
 
     public SendScheduledMessage(senderId: number, receiverId: number, text: string, isPersonal: boolean, delivery: string) {
         let message = {
@@ -158,6 +162,7 @@ export class SignalrService {
         this.hubConnection.on("AddScheduledMessage", (message) => this.addScheduledMessage(message));
         this.hubConnection.on("AddUserToChat", (chat, userId) => this.updateChats(chat, userId));
         this.hubConnection.on("Msq", (chat) => console.log(chat));
+        this.hubConnection.on("GetScheduledMessages", (messages) => console.log(messages));
     }
 
 }

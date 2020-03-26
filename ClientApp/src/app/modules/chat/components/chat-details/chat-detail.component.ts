@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, OnChanges, SimpleChanges, OnDestroy } from '@angular/core';
 import { ChatsService } from 'src/app/core/api/services';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { ChatDto } from 'src/app/core/api/models';
 import { MessageDto } from 'src/app/core/models/MessageDto';
@@ -28,7 +28,8 @@ export class ChatDetailComponent implements OnInit {
         private authService: AuthenticationService,
         public chatsStore: ChatsStore,
         public messagesStore: MessagesStore,
-        private authenticationService: AuthenticationService
+        private authenticationService: AuthenticationService,
+        private router: Router
     ) { }
 
 
@@ -45,7 +46,7 @@ export class ChatDetailComponent implements OnInit {
         });
 
         this.minDate = this.toDateString(new Date());
-
+        this.deliveryDate = this.minDate;
     }
 
     isOwner(): boolean {
@@ -69,6 +70,14 @@ export class ChatDetailComponent implements OnInit {
 
     public onDateChange(value: string): void {
         this.deliveryDate = value;
+    }
+
+    public scheduledMessages(){
+        if(this.chatsStore.chat){
+            let user: User = this.authService.currentUserValue;
+            this.signalRService.GetScheduledMessages(user.Id, this.chatsStore.selectedChatId, this.chatsStore.chat.IsPersonal);
+            this.router.navigate(["/scheduled"]);
+        }
     }
 
     onSubmit() {

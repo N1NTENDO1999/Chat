@@ -13,4 +13,5 @@
 <input type="datetime-local" id="delivery-time"
        name="meeting-time" [value]="minDate"
        [min]="minDate" (change)="onDateChange($event.target.value)">
-<button (click)="sendAsSchedule()">Schedule Message</button>
+<button (click)="sendAsSchedule()">Schedule</button>
+<button (click)="scheduledMessages()">Scheduled Messages</button>
