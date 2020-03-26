@@ -14,6 +14,8 @@ namespace ChatWebApi.Application.ScheduledMessages.Queries
 	public class GetChatScheduledMessagesQuery : IRequest<GetChatScheduledMessagesQueryResult>
 	{
 		public int SenderId { get; set; }
+		public int ReceiverId { get; set; }
+		public bool IsPersonal { get; set; }
 	}
 
 	public class GetChatScheduledMessagesQueryResult
@@ -34,10 +36,10 @@ namespace ChatWebApi.Application.ScheduledMessages.Queries
 
 		public async Task<GetChatScheduledMessagesQueryResult> Handle(GetChatScheduledMessagesQuery request, CancellationToken cancellationToken)
 		{
-			var messages = await _db.ScheduledMessages
-				.Include(p => p.Receiver)
-				.Where(p => p.SenderId == request.SenderId)
-				.ToListAsync();
+			var user = await _db.Users
+				.Include(p => p.ScheduledMessages).FirstAsync(p => p.Id == request.SenderId);
+
+			var messages = user.ScheduledMessages.Where(p => p.ReceiverId == request.ReceiverId & p.IsPersonal == request.IsPersonal);
 
 			var result = _mapper.Map<List<ScheduledMessageDTO>>(messages);
 						

@@ -96,6 +96,13 @@ namespace ChatWebApi.SignalR
 			await Clients.Groups(connectedString).SendAsync("UpdateChatMessages", personalResult.Message, senderId, true);
 		}
 
+		public async Task GetScheduledMessages(int senderId, int receiverId, bool isPersonal)
+		{
+			var result = await _mediator
+				.Send(new GetChatScheduledMessagesQuery { IsPersonal = isPersonal, ReceiverId = receiverId, SenderId = senderId });
+			await Clients.Caller.SendAsync("GetScheduledMessages", result.Messages);
+		}
+
 		public async Task GetChatMessages(int chatId)
 		{
 			var result = await _mediator.Send(new GetChatMessagesQuery { ChatId = chatId });
