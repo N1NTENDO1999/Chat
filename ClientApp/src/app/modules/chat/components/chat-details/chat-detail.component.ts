@@ -47,6 +47,7 @@ export class ChatDetailComponent implements OnInit {
 
         this.minDate = this.toDateString(new Date());
         this.deliveryDate = this.minDate;
+        
     }
 
     isOwner(): boolean {

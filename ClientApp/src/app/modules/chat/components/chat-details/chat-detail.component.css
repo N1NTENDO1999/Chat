@@ -1,0 +1,14 @@
+.chat-window {
+    height: 700px;
+    background-color: #eee;
+    overflow: auto;
+}
+
+#parent {
+    position: relative;
+}
+
+#child {
+    position: absolute;
+    bottom: 0;
+}
