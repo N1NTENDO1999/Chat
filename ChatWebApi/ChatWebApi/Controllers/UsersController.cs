@@ -82,6 +82,13 @@ namespace ChatWebApi.Controllers
         }
 
         [HttpPut]
+        [Route("user/{id}/profile")]
+        public async Task<CommandResult> UpdateProfile(UpdateProfileInfoCommand request)
+        {
+            return await _mediator.Send(request);
+        }
+
+        [HttpPut]
         [Route("user/{id}")]
         public async Task<CommandResult> UpdateUser(EditUserProfileCommand request)
         {
