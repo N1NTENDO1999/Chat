@@ -67,17 +67,22 @@ export class ProfileEditComponent implements OnInit {
             return;
         }
 
-        this.usersService
-            .apiUsersUserIdPicturePut$Json({ id: "1", body: { UserId: this.user.Id, Picture: this.user.Picture } })
-            .subscribe(p => {
-                this.alertService.success("Updated Profile", true);
-                this.router.navigateByUrl('/profile');
-            });
+        this.user.FirstName = this.f.firstName.value;
+        this.user.LastName = this.f.lastName.value;
+        this.user.Nickname = this.f.nickname.value;
 
-    //    this.router.navigateByUrl('/profile');
+        this.usersService
+            .apiUsersUserIdProfilePut$Json({ id: "1", body: { profile: this.user } })
+            .subscribe(
+                p => {
+                    this.alertService.success("Profile is updated!", true);
+                    this.router.navigateByUrl('/profile');
+                }
+            );
     }
 
     back() {
+        this.usersStore.ClearEditProfile();
         this.location.back();
     }
 }
