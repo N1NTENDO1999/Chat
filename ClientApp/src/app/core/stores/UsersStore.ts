@@ -30,6 +30,7 @@ export class UsersStore {
     }
 
     @action SetEditProfile(profile: ProfileInfoDto){
+        console.log(profile);
         this.EditUserProfile = profile;
     }
 

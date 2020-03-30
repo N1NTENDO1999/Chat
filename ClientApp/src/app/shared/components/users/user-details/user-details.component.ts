@@ -4,6 +4,7 @@ import { UserDto } from 'src/app/core/api/models';
 import { ProfileInfoDto } from 'src/app/core/api/models/profile-info-dto';
 import { UsersService } from 'src/app/core/api/services';
 import { User } from 'src/app/core/models/User';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'user-details-component',
@@ -14,6 +15,7 @@ export class UserDetailsComponent implements OnInit {
     user: ProfileInfoDto;
     URL;
     constructor(
+        private router: Router,
         private usersStore: UsersStore,
         private usersService: UsersService
     ) {
@@ -36,17 +38,23 @@ export class UserDetailsComponent implements OnInit {
         this.usersService.apiUsersUserIdProfileGet$Json({ id: id })
             .subscribe(p => this.user = p);
     }
-    useImage(event) {
-        if (event.target.files && event.target.files[0]) {
-            const reader = new FileReader();
 
-            reader.readAsDataURL(event.target.files[0]); // Read file as data url
-            reader.onloadend = (e) => { // function call once readAsDataUrl is completed
-                this.URL = reader.result; // Set image in element
-                console.log(this.URL);
-                this.user.Picture = this.URL;
-                // this._changeDetection.markForCheck(); // Is called because ChangeDetection is set to onPush
-            };
-        }
+    edit(){
+        this.usersStore.SetEditProfile(this.user);
+        this.router.navigateByUrl("/profile/edit");
     }
+
+    // useImage(event) {
+    //     if (event.target.files && event.target.files[0]) {
+    //         const reader = new FileReader();
+
+    //         reader.readAsDataURL(event.target.files[0]); // Read file as data url
+    //         reader.onloadend = (e) => { // function call once readAsDataUrl is completed
+    //             this.URL = reader.result; // Set image in element
+    //             console.log(this.URL);
+    //             this.user.Picture = this.URL;
+    //             // this._changeDetection.markForCheck(); // Is called because ChangeDetection is set to onPush
+    //         };
+    //     }
+    // }
 }
