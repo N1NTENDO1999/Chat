@@ -1,15 +1,21 @@
 import { observable, computed, action, toJS } from "mobx";
 import { Injectable } from '@angular/core';
-import { UserDto } from '../api/models';
+import { UserDto, ProfileInfoDto } from '../api/models';
 
 @Injectable()
 export class UsersStore {
-    @observable Users: UserDto[] = [];
+    @observable private Users: UserDto[] = [];
     // @observable ChatUsers: UserDto[] = [];
-    @observable DetailUserId: number;
+    @observable private DetailUserId: number;
+    
+    @observable private EditUserProfile: ProfileInfoDto;
 
     @computed get AllUsers(): UserDto[] {
         return toJS(this.Users);
+    }
+
+    @computed get UserProfile(): ProfileInfoDto{
+        return toJS(this.EditUserProfile);
     }
 
     @computed get GetDetailUserId(): number {
@@ -21,6 +27,14 @@ export class UsersStore {
     // }
     @action setDetailUserId(userId: number){
         this.DetailUserId = userId;
+    }
+
+    @action SetEditProfile(profile: ProfileInfoDto){
+        this.EditUserProfile = profile;
+    }
+
+    @action ClearEditProfile(){
+        this.EditUserProfile = null;
     }
 
     @action setUsers(users: UserDto[]) {

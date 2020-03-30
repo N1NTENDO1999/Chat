@@ -12,8 +12,7 @@ import { User } from 'src/app/core/models/User';
 })
 export class UserDetailsComponent implements OnInit {
     user: ProfileInfoDto;
-    url: string;
-
+    URL;
     constructor(
         private usersStore: UsersStore,
         private usersService: UsersService
@@ -30,11 +29,24 @@ export class UserDetailsComponent implements OnInit {
         if (this.usersStore.GetDetailUserId) {
             id = this.usersStore.GetDetailUserId;
         }
-        else{
+        else {
             id = JSON.parse(localStorage.getItem('currentUser')).Id;
         }
 
         this.usersService.apiUsersUserIdProfileGet$Json({ id: id })
             .subscribe(p => this.user = p);
+    }
+    useImage(event) {
+        if (event.target.files && event.target.files[0]) {
+            const reader = new FileReader();
+
+            reader.readAsDataURL(event.target.files[0]); // Read file as data url
+            reader.onloadend = (e) => { // function call once readAsDataUrl is completed
+                this.URL = reader.result; // Set image in element
+                console.log(this.URL);
+                this.user.Picture = this.URL;
+                // this._changeDetection.markForCheck(); // Is called because ChangeDetection is set to onPush
+            };
+        }
     }
 }
