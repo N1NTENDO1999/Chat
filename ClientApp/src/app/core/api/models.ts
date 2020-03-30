@@ -18,5 +18,6 @@ export { EditUserProfileCommand } from './models/edit-user-profile-command';
 export { GetUsersByNicknameQueryResult } from './models/get-users-by-nickname-query-result';
 export { GetUserChatsQueryResult } from './models/get-user-chats-query-result';
 export { ProfileInfoDto } from './models/profile-info-dto';
+export { UpdateProfileInfoCommand } from './models/update-profile-info-command';
 export { UpdatePasswordCommand } from './models/update-password-command';
 export { UpdateUserPictureCommand } from './models/update-user-picture-command';
