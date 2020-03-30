@@ -6,6 +6,7 @@ import { UserDto } from '../api/models';
 export class UsersStore {
     @observable Users: UserDto[] = [];
     // @observable ChatUsers: UserDto[] = [];
+    @observable DetailUser: UserDto;
 
     @computed get AllUsers(): UserDto[] {
         return toJS(this.Users);
@@ -14,6 +15,9 @@ export class UsersStore {
     // @action setUsers(users: UserDto[]){
     //     this.Users = [...users.filter(p => this.ChatUsers.findIndex(z => z.Id == p.Id) === -1)];
     // }
+    @action setDetailUser(user: UserDto){
+        this.DetailUser = user;
+    }
 
     @action setUsers(users: UserDto[]) {
         this.Users = [...users];
