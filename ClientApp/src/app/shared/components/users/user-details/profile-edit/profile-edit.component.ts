@@ -3,6 +3,9 @@ import { ProfileInfoDto } from 'src/app/core/api/models';
 import { UsersStore } from 'src/app/core/stores/UsersStore';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Location } from '@angular/common';
+import { UsersService } from 'src/app/core/api/services';
+import { AlertService } from 'src/app/core/services/Alert.service';
 
 @Component({
     selector: 'profile-edit-component',
@@ -17,12 +20,17 @@ export class ProfileEditComponent implements OnInit {
     constructor(
         private usersStore: UsersStore,
         private formBuilder: FormBuilder,
-        private router: Router
+        private router: Router,
+        private usersService: UsersService,
+        private location: Location,
+        private alertService: AlertService
     ) {
-        if(!this.usersStore.UserProfile){
+        if (!this.usersStore.UserProfile) {
             this.router.navigateByUrl('/profile');
         }
     }
+
+    get f() { return this.editForm.controls; }
 
     ngOnInit() {
         this.user = this.usersStore.UserProfile;
@@ -46,11 +54,30 @@ export class ProfileEditComponent implements OnInit {
         }
     }
 
-    onSubmit(){
-        console.log(this.user.Picture)
+
+
+    onSubmit() {
+        if (!this.editForm.valid) {
+            return;
+        }
+
+        let result = window.confirm("Apply Changer?");
+        if (!result) {
+            this.alertService.error("changes canceled");
+            return;
+        }
+
+        this.usersService
+            .apiUsersUserIdPicturePut$Json({ id: "1", body: { UserId: this.user.Id, Picture: this.user.Picture } })
+            .subscribe(p => {
+                this.alertService.success("Updated Profile", true);
+                this.router.navigateByUrl('/profile');
+            });
+
+    //    this.router.navigateByUrl('/profile');
     }
 
-    back(){
-        
+    back() {
+        this.location.back();
     }
 }
