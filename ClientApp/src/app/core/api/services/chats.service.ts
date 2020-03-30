@@ -10,6 +10,7 @@ import { map, filter } from 'rxjs/operators';
 
 import { AddChatPictureCommand } from '../models/add-chat-picture-command';
 import { ChangeChatCommand } from '../models/change-chat-command';
+import { ChatDto } from '../models/chat-dto';
 import { CommandChatResult } from '../models/command-chat-result';
 import { CommandResult } from '../models/command-result';
 import { CreateChatCommand } from '../models/create-chat-command';
@@ -234,7 +235,7 @@ export class ChatsService extends BaseService {
     chatId: number;
     userId: number;
 
-  }): Observable<StrictHttpResponse<CommandResult>> {
+  }): Observable<StrictHttpResponse<ChatDto>> {
 
     const rb = new RequestBuilder(this.rootUrl, ChatsService.ApiChatsChatChatIdUserUserIdPostPath, 'post');
     if (params) {
@@ -249,7 +250,7 @@ export class ChatsService extends BaseService {
     })).pipe(
       filter((r: any) => r instanceof HttpResponse),
       map((r: HttpResponse<any>) => {
-        return r as StrictHttpResponse<CommandResult>;
+        return r as StrictHttpResponse<ChatDto>;
       })
     );
   }
@@ -264,10 +265,10 @@ export class ChatsService extends BaseService {
     chatId: number;
     userId: number;
 
-  }): Observable<CommandResult> {
+  }): Observable<ChatDto> {
 
     return this.apiChatsChatChatIdUserUserIdPost$Plain$Response(params).pipe(
-      map((r: StrictHttpResponse<CommandResult>) => r.body as CommandResult)
+      map((r: StrictHttpResponse<ChatDto>) => r.body as ChatDto)
     );
   }
 
@@ -281,7 +282,7 @@ export class ChatsService extends BaseService {
     chatId: number;
     userId: number;
 
-  }): Observable<StrictHttpResponse<CommandResult>> {
+  }): Observable<StrictHttpResponse<ChatDto>> {
 
     const rb = new RequestBuilder(this.rootUrl, ChatsService.ApiChatsChatChatIdUserUserIdPostPath, 'post');
     if (params) {
@@ -296,7 +297,7 @@ export class ChatsService extends BaseService {
     })).pipe(
       filter((r: any) => r instanceof HttpResponse),
       map((r: HttpResponse<any>) => {
-        return r as StrictHttpResponse<CommandResult>;
+        return r as StrictHttpResponse<ChatDto>;
       })
     );
   }
@@ -311,10 +312,10 @@ export class ChatsService extends BaseService {
     chatId: number;
     userId: number;
 
-  }): Observable<CommandResult> {
+  }): Observable<ChatDto> {
 
     return this.apiChatsChatChatIdUserUserIdPost$Json$Response(params).pipe(
-      map((r: StrictHttpResponse<CommandResult>) => r.body as CommandResult)
+      map((r: StrictHttpResponse<ChatDto>) => r.body as ChatDto)
     );
   }
 
