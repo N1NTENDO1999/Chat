@@ -31,6 +31,7 @@ import { UsersStore } from './core/stores/UsersStore';
 import { ScheduledMessagesComponent } from './shared/components/scheduled-messages/scheduled-messages.component';
 import { ScheduledMessagesStore } from './core/stores/SchedluledMessagesStore';
 import { UserDetailsComponent } from './shared/components/users/user-details/user-details.component';
+import { ProfileEditComponent } from './shared/components/users/user-details/profile-edit/profile-edit.component';
 
 let config = new AuthServiceConfig([
   {
@@ -56,7 +57,8 @@ export function provideConfig() {
     CreateChatComponent,
     UsersSearchComponent,
     ScheduledMessagesComponent,
-    UserDetailsComponent
+    UserDetailsComponent,
+    ProfileEditComponent
   ],
   imports: [
     BrowserModule,
