@@ -44,17 +44,4 @@ export class UserDetailsComponent implements OnInit {
         this.router.navigateByUrl("/profile/edit");
     }
 
-    // useImage(event) {
-    //     if (event.target.files && event.target.files[0]) {
-    //         const reader = new FileReader();
-
-    //         reader.readAsDataURL(event.target.files[0]); // Read file as data url
-    //         reader.onloadend = (e) => { // function call once readAsDataUrl is completed
-    //             this.URL = reader.result; // Set image in element
-    //             console.log(this.URL);
-    //             this.user.Picture = this.URL;
-    //             // this._changeDetection.markForCheck(); // Is called because ChangeDetection is set to onPush
-    //         };
-    //     }
-    // }
 }
