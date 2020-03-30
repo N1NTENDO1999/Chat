@@ -8,7 +8,7 @@ import { UserDto } from 'src/app/core/api/models';
     styleUrls: ['./user-details.component.css']
 })
 export class UserDetailsComponent implements OnInit {
-    user: UserDto;
+    userId: number;
 
     constructor(
         private usersStore: UsersStore
@@ -16,6 +16,7 @@ export class UserDetailsComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.user = this.usersStore.GetDetailUser;
+        this.userId = this.usersStore.GetDetailUserId;
+        console.log(this.user);
     }
 }

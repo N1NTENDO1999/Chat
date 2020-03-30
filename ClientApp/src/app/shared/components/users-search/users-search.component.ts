@@ -43,7 +43,7 @@ export class UsersSearchComponent implements OnInit, OnDestroy {
     }
 
     details(user: UserDto){
-        this.usersStore.setDetailUser(user);
+        this.usersStore.setDetailUserId(user.Id);
         this.router.navigateByUrl('/profile');
     }
 

@@ -6,21 +6,21 @@ import { UserDto } from '../api/models';
 export class UsersStore {
     @observable Users: UserDto[] = [];
     // @observable ChatUsers: UserDto[] = [];
-    @observable DetailUser: UserDto;
+    @observable DetailUserId: number;
 
     @computed get AllUsers(): UserDto[] {
         return toJS(this.Users);
     }
 
-    @computed get GetDetailUser(): UserDto {
-        return toJS(this.DetailUser);
+    @computed get GetDetailUserId(): number {
+        return this.DetailUserId;
     }
 
     // @action setUsers(users: UserDto[]){
     //     this.Users = [...users.filter(p => this.ChatUsers.findIndex(z => z.Id == p.Id) === -1)];
     // }
-    @action setDetailUser(user: UserDto){
-        this.DetailUser = user;
+    @action setDetailUserId(userId: number){
+        this.DetailUserId = userId;
     }
 
     @action setUsers(users: UserDto[]) {
