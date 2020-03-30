@@ -6,6 +6,7 @@ using ChatWebApi.Application;
 using ChatWebApi.Application.Chats.Queries;
 using ChatWebApi.Application.Users.Commands;
 using ChatWebApi.Application.Users.Queries;
+using ChatWebApi.Application.Users.UserDTOs;
 using ChatWebApi.Interfaces.Requests;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -52,6 +53,13 @@ namespace ChatWebApi.Controllers
             return await _mediator.Send(new GetUserChatsQuery { Id = id });
         }
 
+        [HttpGet]
+        [Route("user/{id}/profile")]
+        public async Task<ProfileInfoDTO> GetUserProfileInfo(int id)
+        {
+            return await _mediator.Send(new GetUserProfileInfoQuery { Id = id });
+        }
+
         [AllowAnonymous]
         [HttpPost]
         public async Task<CommandResult> CreateUser(CreateUserCommand request)
@@ -69,6 +77,13 @@ namespace ChatWebApi.Controllers
         [HttpPut]
         [Route("user/{id}/picture")]
         public async Task<CommandResult> UpdatePicture(UpdateUserPictureCommand request)
+        {
+            return await _mediator.Send(request);
+        }
+
+        [HttpPut]
+        [Route("user/{id}/profile")]
+        public async Task<CommandResult> UpdateProfile(UpdateProfileInfoCommand request)
         {
             return await _mediator.Send(request);
         }

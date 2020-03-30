@@ -11,6 +11,7 @@ using ChatWebApi.Application.ScheduledMessages.Commands;
 using ChatWebApi.Application.ScheduledMessages.ScheduledMessagesDTOs;
 using ChatWebApi.Application.Users.Commands;
 using ChatWebApi.Application.Users.Queries.UserDTOs;
+using ChatWebApi.Application.Users.UserDTOs;
 using ChatWebApi.Infrastructure.Entities;
 
 namespace ChatWebApi.Application
@@ -41,6 +42,9 @@ namespace ChatWebApi.Application
                 .ReverseMap();
 
             CreateMap<ScheduledMessage, AddScheduledMessageCommand>()
+                .ReverseMap();
+
+            CreateMap<User, ProfileInfoDTO>()
                 .ReverseMap();
 
             CreateMap<User, ChatDTO>()

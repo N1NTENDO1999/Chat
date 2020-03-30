@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { ChatsStore } from '../stores/chatsStore';
 import { MessagesStore } from '../stores/MessagesStore';
 import { SignalrService } from '../signalR/SignalR.service';
+import { UsersStore } from '../stores/UsersStore';
 
 @Component({
     selector: 'header-component',
@@ -20,7 +21,8 @@ export class HeaderComponent implements OnInit {
         private authenticationService: AuthenticationService,
         private chatsStore: ChatsStore,
         private messagesStore: MessagesStore,
-        private signalRService: SignalrService
+        private signalRService: SignalrService,
+        private usersStore: UsersStore
     ) {}
 
     logout() {
@@ -30,6 +32,12 @@ export class HeaderComponent implements OnInit {
         this.chatsStore.clearSelected();
         this.signalRService.disconnect();
         this.router.navigate(['/login']);
+    }
+
+    details(){
+        let currentUser: User = JSON.parse(localStorage.getItem('currentUser'));
+        this.usersStore.setDetailUserId(currentUser.Id);
+        this.router.navigateByUrl('/profile');
     }
 
     ngOnInit(): void {
