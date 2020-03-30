@@ -69,6 +69,6 @@ export class UsersSearchComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-
+        
     }
 }

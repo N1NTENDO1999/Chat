@@ -12,6 +12,7 @@ import { User } from 'src/app/core/models/User';
 })
 export class UserDetailsComponent implements OnInit {
     user: ProfileInfoDto;
+    url: string;
 
     constructor(
         private usersStore: UsersStore,
@@ -21,11 +22,19 @@ export class UserDetailsComponent implements OnInit {
 
     canEdit(): boolean {
         let currentUser: User = JSON.parse(localStorage.getItem('currentUser'));
-        return currentUser.Id === this.user.Id; 
+        return currentUser.Id === this.user.Id;
     }
 
     ngOnInit() {
-        this.usersService.apiUsersUserIdProfileGet$Json({ id: this.usersStore.GetDetailUserId })
+        let id: number;
+        if (this.usersStore.GetDetailUserId) {
+            id = this.usersStore.GetDetailUserId;
+        }
+        else{
+            id = JSON.parse(localStorage.getItem('currentUser')).Id;
+        }
+
+        this.usersService.apiUsersUserIdProfileGet$Json({ id: id })
             .subscribe(p => this.user = p);
     }
 }
