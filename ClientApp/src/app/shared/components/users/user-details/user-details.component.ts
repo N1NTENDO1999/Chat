@@ -3,6 +3,7 @@ import { UsersStore } from 'src/app/core/stores/UsersStore';
 import { UserDto } from 'src/app/core/api/models';
 import { ProfileInfoDto } from 'src/app/core/api/models/profile-info-dto';
 import { UsersService } from 'src/app/core/api/services';
+import { User } from 'src/app/core/models/User';
 
 @Component({
     selector: 'user-details-component',
@@ -16,6 +17,11 @@ export class UserDetailsComponent implements OnInit {
         private usersStore: UsersStore,
         private usersService: UsersService
     ) {
+    }
+
+    canEdit(): boolean {
+        let currentUser: User = JSON.parse(localStorage.getItem('currentUser'));
+        return currentUser.Id === this.user.Id; 
     }
 
     ngOnInit() {

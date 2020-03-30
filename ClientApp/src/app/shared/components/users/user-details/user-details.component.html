@@ -1,5 +1,10 @@
 <div *ngIf="user" class="container">
-    <h1>{{user.Nickname}}</h1>
-    <h1>{{user.FirstName}}</h1>
-    <h1>{{user.LastName}}</h1>
+    <div class="container">
+        <img src="{{user.Picture}}" class="rounded float-left" alt="...">
+        <h1 class="display-1">{{user.Nickname}}</h1>
+        <p class="lead">Last Seen: {{user.ActiveDateTime | date}}</p>
+        <h1>{{user.FirstName}} {{user.LastName}}</h1>
+        <p class="lead">Register Date: {{user.DateCreated | date}}</p>
+    </div>
+    <button *ngIf="canEdit()" class="btn btn-primary">Edit</button>
 </div>
