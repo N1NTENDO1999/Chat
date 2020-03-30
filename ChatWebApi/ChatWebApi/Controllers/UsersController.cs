@@ -6,6 +6,7 @@ using ChatWebApi.Application;
 using ChatWebApi.Application.Chats.Queries;
 using ChatWebApi.Application.Users.Commands;
 using ChatWebApi.Application.Users.Queries;
+using ChatWebApi.Application.Users.UserDTOs;
 using ChatWebApi.Interfaces.Requests;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -50,6 +51,13 @@ namespace ChatWebApi.Controllers
         public async Task<GetUserChatsQueryResult> GetUserChats(int id)
         {
             return await _mediator.Send(new GetUserChatsQuery { Id = id });
+        }
+
+        [HttpGet]
+        [Route("user/{id}/profile")]
+        public async Task<ProfileInfoDTO> GetUserProfileInfo(int id)
+        {
+            return await _mediator.Send(new GetUserProfileInfoQuery { Id = id });
         }
 
         [AllowAnonymous]

@@ -39,5 +39,10 @@ namespace ChatWebApi.Infrastructure
 
 			base.OnModelCreating(modelBuilder);
 		}
+
+		internal Task FirstAsync()
+		{
+			throw new NotImplementedException();
+		}
 	}
 }
