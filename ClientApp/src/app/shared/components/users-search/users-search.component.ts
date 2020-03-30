@@ -42,6 +42,11 @@ export class UsersSearchComponent implements OnInit, OnDestroy {
 
     }
 
+    details(user: UserDto){
+        this.usersStore.setDetailUser(user);
+        this.router.navigateByUrl('/profile');
+    }
+
     addUser(user: UserDto) {
         this.chatService
             .apiChatsChatChatIdUserUserIdGet$Json({ userId: user.Id, chatId: this.chatsStore.chat.Id })

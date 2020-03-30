@@ -12,6 +12,10 @@ export class UsersStore {
         return toJS(this.Users);
     }
 
+    @computed get GetDetailUser(): UserDto {
+        return toJS(this.DetailUser);
+    }
+
     // @action setUsers(users: UserDto[]){
     //     this.Users = [...users.filter(p => this.ChatUsers.findIndex(z => z.Id == p.Id) === -1)];
     // }
