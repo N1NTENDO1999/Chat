@@ -24,7 +24,7 @@ export class ChatsStore {
 
     @action MarkAsRead(chatId:number, isPersonal: boolean){
         var index = this.chats.findIndex(p => p.Id == chatId && p.IsPersonal == isPersonal);
-        this.chat[index].UnreadMessagesCount = 0;
+        this.chats[index].UnreadMessagesCount = 0;
     }
 
     @action IncreaceUnreadCount(chatId: number, isPersonal: boolean){

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ChatWebApi.Application.Chats.Commands;
 using ChatWebApi.Application.Messages.Commands;
 using ChatWebApi.Application.Messages.Queries;
 using ChatWebApi.Application.PersonalMessages.Commands;
@@ -96,6 +97,11 @@ namespace ChatWebApi.SignalR
 			var connectedString = twoUsersConnectionString(senderId, receiverId);
 			await Clients.Groups(connectedString).SendAsync("UpdateChatMessages", personalResult.Message, senderId, true);
 			await Clients.GroupExcept(connectedString, Context.ConnectionId).SendAsync("AddUnreadMessage", senderId, true);
+		}
+
+		public async Task MarkAsReadChat(int chatId, int userId) 
+		{
+			await _mediator.Send(new MarkMessagesAsReadCommand { ChatId = chatId, UserId = userId });
 		}
 
 		public async Task GetScheduledMessages(int senderId, int receiverId, bool isPersonal)
