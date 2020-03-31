@@ -32,7 +32,7 @@ namespace ChatWebApi.Application.PersonalMessages.Commands
 				.Where(p => p.SenderId == request.SenderId)
 				.Select(c => { c.IsRead = true; return c; })
 				.ToList();
-
+			await _db.SaveChangesAsync();
 			return new CommandResult();
 		}
 	}

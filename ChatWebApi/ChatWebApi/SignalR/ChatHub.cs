@@ -101,6 +101,16 @@ namespace ChatWebApi.SignalR
 				.SendAsync("AddUnreadMessage", senderId, true, personalResult.Message.Id);
 		}
 
+		public async Task ReadSinglePersonalMessage(int messageId)
+		{
+			await _mediator.Send(new ReadSinglePersonalMessageCommand { MessageId = messageId });
+		}
+
+		public async Task ReadSingleChatMessage(int messageId)
+		{
+			await _mediator.Send(new ReadSingleChatMessageCommand { MessageId = messageId });
+		}
+
 		public async Task MarkAsReadChat(int chatId, int userId) 
 		{
 			await _mediator.Send(new MarkMessagesAsReadCommand { ChatId = chatId, UserId = userId });
