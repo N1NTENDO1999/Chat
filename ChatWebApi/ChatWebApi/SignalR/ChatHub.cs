@@ -85,6 +85,7 @@ namespace ChatWebApi.SignalR
 			var result = await _mediator.Send(new SendMessageCommand { ChatId = chatId, SenderId = userId, Text = message });
 			var messageResult = await _mediator.Send(new GetChatMessageByIdQuery { Id = result.Id });
 			await Clients.Groups(chatId.ToString()).SendAsync("UpdateChatMessages", messageResult.Message, chatId, false);
+			await Clients.GroupExcept(chatId.ToString(), Context.ConnectionId).SendAsync("AddUnreadMessage", chatId, false);
 		}
 
 		public async Task SendPersonalMessage(int senderId, int receiverId, string message)
@@ -94,7 +95,7 @@ namespace ChatWebApi.SignalR
 			var personalResult = await _mediator.Send(new GetPersonalMessageByIdQuery { Id = result.Id });
 			var connectedString = twoUsersConnectionString(senderId, receiverId);
 			await Clients.Groups(connectedString).SendAsync("UpdateChatMessages", personalResult.Message, senderId, true);
-			//await Clients.GroupExcept(connectedString, Context.ConnectionId).SendAsync("AddUnreadMessage");
+			await Clients.GroupExcept(connectedString, Context.ConnectionId).SendAsync("AddUnreadMessage", senderId, true);
 		}
 
 		public async Task GetScheduledMessages(int senderId, int receiverId, bool isPersonal)

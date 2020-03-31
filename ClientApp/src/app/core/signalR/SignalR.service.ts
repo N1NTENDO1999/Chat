@@ -55,7 +55,7 @@ export class SignalrService {
             .catch(err => console.log("Error when Add User To Chat: " + err));
     }
 
-    public GetScheduledMessages(senderId: number, receiverId: number, isPersonal: boolean){
+    public GetScheduledMessages(senderId: number, receiverId: number, isPersonal: boolean) {
         this.hubConnection.invoke("GetScheduledMessages", senderId, receiverId, isPersonal)
             .then(_ => console.log("Get Scheduled Messages"))
             .catch(err => console.log("Error when receive scheduled messages: " + err));
@@ -74,8 +74,8 @@ export class SignalrService {
             .catch(err => console.log("Error when Add User To Chat: " + err));
     }
 
-    private updateScheduledMessages(messages: ScheduledMessageDto[]){
-        if(messages){
+    private updateScheduledMessages(messages: ScheduledMessageDto[]) {
+        if (messages) {
             this.scheduledMessagesStore.setMessages(messages);
         }
     }
@@ -111,6 +111,13 @@ export class SignalrService {
 
     private addScheduledMessage(message: ScheduledMessageDto): void {
         console.log(message);
+    }
+
+    private addUnreadMessage(chatId: number, isPersonal: boolean) {
+        // if(this.chatsStore.chat.Id == chatId && this.chatsStore.chat.IsPersonal == isPersonal ){
+
+        // }
+        this.chatsStore.IncreaceUnreadCount(chatId, isPersonal);
     }
 
     public startConnection = (id: number) => {
@@ -171,6 +178,7 @@ export class SignalrService {
         this.hubConnection.on("AddUserToChat", (chat, userId) => this.updateChats(chat, userId));
         this.hubConnection.on("Msq", (chat) => console.log(chat));
         this.hubConnection.on("GetScheduledMessages", (messages) => this.updateScheduledMessages(messages));
+        this.hubConnection.on("AddUnreadMessage", (chatId, isPersonal) => this.addUnreadMessage(chatId, isPersonal));
     }
 
 }
