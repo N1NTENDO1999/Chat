@@ -7,6 +7,7 @@ import { AuthenticationService } from 'src/app/core/services/Authentication.serv
 import { SignalrService } from 'src/app/core/signalR/SignalR.service';
 import { AlertService } from 'src/app/core/services/Alert.service';
 import { ChatsStore } from 'src/app/core/stores/chatsStore';
+import { MessagesStore } from 'src/app/core/stores/MessagesStore';
 
 @Component({
     selector: 'chats-search-result-component',
@@ -22,11 +23,12 @@ export class ChatsSearchResultComponent implements OnInit {
         private authService: AuthenticationService,
         public signalRService: SignalrService,
         private alertService: AlertService,
-        public chatsStore: ChatsStore
+        public chatsStore: ChatsStore,
+        public messagesStore: MessagesStore
     ) { }
 
     getChat(chat: ChatDto) {
-        console.log(chat);
+        this.messagesStore.clearMessages();
         if(chat.IsPersonal){
             this.chatsStore.addSelectedChat(chat);
             this.signalRService.GetPersonalMessages(chat.Id);

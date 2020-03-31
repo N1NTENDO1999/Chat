@@ -104,6 +104,11 @@ namespace ChatWebApi.SignalR
 			await _mediator.Send(new MarkMessagesAsReadCommand { ChatId = chatId, UserId = userId });
 		}
 
+		public async Task MarkAsReadPersonal(int senderId, int receiverId)
+		{
+			await _mediator.Send(new MarkAsReadMessageCommand { ReceiverId = receiverId, SenderId = senderId });
+		}
+
 		public async Task GetScheduledMessages(int senderId, int receiverId, bool isPersonal)
 		{
 			var result = await _mediator
