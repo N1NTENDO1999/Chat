@@ -44,11 +44,11 @@ namespace ChatWebApi.Application.Chats.Queries
 
 				if (!chat.IsPersonal)
 				{
-					count = _db.Messages.Count(p => p.SenderId != request.UserId & !p.IsRead & p.ChatId == chat.Id);
+					count = await _db.Messages.CountAsync(p => p.SenderId != request.UserId & !p.IsRead & p.ChatId == chat.Id);
 				}
 				else
 				{
-					count = _db.PersonalMessages.Count( p => p.SenderId == chat.Id & p.ReceiverId == request.UserId & !p.IsRead);
+					count = await _db.PersonalMessages.CountAsync( p => p.SenderId == chat.Id & p.ReceiverId == request.UserId & !p.IsRead);
 				}
 
 				chat.UnreadMessagesCount = count;
