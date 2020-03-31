@@ -15,6 +15,7 @@ namespace ChatWebApi.Application.Chats.ChatDTOs
 		public bool IsPrivate { get; set; }
 		public int OwnerId { get; set; }
 		public bool IsPersonal { get; set; }
+		public int UnreadMessagesCount { get; set; }
 	}
 
 	public class ChatDTOEqualityComparer : IEqualityComparer<ChatDTO>

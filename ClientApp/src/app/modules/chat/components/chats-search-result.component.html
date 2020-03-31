@@ -8,6 +8,7 @@
         <div (click)="getChat(chat)">
           <img src="{{chat.Picture}}" style="width: 30px; height: 30px;" class="rounded-circle">
           {{chat.Name}}
+          <span *ngIf="chat.UnreadMessagesCount" class="badge badge-pill badge-primary">{{chat.UnreadMessagesCount}}</span>
         </div>
       </a>
     </div>

@@ -3,20 +3,23 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using ChatWebApi.Application.Chats.ChatDTOs;
 using ChatWebApi.Infrastructure;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+
 
 namespace ChatWebApi.Application.Chats.Queries
 {
 	public class GetUnreadMessagesQuery : IRequest<GetUnreadMessagesQueryResult>
 	{
-		public int ChatId { get; set; }
+		public int UserId { get; set; }
+		public List<ChatDTO> Chats { get; set; }
 	}
 
-	public class GetUnreadMessagesQueryResult
+		public class GetUnreadMessagesQueryResult
 	{
-		public int UnreadMessagesCount { get; set; }
+		public List<ChatDTO> Chats { get; set; }
 	}
 
 	public class GetUnreadMessagesQueryHandler : IRequestHandler<GetUnreadMessagesQuery, GetUnreadMessagesQueryResult>
@@ -30,10 +33,28 @@ namespace ChatWebApi.Application.Chats.Queries
 
 		public async Task<GetUnreadMessagesQueryResult> Handle(GetUnreadMessagesQuery request, CancellationToken cancellationToken)
 		{
-			var chat = await _db.Chats.Include(p => p.Messages).FirstAsync(p => p.Id == request.ChatId);
-			var count = chat.Messages.Count(p => !p.IsRead);
+			foreach (var chat in request.Chats)
+			{
+				var count = 0;
+				if (chat.Id == request.UserId & chat.IsPersonal)
+				{
+					chat.UnreadMessagesCount = count;
+					continue;
+				}
 
-			return new GetUnreadMessagesQueryResult { UnreadMessagesCount = count };
+				if (!chat.IsPersonal)
+				{
+					count = await _db.Messages.CountAsync(p => p.SenderId != request.UserId & !p.IsRead & p.ChatId == chat.Id);
+				}
+				else
+				{
+					count = await _db.PersonalMessages.CountAsync( p => p.SenderId == chat.Id & p.ReceiverId == request.UserId & !p.IsRead);
+				}
+
+				chat.UnreadMessagesCount = count;
+			}
+
+			return new GetUnreadMessagesQueryResult { Chats = request.Chats	};
 		}
 	}
 }

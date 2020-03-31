@@ -50,7 +50,9 @@ namespace ChatWebApi.Controllers
         [Route("user/{id}/chats")]
         public async Task<GetUserChatsQueryResult> GetUserChats(int id)
         {
-            return await _mediator.Send(new GetUserChatsQuery { Id = id });
+            var chats = await _mediator.Send(new GetUserChatsQuery { Id = id });
+            var result = await _mediator.Send(new GetUnreadMessagesQuery { UserId = id, Chats = chats.Chats });
+            return new GetUserChatsQueryResult { Chats = result.Chats };
         }
 
         [HttpGet]

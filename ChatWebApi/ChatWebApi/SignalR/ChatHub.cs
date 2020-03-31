@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ChatWebApi.Application.Chats.Commands;
 using ChatWebApi.Application.Messages.Commands;
 using ChatWebApi.Application.Messages.Queries;
 using ChatWebApi.Application.PersonalMessages.Commands;
@@ -85,6 +86,8 @@ namespace ChatWebApi.SignalR
 			var result = await _mediator.Send(new SendMessageCommand { ChatId = chatId, SenderId = userId, Text = message });
 			var messageResult = await _mediator.Send(new GetChatMessageByIdQuery { Id = result.Id });
 			await Clients.Groups(chatId.ToString()).SendAsync("UpdateChatMessages", messageResult.Message, chatId, false);
+			await Clients.GroupExcept(chatId.ToString(), Context.ConnectionId)
+				.SendAsync("AddUnreadMessage", chatId, false, messageResult.Message.Id);
 		}
 
 		public async Task SendPersonalMessage(int senderId, int receiverId, string message)
@@ -94,6 +97,28 @@ namespace ChatWebApi.SignalR
 			var personalResult = await _mediator.Send(new GetPersonalMessageByIdQuery { Id = result.Id });
 			var connectedString = twoUsersConnectionString(senderId, receiverId);
 			await Clients.Groups(connectedString).SendAsync("UpdateChatMessages", personalResult.Message, senderId, true);
+			await Clients.GroupExcept(connectedString, Context.ConnectionId)
+				.SendAsync("AddUnreadMessage", senderId, true, personalResult.Message.Id);
+		}
+
+		public async Task ReadSinglePersonalMessage(int messageId)
+		{
+			await _mediator.Send(new ReadSinglePersonalMessageCommand { MessageId = messageId });
+		}
+
+		public async Task ReadSingleChatMessage(int messageId)
+		{
+			await _mediator.Send(new ReadSingleChatMessageCommand { MessageId = messageId });
+		}
+
+		public async Task MarkAsReadChat(int chatId, int userId) 
+		{
+			await _mediator.Send(new MarkMessagesAsReadCommand { ChatId = chatId, UserId = userId });
+		}
+
+		public async Task MarkAsReadPersonal(int senderId, int receiverId)
+		{
+			await _mediator.Send(new MarkAsReadMessageCommand { ReceiverId = receiverId, SenderId = senderId });
 		}
 
 		public async Task GetScheduledMessages(int senderId, int receiverId, bool isPersonal)

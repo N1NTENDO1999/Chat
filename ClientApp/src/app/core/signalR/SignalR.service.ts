@@ -55,7 +55,7 @@ export class SignalrService {
             .catch(err => console.log("Error when Add User To Chat: " + err));
     }
 
-    public GetScheduledMessages(senderId: number, receiverId: number, isPersonal: boolean){
+    public GetScheduledMessages(senderId: number, receiverId: number, isPersonal: boolean) {
         this.hubConnection.invoke("GetScheduledMessages", senderId, receiverId, isPersonal)
             .then(_ => console.log("Get Scheduled Messages"))
             .catch(err => console.log("Error when receive scheduled messages: " + err));
@@ -74,8 +74,8 @@ export class SignalrService {
             .catch(err => console.log("Error when Add User To Chat: " + err));
     }
 
-    private updateScheduledMessages(messages: ScheduledMessageDto[]){
-        if(messages){
+    private updateScheduledMessages(messages: ScheduledMessageDto[]) {
+        if (messages) {
             this.scheduledMessagesStore.setMessages(messages);
         }
     }
@@ -113,6 +113,22 @@ export class SignalrService {
         console.log(message);
     }
 
+    private addUnreadMessage(chatId: number, isPersonal: boolean, messageId: number) {
+        if(this.chatsStore.chat.Id == chatId && this.chatsStore.chat.IsPersonal == isPersonal ){
+            if(isPersonal){
+                this.hubConnection.invoke("ReadSinglePersonalMessage", messageId)
+                    .then(() => console.log("Read Single Personal Chat Message"))
+                    .catch(err =>  console.log('Cant Read Single Personal Message: ' + err));
+                return;
+            }
+            this.hubConnection.invoke("ReadSingleChatMessage", messageId)
+            .then(() => console.log("Read Single Chat Chat Message"))
+            .catch(err =>  console.log('Cant Read Chat Personal Message: ' + err));
+            return;
+        }
+        this.chatsStore.IncreaceUnreadCount(chatId, isPersonal);
+    }
+
     public startConnection = (id: number) => {
         this.hubConnection = new signalR.HubConnectionBuilder()
             .withUrl(`https://localhost:44312/chatHub?UserId=${id}`)
@@ -128,6 +144,23 @@ export class SignalrService {
                 this.alertService.error("Cant Connect to server!");
                 setTimeout(() => { this.ConnectAgain(); }, 5000)
             });
+    }
+
+    public MarkMessagesAsRead(chat: ChatDto, userId: number) {
+        if (chat.IsPersonal) {
+            this.hubConnection.invoke("MarkAsReadPersonal", chat.Id, userId)
+                .then(() => this.chatsStore.MarkAsRead(chat.Id, chat.IsPersonal))
+                .catch(err => {
+                    console.log('Error while read personal messages ' + err);
+                });
+        }
+        else {
+            this.hubConnection.invoke("MarkAsReadChat", chat.Id, userId)
+                .then(() => this.chatsStore.MarkAsRead(chat.Id, chat.IsPersonal))
+                .catch(err => {
+                    console.log('Error while read chat messages ' + err);
+                });
+        }
     }
 
     public disconnect() {
@@ -171,6 +204,7 @@ export class SignalrService {
         this.hubConnection.on("AddUserToChat", (chat, userId) => this.updateChats(chat, userId));
         this.hubConnection.on("Msq", (chat) => console.log(chat));
         this.hubConnection.on("GetScheduledMessages", (messages) => this.updateScheduledMessages(messages));
+        this.hubConnection.on("AddUnreadMessage", (chatId, isPersonal, messageId) => this.addUnreadMessage(chatId, isPersonal, messageId));
     }
 
 }

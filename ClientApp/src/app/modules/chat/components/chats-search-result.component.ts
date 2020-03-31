@@ -7,6 +7,7 @@ import { AuthenticationService } from 'src/app/core/services/Authentication.serv
 import { SignalrService } from 'src/app/core/signalR/SignalR.service';
 import { AlertService } from 'src/app/core/services/Alert.service';
 import { ChatsStore } from 'src/app/core/stores/chatsStore';
+import { MessagesStore } from 'src/app/core/stores/MessagesStore';
 
 @Component({
     selector: 'chats-search-result-component',
@@ -22,15 +23,19 @@ export class ChatsSearchResultComponent implements OnInit {
         private authService: AuthenticationService,
         public signalRService: SignalrService,
         private alertService: AlertService,
-        public chatsStore: ChatsStore
+        public chatsStore: ChatsStore,
+        public messagesStore: MessagesStore
     ) { }
 
     getChat(chat: ChatDto) {
-        console.log(chat);
-        if(chat.IsPersonal){
+        this.messagesStore.clearMessages();
+        if (chat.IsPersonal) {
             this.chatsStore.addSelectedChat(chat);
             this.signalRService.GetPersonalMessages(chat.Id);
-            return; 
+            if (chat.UnreadMessagesCount) {
+                this.signalRService.MarkMessagesAsRead(chat, this.authService.currentUserValue.Id);
+            }
+            return;
         }
         this.chatService
             .apiChatsChatChatIdUserUserIdGet$Json({ userId: this.authService.currentUserValue.Id, chatId: chat.Id })
@@ -40,7 +45,11 @@ export class ChatsSearchResultComponent implements OnInit {
     validateChat(chat: ChatDto, isConnected: boolean): void {
         if (isConnected) {
             this.chatsStore.addSelectedChat(chat);
+            if (chat.UnreadMessagesCount) {
+                this.signalRService.MarkMessagesAsRead(chat, this.authService.currentUserValue.Id);
+            }
         }
+
         else {
             let result = window.confirm("Connect to chat?");
             if (!result) {
