@@ -7,4 +7,5 @@ export interface ChatDto {
   Name?: null | string;
   OwnerId?: number;
   Picture?: null | string;
+  UnreadMessagesCount?: number;
 }
