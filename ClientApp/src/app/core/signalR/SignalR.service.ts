@@ -113,10 +113,19 @@ export class SignalrService {
         console.log(message);
     }
 
-    private addUnreadMessage(chatId: number, isPersonal: boolean) {
-        // if(this.chatsStore.chat.Id == chatId && this.chatsStore.chat.IsPersonal == isPersonal ){
-
-        // }
+    private addUnreadMessage(chatId: number, isPersonal: boolean, messageId: number) {
+        if(this.chatsStore.chat.Id == chatId && this.chatsStore.chat.IsPersonal == isPersonal ){
+            if(isPersonal){
+                this.hubConnection.invoke("ReadSinglePersonalMessage", messageId)
+                    .then(() => console.log("Read Single Personal Chat Message"))
+                    .catch(err =>  console.log('Cant Read Single Personal Message: ' + err));
+                return;
+            }
+            this.hubConnection.invoke("ReadSingleChatMessage", messageId)
+            .then(() => console.log("Read Single Chat Chat Message"))
+            .catch(err =>  console.log('Cant Read Chat Personal Message: ' + err));
+            return;
+        }
         this.chatsStore.IncreaceUnreadCount(chatId, isPersonal);
     }
 
@@ -195,7 +204,7 @@ export class SignalrService {
         this.hubConnection.on("AddUserToChat", (chat, userId) => this.updateChats(chat, userId));
         this.hubConnection.on("Msq", (chat) => console.log(chat));
         this.hubConnection.on("GetScheduledMessages", (messages) => this.updateScheduledMessages(messages));
-        this.hubConnection.on("AddUnreadMessage", (chatId, isPersonal) => this.addUnreadMessage(chatId, isPersonal));
+        this.hubConnection.on("AddUnreadMessage", (chatId, isPersonal, messageId) => this.addUnreadMessage(chatId, isPersonal, messageId));
     }
 
 }
