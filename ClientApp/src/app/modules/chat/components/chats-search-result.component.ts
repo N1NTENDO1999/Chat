@@ -29,11 +29,13 @@ export class ChatsSearchResultComponent implements OnInit {
 
     getChat(chat: ChatDto) {
         this.messagesStore.clearMessages();
-        if(chat.IsPersonal){
+        if (chat.IsPersonal) {
             this.chatsStore.addSelectedChat(chat);
             this.signalRService.GetPersonalMessages(chat.Id);
-            this.signalRService.MarkMessagesAsRead(chat, this.authService.currentUserValue.Id);
-            return; 
+            if (chat.UnreadMessagesCount) {
+                this.signalRService.MarkMessagesAsRead(chat, this.authService.currentUserValue.Id);
+            }
+            return;
         }
         this.chatService
             .apiChatsChatChatIdUserUserIdGet$Json({ userId: this.authService.currentUserValue.Id, chatId: chat.Id })
@@ -43,8 +45,11 @@ export class ChatsSearchResultComponent implements OnInit {
     validateChat(chat: ChatDto, isConnected: boolean): void {
         if (isConnected) {
             this.chatsStore.addSelectedChat(chat);
-            this.signalRService.MarkMessagesAsRead(chat, this.authService.currentUserValue.Id);
+            if (chat.UnreadMessagesCount) {
+                this.signalRService.MarkMessagesAsRead(chat, this.authService.currentUserValue.Id);
+            }
         }
+
         else {
             let result = window.confirm("Connect to chat?");
             if (!result) {
