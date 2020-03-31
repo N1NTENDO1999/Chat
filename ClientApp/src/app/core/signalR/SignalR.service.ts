@@ -137,6 +137,23 @@ export class SignalrService {
             });
     }
 
+    public MarkMessagesAsRead(chat: ChatDto, userId: number) {
+        if (chat.IsPersonal) {
+            this.hubConnection.invoke("MarkAsReadPersonal", chat.Id, userId)
+                .then(() => this.chatsStore.MarkAsRead(chat.Id, chat.IsPersonal))
+                .catch(err => {
+                    console.log('Error while read personal messages ' + err);
+                });
+        }
+        else {
+            this.hubConnection.invoke("MarkAsReadChat", chat.Id, userId)
+                .then(() => this.chatsStore.MarkAsRead(chat.Id, chat.IsPersonal))
+                .catch(err => {
+                    console.log('Error while read chat messages ' + err);
+                });
+        }
+    }
+
     public disconnect() {
         this.hubConnection.stop()
         console.log("Stoped connection");

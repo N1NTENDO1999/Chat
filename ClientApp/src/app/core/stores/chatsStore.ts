@@ -22,6 +22,11 @@ export class ChatsStore {
         return -1;
     }
 
+    @action MarkAsRead(chatId:number, isPersonal: boolean){
+        var index = this.chats.findIndex(p => p.Id == chatId && p.IsPersonal == isPersonal);
+        this.chat[index].UnreadMessagesCount = 0;
+    }
+
     @action IncreaceUnreadCount(chatId: number, isPersonal: boolean){
        var index = this.chats.findIndex(p => p.Id == chatId && p.IsPersonal == isPersonal);
        this.chats[index].UnreadMessagesCount++;

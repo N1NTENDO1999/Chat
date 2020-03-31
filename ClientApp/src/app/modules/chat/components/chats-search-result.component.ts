@@ -30,6 +30,7 @@ export class ChatsSearchResultComponent implements OnInit {
         if(chat.IsPersonal){
             this.chatsStore.addSelectedChat(chat);
             this.signalRService.GetPersonalMessages(chat.Id);
+            this.signalRService.MarkMessagesAsRead(chat, this.authService.currentUserValue.Id);
             return; 
         }
         this.chatService
@@ -40,6 +41,7 @@ export class ChatsSearchResultComponent implements OnInit {
     validateChat(chat: ChatDto, isConnected: boolean): void {
         if (isConnected) {
             this.chatsStore.addSelectedChat(chat);
+            this.signalRService.MarkMessagesAsRead(chat, this.authService.currentUserValue.Id);
         }
         else {
             let result = window.confirm("Connect to chat?");
