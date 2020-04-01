@@ -8,9 +8,14 @@ export class MessagesStore{
     @observable private first: number = 0;
     @observable private last: number = 20;
     @observable private loading: boolean;
+    @observable private noMoreMessages: boolean;
 
     @computed get allMessages(): MessageDto[]{
         return toJS(this.messages);
+    }
+    
+    @computed get NoMoreMessages(): boolean{
+        return this.noMoreMessages;
     }
 
     @computed get First(): number{
@@ -39,6 +44,12 @@ export class MessagesStore{
     }
 
     @action setMessages(messages: MessageDto[]){
+        if(!messages.length){
+            this.noMoreMessages = true;
+            this.loading = false;
+            console.log("No More Messages");
+            return;
+        }   
         this.messages = [...messages, ...this.messages];
         this.first += 20;
         this.loading = false;
@@ -47,5 +58,6 @@ export class MessagesStore{
     @action clearMessages(){
         this.messages = [];
         this.first = 0;
+        this.noMoreMessages = false;
     }
 }
