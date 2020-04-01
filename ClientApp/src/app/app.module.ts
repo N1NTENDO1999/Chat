@@ -32,6 +32,8 @@ import { ScheduledMessagesComponent } from './shared/components/scheduled-messag
 import { ScheduledMessagesStore } from './core/stores/SchedluledMessagesStore';
 import { UserDetailsComponent } from './shared/components/users/user-details/user-details.component';
 import { ProfileEditComponent } from './shared/components/users/user-details/profile-edit/profile-edit.component';
+import { SimpleNotificationsModule } from 'angular2-notifications';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 
 let config = new AuthServiceConfig([
   {
@@ -67,6 +69,8 @@ export function provideConfig() {
     FormsModule,
     ReactiveFormsModule,
     SocialLoginModule,
+    BrowserAnimationsModule, 
+    SimpleNotificationsModule.forRoot(),
     ApiModule.forRoot({ rootUrl: "http://localhost:55056"}),
   ],
   providers: [
