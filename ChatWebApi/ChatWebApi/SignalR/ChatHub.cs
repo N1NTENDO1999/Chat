@@ -110,7 +110,7 @@ namespace ChatWebApi.SignalR
 		{
 			await _mediator.Send(new ReadSingleChatMessageCommand { MessageId = messageId });
 		}
-
+		
 		public async Task MarkAsReadChat(int chatId, int userId) 
 		{
 			await _mediator.Send(new MarkMessagesAsReadCommand { ChatId = chatId, UserId = userId });
@@ -128,14 +128,15 @@ namespace ChatWebApi.SignalR
 			await Clients.Caller.SendAsync("GetScheduledMessages", result.Messages);
 		}
 
-		public async Task GetChatMessages(int chatId)
+		public async Task GetChatMessages(int chatId, int first, int last)
 		{
-			var result = await _mediator.Send(new GetChatMessagesQuery { ChatId = chatId });
+			var result = await _mediator.Send(new GetChatMessagesQuery { ChatId = chatId, First = first, Last = last });
 			await Clients.Caller.SendAsync("GetChatMessages", chatId, result.Messages);
 		}
-		public async Task GetPersonalMessages(int senderId, int userId)
+		public async Task GetPersonalMessages(int senderId, int userId, int first, int last)
 		{
-			var result = await _mediator.Send(new GetUserPersonalMessagesQuery { SenderId = senderId, ReceiverId = userId });
+			var result = await _mediator
+				.Send(new GetUserPersonalMessagesQuery { SenderId = senderId, ReceiverId = userId, First = first, Last = last });
 			await Clients.Caller.SendAsync("GetChatMessages", senderId, result.Messages);
 		}
 

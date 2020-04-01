@@ -27,14 +27,14 @@ export class SignalrService {
 
     public GetPersonalMessages(id: number) {
         let currentUser: User = JSON.parse(localStorage.getItem('currentUser'));
-        this.hubConnection.invoke("GetPersonalMessages", id, currentUser.Id)
+        this.hubConnection.invoke("GetPersonalMessages", id, currentUser.Id, 0, 20)
             .then(() => console.log('GetPersonalMEssages'))
             .catch(err => console.log('Error while starting connection: ' + err));
         return;
     }
 
     public GetChatMessages(id: number) {
-        this.hubConnection.invoke("GetChatMessages", id)
+        this.hubConnection.invoke("GetChatMessages", id, 0, 20)
             .then(() => console.log('GetChatMEssages'))
             .catch(err => console.log('Error while starting connection: ' + err));
     }

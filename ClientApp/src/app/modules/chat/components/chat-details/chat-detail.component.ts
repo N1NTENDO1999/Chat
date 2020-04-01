@@ -81,6 +81,10 @@ export class ChatDetailComponent implements OnInit {
         }
     }
 
+    MoreMessages(){
+
+    }
+
     onSubmit() {
         // stop here if form is invalid
         if (this.messageForm.invalid) {

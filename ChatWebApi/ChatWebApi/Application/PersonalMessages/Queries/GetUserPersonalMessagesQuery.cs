@@ -16,6 +16,8 @@ namespace ChatWebApi.Application.PersonalMessages.Queries
 	{
 		public int SenderId { get; set; }
 		public int ReceiverId { get; set; }
+		public int First { get; set; }
+		public int Last { get; set; }
 	}
 
 	public class GetUserPersonalMessagesQueryResult
@@ -38,10 +40,9 @@ namespace ChatWebApi.Application.PersonalMessages.Queries
 		{
 			var messages = await _db.PersonalMessages.Include(p => p.Receiver).Include(p => p.Sender)
 				.Where(p => (p.SenderId == request.SenderId & p.ReceiverId == request.ReceiverId) |
-						(p.SenderId == request.ReceiverId & p.ReceiverId == request.SenderId))
-				.ToListAsync();
+						(p.SenderId == request.ReceiverId & p.ReceiverId == request.SenderId)).ToListAsync();
 
-			var result = _mapper.Map<List<MessageDTO>>(messages);
+			var result = _mapper.Map<List<MessageDTO>>(messages.SkipLast(request.First).TakeLast(request.Last));
 
 			return new GetUserPersonalMessagesQueryResult { Messages = result };
 
