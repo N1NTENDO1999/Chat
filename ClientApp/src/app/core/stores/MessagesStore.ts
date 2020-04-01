@@ -21,20 +21,17 @@ export class MessagesStore{
     }
 
     @action addMessage(value: MessageDto){
-        this.messages = [...this.messages, value];
+        this.messages = [ value, ...this.messages];
         this.first++;
-        this.last++;
     }
 
     @action setMessages(messages: MessageDto[]){
-        this.messages = [...this.messages,...messages];
+        this.messages = [...messages, ...this.messages];
         this.first += 20;
-        this.last += 20;
     }
 
     @action clearMessages(){
         this.messages = [];
         this.first = 0;
-        this.last = 20;
     }
 }
