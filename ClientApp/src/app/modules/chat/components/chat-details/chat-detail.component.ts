@@ -81,6 +81,16 @@ export class ChatDetailComponent implements OnInit {
         }
     }
 
+    MoreMessages(){
+        this.messagesStore.startLoading();
+        console.log(this.chatsStore.chat);
+        if(this.chatsStore.chat.IsPersonal){
+            this.signalRService.GetPersonalMessages(this.chatsStore.chat.Id);
+            return;
+        }
+        this.signalRService.GetChatMessages(this.chatsStore.chat.Id);
+    }
+
     onSubmit() {
         // stop here if form is invalid
         if (this.messageForm.invalid) {

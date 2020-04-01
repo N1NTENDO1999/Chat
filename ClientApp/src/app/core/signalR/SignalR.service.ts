@@ -26,15 +26,17 @@ export class SignalrService {
     ) { }
 
     public GetPersonalMessages(id: number) {
+        console.log(this.messagesStore.First, this.messagesStore.Last);
         let currentUser: User = JSON.parse(localStorage.getItem('currentUser'));
-        this.hubConnection.invoke("GetPersonalMessages", id, currentUser.Id)
+        this.hubConnection.invoke("GetPersonalMessages", id, currentUser.Id, this.messagesStore.First, this.messagesStore.Last)
             .then(() => console.log('GetPersonalMEssages'))
             .catch(err => console.log('Error while starting connection: ' + err));
         return;
     }
 
     public GetChatMessages(id: number) {
-        this.hubConnection.invoke("GetChatMessages", id)
+        console.log(this.messagesStore.First, this.messagesStore.Last);
+        this.hubConnection.invoke("GetChatMessages", id, this.messagesStore.First, this.messagesStore.Last)
             .then(() => console.log('GetChatMEssages'))
             .catch(err => console.log('Error while starting connection: ' + err));
     }
@@ -83,6 +85,7 @@ export class SignalrService {
     }
 
     private updateMessages(id: number, messages: MessageDto[]) {
+        console.log("Here");
         this.messagesStore.setMessages(messages);
     }
 

@@ -14,6 +14,8 @@ namespace ChatWebApi.Application.Messages.Queries
 	public class GetChatMessagesQuery : IRequest<GetChatMessagesQueryResult>
 	{
 		public int ChatId { get; set; }
+		public int First { get; set; }
+		public int Last { get; set; }
 	}
 
 	public class GetChatMessagesQueryResult
@@ -37,7 +39,7 @@ namespace ChatWebApi.Application.Messages.Queries
 			var chat = await _db.Chats.Include(p => p.Messages)
 				.ThenInclude(p => p.Sender)
 				.FirstAsync(p => p.Id == request.ChatId);
-			var messages =  _mapper.Map<List<MessageDTO>>(chat.Messages);
+			var messages = _mapper.Map<List<MessageDTO>>(chat.Messages.SkipLast(request.First).TakeLast(request.Last).ToList());
 
 			return new GetChatMessagesQueryResult { Messages = messages };
 		}
