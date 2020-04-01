@@ -83,7 +83,6 @@ export class SignalrService {
     }
 
     private updateMessages(id: number, messages: MessageDto[]) {
-        console.log(messages);
         this.messagesStore.setMessages(messages);
     }
 
@@ -104,16 +103,15 @@ export class SignalrService {
             this.messagesStore.addMessage(message);
             return;
         }
-        this.notifications.create(message.Sender.Nickname, message.Text, NotificationType.Info)
-        console.log(message);
+        this.notifications.create(message.Sender.Nickname, message.Text, NotificationType.Success);
     }
 
     private addScheduledMessage(message: ScheduledMessageDto): void {
-        console.log(message);
+        this.notifications.create("Successfully scheduled message", message.Text, NotificationType.Success);
     }
 
     private addUnreadMessage(chatId: number, isPersonal: boolean, messageId: number) {
-        if (this.chatsStore.chat.Id == chatId && this.chatsStore.chat.IsPersonal == isPersonal) {
+        if (this.chatsStore.chat && this.chatsStore.chat.Id == chatId && this.chatsStore.chat.IsPersonal == isPersonal) {
             if (isPersonal) {
                 this.hubConnection.invoke("ReadSinglePersonalMessage", messageId)
                     .then(() => console.log("Read Single Personal Chat Message"))
