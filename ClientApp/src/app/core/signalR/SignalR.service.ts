@@ -9,6 +9,7 @@ import { ScheduledMessageDto } from '../models/ScheduledMessageDto';
 import { ChatsStore } from '../stores/chatsStore';
 import { ChatDto } from '../api/models';
 import { ScheduledMessagesStore } from '../stores/SchedluledMessagesStore';
+import { NotificationsService, NotificationType } from 'angular2-notifications';
 
 @Injectable()
 export class SignalrService {
@@ -20,7 +21,8 @@ export class SignalrService {
         private messagesStore: MessagesStore,
         private authService: AuthenticationService,
         private chatsStore: ChatsStore,
-        private scheduledMessagesStore: ScheduledMessagesStore
+        private scheduledMessagesStore: ScheduledMessagesStore,
+        private notifications: NotificationsService
     ) { }
 
     public GetPersonalMessages(id: number) {
@@ -97,15 +99,12 @@ export class SignalrService {
 
     private addMessage(message: MessageDto, receiverId: number, IsPersonal: boolean) {
         let currentUser: User = JSON.parse(localStorage.getItem('currentUser'));
-        console.log(message);
-        console.log(currentUser);
-        console.log(receiverId);
-        console.log(IsPersonal);
         if (((this.chatsStore.selectedChatId == receiverId || this.chatsStore.selectedChatId == message.SenderId) && this.chatsStore.chat.IsPersonal == IsPersonal)
             || (currentUser.Id == message.SenderId && IsPersonal)) {
             this.messagesStore.addMessage(message);
             return;
         }
+        this.notifications.create(message.Sender.Nickname, message.Text, NotificationType.Info)
         console.log(message);
     }
 
@@ -114,16 +113,16 @@ export class SignalrService {
     }
 
     private addUnreadMessage(chatId: number, isPersonal: boolean, messageId: number) {
-        if(this.chatsStore.chat.Id == chatId && this.chatsStore.chat.IsPersonal == isPersonal ){
-            if(isPersonal){
+        if (this.chatsStore.chat.Id == chatId && this.chatsStore.chat.IsPersonal == isPersonal) {
+            if (isPersonal) {
                 this.hubConnection.invoke("ReadSinglePersonalMessage", messageId)
                     .then(() => console.log("Read Single Personal Chat Message"))
-                    .catch(err =>  console.log('Cant Read Single Personal Message: ' + err));
+                    .catch(err => console.log('Cant Read Single Personal Message: ' + err));
                 return;
             }
             this.hubConnection.invoke("ReadSingleChatMessage", messageId)
-            .then(() => console.log("Read Single Chat Chat Message"))
-            .catch(err =>  console.log('Cant Read Chat Personal Message: ' + err));
+                .then(() => console.log("Read Single Chat Chat Message"))
+                .catch(err => console.log('Cant Read Chat Personal Message: ' + err));
             return;
         }
         this.chatsStore.IncreaceUnreadCount(chatId, isPersonal);
