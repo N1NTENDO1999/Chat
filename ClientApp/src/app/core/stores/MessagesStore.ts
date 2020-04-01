@@ -7,6 +7,7 @@ export class MessagesStore{
     @observable messages: MessageDto[] = [];
     @observable private first: number = 0;
     @observable private last: number = 20;
+    @observable private loading: boolean;
 
     @computed get allMessages(): MessageDto[]{
         return toJS(this.messages);
@@ -20,6 +21,18 @@ export class MessagesStore{
         return this.last;
     }
 
+    @computed get isLoading(): boolean{
+        return this.loading;
+    }
+
+    @action startLoading(){
+        this.loading = true;
+    }
+
+    @action stopLoading(){
+        this.loading = false;
+    }
+
     @action addMessage(value: MessageDto){
         this.messages = [ value, ...this.messages];
         this.first++;
@@ -28,6 +41,7 @@ export class MessagesStore{
     @action setMessages(messages: MessageDto[]){
         this.messages = [...messages, ...this.messages];
         this.first += 20;
+        this.loading = false;
     }
 
     @action clearMessages(){

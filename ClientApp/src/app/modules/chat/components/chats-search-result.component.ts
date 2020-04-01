@@ -28,6 +28,7 @@ export class ChatsSearchResultComponent implements OnInit {
     ) { }
 
     getChat(chat: ChatDto) {
+        this.messagesStore.startLoading();
         this.messagesStore.clearMessages();
         if (chat.IsPersonal) {
             this.chatsStore.addSelectedChat(chat);
@@ -54,6 +55,7 @@ export class ChatsSearchResultComponent implements OnInit {
             let result = window.confirm("Connect to chat?");
             if (!result) {
                 this.alertService.error("Cant connect to chat: " + chat.Name);
+                this.messagesStore.stopLoading();
                 return;
             }
             this.signalRService.AddUserToChat(chat.Id, this.authService.currentUserValue.Id);
