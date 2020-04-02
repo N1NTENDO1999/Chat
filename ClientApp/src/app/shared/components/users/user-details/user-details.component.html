@@ -2,7 +2,7 @@
     <div class="container">
         <img src="{{user.Picture}}" style="width: 200px; height: 200px;" class="rounded-circle float-left" id="result" alt="...">
         <h1 class="display-1">{{user.Nickname}}</h1>
-        <p class="lead">Last Seen: {{user.ActiveDateTime | date}}</p>
+        <p class="lead">Last Seen: {{user.ActiveDateTime | date:'medium'}}</p>
         <h1>{{user.FirstName}} {{user.LastName}}</h1>
         <p class="lead">Register Date: {{user.DateCreated | date}}</p>
     </div>

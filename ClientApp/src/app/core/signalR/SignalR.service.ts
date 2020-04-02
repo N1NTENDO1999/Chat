@@ -10,6 +10,8 @@ import { ChatsStore } from '../stores/chatsStore';
 import { ChatDto } from '../api/models';
 import { ScheduledMessagesStore } from '../stores/SchedluledMessagesStore';
 import { NotificationsService, NotificationType } from 'angular2-notifications';
+import { UsersService } from '../api/services';
+import { first } from 'rxjs/operators';
 
 @Injectable()
 export class SignalrService {
@@ -22,7 +24,8 @@ export class SignalrService {
         private authService: AuthenticationService,
         private chatsStore: ChatsStore,
         private scheduledMessagesStore: ScheduledMessagesStore,
-        private notifications: NotificationsService
+        private notifications: NotificationsService,
+        private usersService: UsersService
     ) { }
 
     public GetPersonalMessages(id: number) {
@@ -43,7 +46,7 @@ export class SignalrService {
 
     public AddPersonalMessages(senderId: number, receiverId: number, message: string) {
         this.hubConnection.invoke("SendPersonalMessage", senderId, receiverId, message)
-            .then(() => {console.log('AddPersonalMEssages'); this.messagesStore.emitMessageAdded();})
+            .then(() => { console.log('AddPersonalMEssages'); this.messagesStore.emitMessageAdded(); })
             .catch(err => console.log('Error while starting connection: ' + err));
     }
 
@@ -164,6 +167,9 @@ export class SignalrService {
     }
 
     public disconnect() {
+        this.usersService.apiUsersUserIdStatusPut$Json({ id: this.authService.currentUserValue.Id })
+            .pipe(first())
+            .subscribe(() => console.log("Status Updated"));
         this.hubConnection.stop()
         console.log("Stoped connection");
     }
