@@ -39,6 +39,11 @@ export class UserDetailsComponent implements OnInit {
             .subscribe(p => this.user = p);
     }
 
+    isActive(): boolean{
+         console.log(new Date().getTime() - new Date(this.user.ActiveDateTime).getTime());
+         return new Date().getTime() - new Date(this.user.ActiveDateTime).getTime() < 125116;
+    }
+
     edit(){
         this.usersStore.SetEditProfile(this.user);
         this.router.navigateByUrl("/profile/edit");
