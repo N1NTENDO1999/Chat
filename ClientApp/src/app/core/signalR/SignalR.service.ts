@@ -43,13 +43,13 @@ export class SignalrService {
 
     public AddPersonalMessages(senderId: number, receiverId: number, message: string) {
         this.hubConnection.invoke("SendPersonalMessage", senderId, receiverId, message)
-            .then(() => console.log('AddChatMEssages'))
+            .then(() => {console.log('AddPersonalMEssages'); this.messagesStore.emitMessageAdded();})
             .catch(err => console.log('Error while starting connection: ' + err));
     }
 
     public AddChatMessages(chatId: number, userId: number, message: string) {
         this.hubConnection.invoke("SendMessageToChat", userId, chatId, message)
-            .then(() => console.log('AddChatMEssages'))
+            .then(() => { console.log('AddChatMEssages'); this.messagesStore.emitMessageAdded(); })
             .catch(err => console.log('Error while starting connection: ' + err));
     }
 

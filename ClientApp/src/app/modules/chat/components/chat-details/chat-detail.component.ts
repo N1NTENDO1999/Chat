@@ -10,6 +10,7 @@ import { AuthenticationService } from 'src/app/core/services/Authentication.serv
 import { FormBuilder, FormControl, Validators, FormGroup } from '@angular/forms';
 import { ChatsStore } from 'src/app/core/stores/chatsStore';
 import { MessagesStore } from 'src/app/core/stores/MessagesStore';
+import { Subscription } from 'rxjs';
 
 
 @Component({
@@ -22,6 +23,7 @@ export class ChatDetailComponent implements OnInit {
     messageForm: FormGroup;
     minDate: string;
     deliveryDate: string;
+    subscription: Subscription;
 
     constructor(
         public signalRService: SignalrService,
@@ -30,14 +32,21 @@ export class ChatDetailComponent implements OnInit {
         public messagesStore: MessagesStore,
         private authenticationService: AuthenticationService,
         private router: Router
-    ) { }
+    ) {
+        this.subscription = this.messagesStore.getMessage().subscribe(() => this.scrollDown());
+    }
+
+    private scrollDown = () => {
+        var element = document.getElementById("scrollerDiv");
+        element.scrollTop = element.scrollHeight;
+    }
 
 
     private toDateString(date: Date): string {
-        return (date.getFullYear().toString() + '-' 
-           + ("0" + (date.getMonth() + 1)).slice(-2) + '-' 
-           + ("0" + (date.getDate())).slice(-2))
-           + 'T' + date.toTimeString().slice(0,5);
+        return (date.getFullYear().toString() + '-'
+            + ("0" + (date.getMonth() + 1)).slice(-2) + '-'
+            + ("0" + (date.getDate())).slice(-2))
+            + 'T' + date.toTimeString().slice(0, 5);
     }
 
     ngOnInit() {
@@ -47,7 +56,7 @@ export class ChatDetailComponent implements OnInit {
 
         this.minDate = this.toDateString(new Date());
         this.deliveryDate = this.minDate;
-        
+
     }
 
     isOwner(): boolean {
@@ -73,18 +82,18 @@ export class ChatDetailComponent implements OnInit {
         this.deliveryDate = value;
     }
 
-    public scheduledMessages(){
-        if(this.chatsStore.chat){
+    public scheduledMessages() {
+        if (this.chatsStore.chat) {
             let user: User = this.authService.currentUserValue;
             this.signalRService.GetScheduledMessages(user.Id, this.chatsStore.selectedChatId, this.chatsStore.chat.IsPersonal);
             this.router.navigate(["/scheduled"]);
         }
     }
 
-    MoreMessages(){
+    MoreMessages() {
         this.messagesStore.startLoading();
         console.log(this.chatsStore.chat);
-        if(this.chatsStore.chat.IsPersonal){
+        if (this.chatsStore.chat.IsPersonal) {
             this.signalRService.GetPersonalMessages(this.chatsStore.chat.Id);
             return;
         }
