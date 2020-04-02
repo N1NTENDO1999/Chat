@@ -97,7 +97,7 @@ namespace ChatWebApi.Controllers
             return await _mediator.Send(request);
         }
 
-        [HttpPatch]
+        [HttpPut]
         [Route("user/{id}/status")]
         public async Task<CommandResult> UpdateActiveDate(int id)
         {
