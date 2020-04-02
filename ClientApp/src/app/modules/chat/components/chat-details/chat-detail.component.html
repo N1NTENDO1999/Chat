@@ -3,21 +3,24 @@
         <h1>{{chatsStore.selectedChat.Name}}</h1>
         <a *ngIf="isOwner()" routerLink="/searchUser">Add User</a>
     </div>
-    <div class="overflow-auto" style="height: 680px;" id="chat" >
-        <button *ngIf="!messagesStore.isLoading && !messagesStore.NoMoreMessages" type="button" class="btn btn-primary" (click)="MoreMessages()">Get More</button>
+    <div class="overflow-auto" style="height: 680px;" id="chat" id="scrollerDiv">
+        <button *ngIf="!messagesStore.isLoading && !messagesStore.NoMoreMessages" type="button" class="btn btn-primary"
+            (click)="MoreMessages()">Get More</button>
         <div class="container" *ngFor="let message of messagesStore.allMessages">
             <p>{{message.Sender.Nickname}}: {{message.Text}}</p>
         </div>
     </div>
-    <form [formGroup]="messageForm" (ngSubmit)="onSubmit()">
-        <div class="form-group">
-            <input type="text" formControlName="message" class="form-control mb-4" placeholder="message" />
+    <div class="container" >
+        <form [formGroup]="messageForm" (ngSubmit)="onSubmit()">
+            <div class="form-group">
+                <input type="text" formControlName="message" class="form-control mb-4" placeholder="message" />
+            </div>
+        </form>
+        <div class="container">
+            <input type="datetime-local" id="delivery-time" name="meeting-time" [value]="minDate" [min]="minDate"
+                (change)="onDateChange($event.target.value)">
+            <button (click)="sendAsSchedule()">Schedule</button>
+            <button (click)="scheduledMessages()">Scheduled Messages</button>
         </div>
-    </form>
-    <div class="container">
-        <input type="datetime-local" id="delivery-time" name="meeting-time" [value]="minDate" [min]="minDate"
-            (change)="onDateChange($event.target.value)">
-        <button (click)="sendAsSchedule()">Schedule</button>
-        <button (click)="scheduledMessages()">Scheduled Messages</button>
     </div>
 </div>
