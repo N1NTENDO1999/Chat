@@ -26,11 +26,11 @@ export class HeaderComponent implements OnInit {
     ) {}
 
     logout() {
-        this.authenticationService.logout();
         this.messagesStore.clearMessages();
         this.chatsStore.clearchats();
         this.chatsStore.clearSelected();
         this.signalRService.disconnect();
+        this.authenticationService.logout();
         this.router.navigate(['/login']);
     }
 

@@ -959,4 +959,97 @@ export class UsersService extends BaseService {
     );
   }
 
+  /**
+   * Path part for operation apiUsersUserIdStatusPut
+   */
+  static readonly ApiUsersUserIdStatusPutPath = '/api/Users/user/{id}/status';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `apiUsersUserIdStatusPut$Plain()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  apiUsersUserIdStatusPut$Plain$Response(params: {
+    id: number;
+
+  }): Observable<StrictHttpResponse<CommandResult>> {
+
+    const rb = new RequestBuilder(this.rootUrl, UsersService.ApiUsersUserIdStatusPutPath, 'put');
+    if (params) {
+
+      rb.path('id', params.id);
+
+    }
+    return this.http.request(rb.build({
+      responseType: 'text',
+      accept: 'text/plain'
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return r as StrictHttpResponse<CommandResult>;
+      })
+    );
+  }
+
+  /**
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `apiUsersUserIdStatusPut$Plain$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  apiUsersUserIdStatusPut$Plain(params: {
+    id: number;
+
+  }): Observable<CommandResult> {
+
+    return this.apiUsersUserIdStatusPut$Plain$Response(params).pipe(
+      map((r: StrictHttpResponse<CommandResult>) => r.body as CommandResult)
+    );
+  }
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `apiUsersUserIdStatusPut$Json()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  apiUsersUserIdStatusPut$Json$Response(params: {
+    id: number;
+
+  }): Observable<StrictHttpResponse<CommandResult>> {
+
+    const rb = new RequestBuilder(this.rootUrl, UsersService.ApiUsersUserIdStatusPutPath, 'put');
+    if (params) {
+
+      rb.path('id', params.id);
+
+    }
+    return this.http.request(rb.build({
+      responseType: 'json',
+      accept: 'text/json'
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return r as StrictHttpResponse<CommandResult>;
+      })
+    );
+  }
+
+  /**
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `apiUsersUserIdStatusPut$Json$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  apiUsersUserIdStatusPut$Json(params: {
+    id: number;
+
+  }): Observable<CommandResult> {
+
+    return this.apiUsersUserIdStatusPut$Json$Response(params).pipe(
+      map((r: StrictHttpResponse<CommandResult>) => r.body as CommandResult)
+    );
+  }
+
 }
