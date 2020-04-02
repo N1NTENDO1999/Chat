@@ -141,12 +141,25 @@ export class SignalrService {
 
         this.hubConnection
             .start()
-            .then(() => console.log('Connection started'))
+            .then(() => {
+                console.log('Connection started');
+                this.updateUserStatus();
+                setTimeout(() => { this.updateUserStatus(); }, 120000);
+            })
             .catch(err => {
                 console.log('Error while starting connection: ' + err);
                 this.alertService.error("Cant Connect to server!");
-                setTimeout(() => { this.ConnectAgain(); }, 5000)
+                setTimeout(() => { this.ConnectAgain(); }, 5000);
             });
+    }
+
+    updateUserStatus() {
+        if (this.authService.currentUserValue) {
+            this.usersService.apiUsersUserIdStatusPut$Json({ id: this.authService.currentUserValue.Id })
+                .pipe(first())
+                .subscribe(() => console.log("Status Updated"));
+            setTimeout(() => { this.updateUserStatus(); }, 120000);
+        }
     }
 
     public MarkMessagesAsRead(chat: ChatDto, userId: number) {
