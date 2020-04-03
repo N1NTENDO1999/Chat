@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { SignalrService } from 'src/app/core/signalR/SignalR.service';
 
 @Component({
     selector: 'messages-search-component',
@@ -7,10 +8,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MessagesSearchComponent implements OnInit {
 
-    constructor() {
+    constructor(
+        private signalRService: SignalrService,
+
+    ) {
     }
 
     ngOnInit() {
 
     }
+
+    search(term: string): void {
+        if (term.trim()) {
+           console.log(term);
+        }
+    }
+
 }
