@@ -7,6 +7,7 @@ using AutoMapper;
 using ChatWebApi.Application.Messages.MessageDTOs;
 using ChatWebApi.Infrastructure;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 namespace ChatWebApi.Application.Messages.Queries
 {
@@ -32,9 +33,18 @@ namespace ChatWebApi.Application.Messages.Queries
 			_mapper = mapper;
 		}
 
-		public Task<SearchMessagesQueryResult> Handle(SearchMessagesQuery request, CancellationToken cancellationToken)
+		public async Task<SearchMessagesQueryResult> Handle(SearchMessagesQuery request, CancellationToken cancellationToken)
 		{
-			throw new NotImplementedException();
+			var user = await _db.Users.Include(p => p.UserChats).ThenInclude(p => p.Chat).ThenInclude(p => p.Messages).FirstAsync(p => p.Id == request.UserId);
+			List<ChatMessageDTO> result = new List<ChatMessageDTO>();
+			user.UserChats
+				.ForEach(p => result
+				.AddRange(_mapper
+				.Map<List<ChatMessageDTO>>(p.Chat.Messages
+				.Where(x => x.Text
+				.Contains(request.Term, StringComparison.InvariantCultureIgnoreCase)))));
+		
+			return new SearchMessagesQueryResult { Messages = result };
 		}
 	}
 }
