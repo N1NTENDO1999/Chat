@@ -47,6 +47,9 @@ namespace ChatWebApi.Application
             CreateMap<User, ProfileInfoDTO>()
                 .ReverseMap();
 
+            CreateMap<Chat, ChatProfileDTO>()
+                .ReverseMap();
+
             CreateMap<User, ChatDTO>()
                 .ForMember(p => p.IsPersonal, opt => opt.MapFrom(src => true))
                 .ForMember(p => p.IsPrivate, opt => opt.MapFrom(src => true))
