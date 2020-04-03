@@ -11,6 +11,7 @@ const routes: Routes = [
   { path: 'scheduled', component: ScheduledMessagesComponent, canActivate: [AuthGuard] },
   { path: 'profile', component: UserDetailsComponent, canActivate: [AuthGuard] },
   { path: 'profile/edit', component: ProfileEditComponent, canActivate: [AuthGuard] },
+  { path: 'search/messages', component: MessageSearchComponent, canActivate: [AuthGuard] },
 
   { path: '**', redirectTo: 'chats' }
 ];
@@ -27,6 +28,7 @@ import { UsersSearchComponent } from './shared/components/users-search/users-sea
 import { ScheduledMessagesComponent } from './shared/components/scheduled-messages/scheduled-messages.component';
 import { UserDetailsComponent } from './shared/components/users/user-details/user-details.component';
 import { ProfileEditComponent } from './shared/components/users/user-details/profile-edit/profile-edit.component';
+import { MessageSearchComponent } from './modules/chat/pages/message-search/message-search.component';
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

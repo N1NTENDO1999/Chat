@@ -1,6 +1,6 @@
 <div *ngIf="user" class="container">
     <div class="container">
-        <img src="{{user.Picture}}" style="width: 200px; height: 200px;" class="rounded-circle float-left" id="result" alt="...">
+        <img src="{{user.Picture}}" style="width: 200px; height: 200px;" class="rounded-circle" id="result" alt="...">
         <h1 class="display-1">{{user.Nickname}}</h1>
         <p class="lead" *ngIf="isActive()">Online</p>
         <p class="lead" *ngIf="!isActive()">Last Seen: {{user.ActiveDateTime | date:'medium'}}</p>
@@ -8,5 +8,4 @@
         <p class="lead">Register Date: {{user.DateCreated | date}}</p>
     </div>
     <button *ngIf="canEdit()"  (click)="edit()" class="btn btn-primary">Edit</button>
-    <!-- <input type="file" accept="image/*" id="imageCapturer" (change)="useImage($event)"> -->
 </div>
