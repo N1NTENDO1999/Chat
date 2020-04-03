@@ -15,6 +15,8 @@ import { GetUserChatsQueryResult } from '../models/get-user-chats-query-result';
 import { GetUserQueryResult } from '../models/get-user-query-result';
 import { GetUsersByNicknameQueryResult } from '../models/get-users-by-nickname-query-result';
 import { ProfileInfoDto } from '../models/profile-info-dto';
+import { SearchMessagesQueryResult } from '../models/search-messages-query-result';
+import { SearchPersonalMessagesByTermQueryResult } from '../models/search-personal-messages-by-term-query-result';
 import { UpdatePasswordCommand } from '../models/update-password-command';
 import { UpdateProfileInfoCommand } from '../models/update-profile-info-command';
 import { UpdateUserPictureCommand } from '../models/update-user-picture-command';
@@ -766,6 +768,204 @@ export class UsersService extends BaseService {
 
     return this.apiUsersUserIdProfilePut$Json$Response(params).pipe(
       map((r: StrictHttpResponse<CommandResult>) => r.body as CommandResult)
+    );
+  }
+
+  /**
+   * Path part for operation apiUsersUserIdMessagesChatTermGet
+   */
+  static readonly ApiUsersUserIdMessagesChatTermGetPath = '/api/Users/user/{id}/messages/chat/{term}';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `apiUsersUserIdMessagesChatTermGet$Plain()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  apiUsersUserIdMessagesChatTermGet$Plain$Response(params: {
+    id: number;
+    term: string;
+
+  }): Observable<StrictHttpResponse<SearchMessagesQueryResult>> {
+
+    const rb = new RequestBuilder(this.rootUrl, UsersService.ApiUsersUserIdMessagesChatTermGetPath, 'get');
+    if (params) {
+
+      rb.path('id', params.id);
+      rb.path('term', params.term);
+
+    }
+    return this.http.request(rb.build({
+      responseType: 'text',
+      accept: 'text/plain'
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return r as StrictHttpResponse<SearchMessagesQueryResult>;
+      })
+    );
+  }
+
+  /**
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `apiUsersUserIdMessagesChatTermGet$Plain$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  apiUsersUserIdMessagesChatTermGet$Plain(params: {
+    id: number;
+    term: string;
+
+  }): Observable<SearchMessagesQueryResult> {
+
+    return this.apiUsersUserIdMessagesChatTermGet$Plain$Response(params).pipe(
+      map((r: StrictHttpResponse<SearchMessagesQueryResult>) => r.body as SearchMessagesQueryResult)
+    );
+  }
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `apiUsersUserIdMessagesChatTermGet$Json()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  apiUsersUserIdMessagesChatTermGet$Json$Response(params: {
+    id: number;
+    term: string;
+
+  }): Observable<StrictHttpResponse<SearchMessagesQueryResult>> {
+
+    const rb = new RequestBuilder(this.rootUrl, UsersService.ApiUsersUserIdMessagesChatTermGetPath, 'get');
+    if (params) {
+
+      rb.path('id', params.id);
+      rb.path('term', params.term);
+
+    }
+    return this.http.request(rb.build({
+      responseType: 'json',
+      accept: 'text/json'
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return r as StrictHttpResponse<SearchMessagesQueryResult>;
+      })
+    );
+  }
+
+  /**
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `apiUsersUserIdMessagesChatTermGet$Json$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  apiUsersUserIdMessagesChatTermGet$Json(params: {
+    id: number;
+    term: string;
+
+  }): Observable<SearchMessagesQueryResult> {
+
+    return this.apiUsersUserIdMessagesChatTermGet$Json$Response(params).pipe(
+      map((r: StrictHttpResponse<SearchMessagesQueryResult>) => r.body as SearchMessagesQueryResult)
+    );
+  }
+
+  /**
+   * Path part for operation apiUsersUserIdMessagePrivateTermGet
+   */
+  static readonly ApiUsersUserIdMessagePrivateTermGetPath = '/api/Users/user/{id}/message/private/{term}';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `apiUsersUserIdMessagePrivateTermGet$Plain()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  apiUsersUserIdMessagePrivateTermGet$Plain$Response(params: {
+    id: number;
+    term: string;
+
+  }): Observable<StrictHttpResponse<SearchPersonalMessagesByTermQueryResult>> {
+
+    const rb = new RequestBuilder(this.rootUrl, UsersService.ApiUsersUserIdMessagePrivateTermGetPath, 'get');
+    if (params) {
+
+      rb.path('id', params.id);
+      rb.path('term', params.term);
+
+    }
+    return this.http.request(rb.build({
+      responseType: 'text',
+      accept: 'text/plain'
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return r as StrictHttpResponse<SearchPersonalMessagesByTermQueryResult>;
+      })
+    );
+  }
+
+  /**
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `apiUsersUserIdMessagePrivateTermGet$Plain$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  apiUsersUserIdMessagePrivateTermGet$Plain(params: {
+    id: number;
+    term: string;
+
+  }): Observable<SearchPersonalMessagesByTermQueryResult> {
+
+    return this.apiUsersUserIdMessagePrivateTermGet$Plain$Response(params).pipe(
+      map((r: StrictHttpResponse<SearchPersonalMessagesByTermQueryResult>) => r.body as SearchPersonalMessagesByTermQueryResult)
+    );
+  }
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `apiUsersUserIdMessagePrivateTermGet$Json()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  apiUsersUserIdMessagePrivateTermGet$Json$Response(params: {
+    id: number;
+    term: string;
+
+  }): Observable<StrictHttpResponse<SearchPersonalMessagesByTermQueryResult>> {
+
+    const rb = new RequestBuilder(this.rootUrl, UsersService.ApiUsersUserIdMessagePrivateTermGetPath, 'get');
+    if (params) {
+
+      rb.path('id', params.id);
+      rb.path('term', params.term);
+
+    }
+    return this.http.request(rb.build({
+      responseType: 'json',
+      accept: 'text/json'
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return r as StrictHttpResponse<SearchPersonalMessagesByTermQueryResult>;
+      })
+    );
+  }
+
+  /**
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `apiUsersUserIdMessagePrivateTermGet$Json$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  apiUsersUserIdMessagePrivateTermGet$Json(params: {
+    id: number;
+    term: string;
+
+  }): Observable<SearchPersonalMessagesByTermQueryResult> {
+
+    return this.apiUsersUserIdMessagePrivateTermGet$Json$Response(params).pipe(
+      map((r: StrictHttpResponse<SearchPersonalMessagesByTermQueryResult>) => r.body as SearchPersonalMessagesByTermQueryResult)
     );
   }
 
