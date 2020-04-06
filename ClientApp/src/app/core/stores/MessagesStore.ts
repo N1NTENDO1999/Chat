@@ -41,7 +41,7 @@ export class MessagesStore {
         this.loading = false;
     }
 
-    getMessage(): Observable<any> {
+    messagesUpdated(): Observable<any> {
         return this.subject.asObservable();
     }
 

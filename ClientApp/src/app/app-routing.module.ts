@@ -7,7 +7,7 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'create', component: CreateChatComponent, canActivate: [AuthGuard] },
-  { path: 'searchUser', component: UsersSearchComponent, canActivate: [AuthGuard] },
+  { path: 'search/user', component: UsersSearchComponent, canActivate: [AuthGuard] },
   { path: 'scheduled', component: ScheduledMessagesComponent, canActivate: [AuthGuard] },
   { path: 'profile', component: UserDetailsComponent, canActivate: [AuthGuard] },
   { path: 'profile/edit', component: ProfileEditComponent, canActivate: [AuthGuard] },

@@ -10,7 +10,7 @@
       <div (click)="details(user)">
         <span> {{user.Nickname}} </span>
       </div>
-      <button (click)="addUser(user)">Add</button>
+      <button *ngIf="isChat()" (click)="addUser(user)">Add</button>
     </li>
   </ul>
 </div>

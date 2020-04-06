@@ -33,7 +33,7 @@ export class ChatDetailComponent implements OnInit {
         private authenticationService: AuthenticationService,
         private router: Router
     ) {
-        this.subscription = this.messagesStore.getMessage().subscribe(() => this.scrollDown());
+        this.subscription = this.messagesStore.messagesUpdated().subscribe(() => this.scrollDown());
     }
 
     private scrollDown = () => {
