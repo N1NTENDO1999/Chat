@@ -62,7 +62,8 @@ export class MessagesStore {
             return;
         }
         this.messages = [...messages, ...this.messages];
-        this.first += 20;
+        this.first += messages.length;
+        console.log(this.first);
         this.loading = false;
     }
 

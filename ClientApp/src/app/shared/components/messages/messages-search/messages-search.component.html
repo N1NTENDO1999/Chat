@@ -14,7 +14,7 @@
       </a>
       <h2>Chat Messages</h2>
       <a class="list-group-item list-group-item-action" *ngFor="let message of searchStore.ChatMessages">
-        <div>
+        <div (click)="getChat(message)">
           <img src="{{message.Chat.Picture}}" style="width: 30px; height: 30px;" class="rounded-circle">
           <h5>{{message.Chat.Name}}</h5>
           <p>{{message.Text}}</p>

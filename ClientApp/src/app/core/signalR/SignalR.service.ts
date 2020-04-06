@@ -42,6 +42,12 @@ export class SignalrService {
             .catch(err => console.log('Error while starting connection: ' + err));
     }
 
+    public GetChatMessagesRange(chatId: number, messageId: number){
+        this.hubConnection.invoke("GetChatMessagesRange", chatId, messageId)
+            .then(() => console.log('GetChatMEssagesRange'))
+            .catch(err => console.log('Error while starting connection: ' + err));
+    }
+
     public AddPersonalMessages(senderId: number, receiverId: number, message: string) {
         this.hubConnection.invoke("SendPersonalMessage", senderId, receiverId, message)
             .then(() => { console.log('AddPersonalMEssages'); this.messagesStore.emitMessageAdded(); })

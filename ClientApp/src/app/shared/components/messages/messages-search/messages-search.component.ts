@@ -3,9 +3,11 @@ import { SignalrService } from 'src/app/core/signalR/SignalR.service';
 import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { MessagesSearchStore } from 'src/app/core/stores/MessagesSearchStore';
-import { UsersService } from 'src/app/core/api/services';
+import { UsersService, ChatsService } from 'src/app/core/api/services';
 import { User } from 'src/app/core/models/User';
 import { ChatsStore } from 'src/app/core/stores/chatsStore';
+import { ChatMessageDto } from 'src/app/core/api/models';
+import { MessagesStore } from 'src/app/core/stores/MessagesStore';
 
 @Component({
     selector: 'messages-search-component',
@@ -20,7 +22,9 @@ export class MessagesSearchComponent implements OnInit, OnDestroy {
         private signalRService: SignalrService,
         public searchStore: MessagesSearchStore,
         private userSerice: UsersService,
-        private chatsStore: ChatsStore
+        private chatsStore: ChatsStore,
+        private chatsService: ChatsService,
+        private messagesStore: MessagesStore
     ) {
         this._setSearchSubscription();
     }
@@ -64,12 +68,15 @@ export class MessagesSearchComponent implements OnInit, OnDestroy {
         this._searchSubject.next(searchTextValue);
     }
 
-    getPersonalChat(){
+    getPersonalChat() {
 
     }
 
-    geChat(){
-
+    getChat(message: ChatMessageDto) {
+        this.messagesStore.clearMessages();
+        this.chatsService.apiChatsChatIdGet$Json({ id: message.ChatId })
+            .subscribe(p => this.chatsStore.addSelectedChat(p.Chat));
+        this.signalRService.GetChatMessagesRange(message.ChatId, message.Id);
     }
 
     ngOnInit() {
