@@ -47,6 +47,7 @@ namespace ChatWebApi.Application.PersonalMessages.Queries
 				{
 					var c = _mapper.Map<SearchedPersonalMessageDTO>(p);
 					c.Chat = _mapper.Map<UserDTO>(p.Sender);
+					c.ChatId = p.SenderId;
 					return c;
 				}).ToList();
 
@@ -56,6 +57,7 @@ namespace ChatWebApi.Application.PersonalMessages.Queries
 				{
 					var c = _mapper.Map<SearchedPersonalMessageDTO>(p);
 					c.Chat = _mapper.Map<UserDTO>(p.Receiver);
+					c.ChatId = p.ReceiverId;
 					return c;
 				}).ToList();
 

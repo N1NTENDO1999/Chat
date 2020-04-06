@@ -12,6 +12,8 @@ namespace ChatWebApi.Application.PersonalMessages.PersonalMessagesDTOs
 		public int Id { get; set; }
 		public DateTime DateCreated { get; set; }
 		public string Text { get; set; }
+
+		public int ChatId { get; set; }
 		public UserDTO Chat { get; set; }
 	}
 }
