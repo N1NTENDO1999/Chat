@@ -43,14 +43,20 @@ export class MessagesSearchComponent implements OnInit, OnDestroy {
         let currentUser: User = JSON.parse(localStorage.getItem('currentUser'));
         let id = currentUser.Id;
         this.userSerice.apiUsersUserIdMessagesChatTermGet$Json({ id, term })
-            .subscribe(p => console.log(p.Messages));
+            .subscribe(p => {
+                console.log(p.Messages);
+                this.searchStore.SetChatMessages(p.Messages);
+            });
     }
 
     private searchPersonalMessages(term: string) {
         let currentUser: User = JSON.parse(localStorage.getItem('currentUser'));
         let id = currentUser.Id;
         this.userSerice.apiUsersUserIdMessagePrivateTermGet$Json({ id, term })
-            .subscribe(p => console.log(p.Messages));
+            .subscribe(p => {
+                console.log(p.Messages);
+                this.searchStore.SetPersonalMessages(p.Messages);
+            });
     }
 
     public updateSearch(searchTextValue: string) {
