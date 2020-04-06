@@ -5,6 +5,7 @@ import { debounceTime } from 'rxjs/operators';
 import { MessagesSearchStore } from 'src/app/core/stores/MessagesSearchStore';
 import { UsersService } from 'src/app/core/api/services';
 import { User } from 'src/app/core/models/User';
+import { ChatsStore } from 'src/app/core/stores/chatsStore';
 
 @Component({
     selector: 'messages-search-component',
@@ -18,8 +19,8 @@ export class MessagesSearchComponent implements OnInit, OnDestroy {
     constructor(
         private signalRService: SignalrService,
         public searchStore: MessagesSearchStore,
-        private userSerice: UsersService
-
+        private userSerice: UsersService,
+        private chatsStore: ChatsStore
     ) {
         this._setSearchSubscription();
     }
@@ -63,14 +64,15 @@ export class MessagesSearchComponent implements OnInit, OnDestroy {
         this._searchSubject.next(searchTextValue);
     }
 
+    getPersonalChat(){
+
+    }
+
+    geChat(){
+
+    }
+
     ngOnInit() {
 
     }
-
-    search(term: string): void {
-        if (term.trim()) {
-            console.log(term);
-        }
-    }
-
 }
