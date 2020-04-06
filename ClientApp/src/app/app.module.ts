@@ -36,6 +36,7 @@ import { SimpleNotificationsModule } from 'angular2-notifications';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { MessageSearchComponent } from './modules/chat/pages/message-search/message-search.component';
 import { MessagesSearchComponent } from './shared/components/messages/messages-search/messages-search.component';
+import { MessagesSearchStore } from './core/stores/MessagesSearchStore';
 
 let config = new AuthServiceConfig([
   {
@@ -86,6 +87,7 @@ export function provideConfig() {
     MessagesStore,
     UsersStore,
     ScheduledMessagesStore,
+    MessagesSearchStore,
     AuthenticationService,
     AlertService,
     AuthGuard,
