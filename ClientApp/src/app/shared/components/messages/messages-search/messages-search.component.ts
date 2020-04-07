@@ -70,11 +70,13 @@ export class MessagesSearchComponent implements OnInit, OnDestroy {
 
     getPersonalChat(message: SearchedPersonalMessageDto) {
         this.messagesStore.clearMessages();
+        let currentUser: User = JSON.parse(localStorage.getItem('currentUser'));
         this.userSerice.apiUsersUserIdAsChatGet$Json({id: message.ChatId})
             .subscribe(p => {
                 this.chatsStore.addSelectedChat(p.Chat);
                 console.log(p.Chat);
-            })
+            });
+        this.signalRService.GetPersonalMessagesRange(currentUser.Id, message.ChatId, message.Id);
     }
 
     getChat(message: ChatMessageDto) {

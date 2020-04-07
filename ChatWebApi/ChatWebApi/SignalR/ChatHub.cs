@@ -147,6 +147,12 @@ namespace ChatWebApi.SignalR
 			await Clients.Caller.SendAsync("GetChatMessages", chatId, result.Messages);
 		}
 
+		public async Task GetPersonalMessagesRange(int senderId, int receiverId, int messageId)
+		{
+			var result = await _mediator.Send(new GetPersonalMessagesRangeQuery { SenderId = senderId, ReceiverId = receiverId, MessageId = messageId });
+			await Clients.Caller.SendAsync("GetChatMessages", senderId, result.Messages);
+		}
+
 		public async Task AddToGroup(int group)
 		{
 			await Groups.AddToGroupAsync(Context.ConnectionId, group.ToString());
