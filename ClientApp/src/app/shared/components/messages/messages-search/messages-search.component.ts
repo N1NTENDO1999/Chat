@@ -6,7 +6,7 @@ import { MessagesSearchStore } from 'src/app/core/stores/MessagesSearchStore';
 import { UsersService, ChatsService } from 'src/app/core/api/services';
 import { User } from 'src/app/core/models/User';
 import { ChatsStore } from 'src/app/core/stores/chatsStore';
-import { ChatMessageDto } from 'src/app/core/api/models';
+import { ChatMessageDto, SearchedPersonalMessageDto } from 'src/app/core/api/models';
 import { MessagesStore } from 'src/app/core/stores/MessagesStore';
 
 @Component({
@@ -68,8 +68,13 @@ export class MessagesSearchComponent implements OnInit, OnDestroy {
         this._searchSubject.next(searchTextValue);
     }
 
-    getPersonalChat() {
-
+    getPersonalChat(message: SearchedPersonalMessageDto) {
+        this.messagesStore.clearMessages();
+        this.userSerice.apiUsersUserIdAsChatGet$Json({id: message.ChatId})
+            .subscribe(p => {
+                this.chatsStore.addSelectedChat(p.Chat);
+                console.log(p.Chat);
+            })
     }
 
     getChat(message: ChatMessageDto) {

@@ -6,7 +6,7 @@
     <div class="list-group">
       <h2>Personal Messages</h2>
       <a class="list-group-item list-group-item-action" *ngFor="let message of searchStore.PersonalMessages">
-        <div>
+        <div (click)="getPersonalChat(message)">
           <img src="{{message.Chat.Picture}}" style="width: 30px; height: 30px;" class="rounded-circle">
           <h5>{{message.Chat.Nickname}}</h5>
           <p>{{message.Text}}</p>

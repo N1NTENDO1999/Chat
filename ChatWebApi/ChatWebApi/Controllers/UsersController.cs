@@ -78,6 +78,13 @@ namespace ChatWebApi.Controllers
             return await _mediator.Send(new SearchPersonalMessagesByTermQuery { Id = id, Term = term });
         }
 
+        [HttpGet]
+        [Route("user/{id}/as/chat")]
+        public async Task<GetPersonalChatQueryResult> GetPersonalChat(int id)
+        {
+            return await _mediator.Send(new GetPersonalChatQuery { UserId = id });
+        }
+
         [AllowAnonymous]
         [HttpPost]
         public async Task<CommandResult> CreateUser(CreateUserCommand request)
