@@ -28,7 +28,7 @@ namespace ChatWebApi.Controllers
             _mediator = mediator;
         }
 
-        [HttpGet("chat/{name}")]
+        [HttpGet("chat/search/{name}")]
         public async Task<FindChatsByNameResult> Get(string name)
         {
             return await _mediator.Send(new FindChatsByNameQuery { Name = name });

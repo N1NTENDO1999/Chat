@@ -71,7 +71,7 @@ export class ChatsSearchResultComponent implements OnInit {
             });
         }
         else {
-            this.chatService.apiChatsChatNameGet$Json({ name: term }).subscribe(p => {
+            this.chatService.apiChatsChatSearchNameGet$Json({ name: term }).subscribe(p => {
                 this.chatsStore.setChats(p.Chats);
                 console.log(p.Chats);
             });

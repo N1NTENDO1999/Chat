@@ -29,22 +29,22 @@ export class ChatsService extends BaseService {
   }
 
   /**
-   * Path part for operation apiChatsChatNameGet
+   * Path part for operation apiChatsChatSearchNameGet
    */
-  static readonly ApiChatsChatNameGetPath = '/api/Chats/chat/{name}';
+  static readonly ApiChatsChatSearchNameGetPath = '/api/Chats/chat/search/{name}';
 
   /**
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `apiChatsChatNameGet$Plain()` instead.
+   * To access only the response body, use `apiChatsChatSearchNameGet$Plain()` instead.
    *
    * This method doesn't expect any request body.
    */
-  apiChatsChatNameGet$Plain$Response(params: {
+  apiChatsChatSearchNameGet$Plain$Response(params: {
     name: string;
 
   }): Observable<StrictHttpResponse<FindChatsByNameResult>> {
 
-    const rb = new RequestBuilder(this.rootUrl, ChatsService.ApiChatsChatNameGetPath, 'get');
+    const rb = new RequestBuilder(this.rootUrl, ChatsService.ApiChatsChatSearchNameGetPath, 'get');
     if (params) {
 
       rb.path('name', params.name);
@@ -63,32 +63,32 @@ export class ChatsService extends BaseService {
 
   /**
    * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `apiChatsChatNameGet$Plain$Response()` instead.
+   * To access the full response (for headers, for example), `apiChatsChatSearchNameGet$Plain$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
-  apiChatsChatNameGet$Plain(params: {
+  apiChatsChatSearchNameGet$Plain(params: {
     name: string;
 
   }): Observable<FindChatsByNameResult> {
 
-    return this.apiChatsChatNameGet$Plain$Response(params).pipe(
+    return this.apiChatsChatSearchNameGet$Plain$Response(params).pipe(
       map((r: StrictHttpResponse<FindChatsByNameResult>) => r.body as FindChatsByNameResult)
     );
   }
 
   /**
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `apiChatsChatNameGet$Json()` instead.
+   * To access only the response body, use `apiChatsChatSearchNameGet$Json()` instead.
    *
    * This method doesn't expect any request body.
    */
-  apiChatsChatNameGet$Json$Response(params: {
+  apiChatsChatSearchNameGet$Json$Response(params: {
     name: string;
 
   }): Observable<StrictHttpResponse<FindChatsByNameResult>> {
 
-    const rb = new RequestBuilder(this.rootUrl, ChatsService.ApiChatsChatNameGetPath, 'get');
+    const rb = new RequestBuilder(this.rootUrl, ChatsService.ApiChatsChatSearchNameGetPath, 'get');
     if (params) {
 
       rb.path('name', params.name);
@@ -107,16 +107,16 @@ export class ChatsService extends BaseService {
 
   /**
    * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `apiChatsChatNameGet$Json$Response()` instead.
+   * To access the full response (for headers, for example), `apiChatsChatSearchNameGet$Json$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
-  apiChatsChatNameGet$Json(params: {
+  apiChatsChatSearchNameGet$Json(params: {
     name: string;
 
   }): Observable<FindChatsByNameResult> {
 
-    return this.apiChatsChatNameGet$Json$Response(params).pipe(
+    return this.apiChatsChatSearchNameGet$Json$Response(params).pipe(
       map((r: StrictHttpResponse<FindChatsByNameResult>) => r.body as FindChatsByNameResult)
     );
   }

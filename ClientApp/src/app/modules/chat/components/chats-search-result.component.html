@@ -1,8 +1,12 @@
 <div>
   <div class="container mb-3">
     <h4>Chats</h4>
-    <input #searchBox id="search-box" (input)="search(searchBox.value)" />
+    <form>
+      <button type="submit"><fa name="search"></fa></button>
+      <input #searchBox id="search-box" type="search" (input)="search(searchBox.value)" />
+    </form>
   </div>
+
   <div class="overflow-auto" style="height: 800px;" id="chat">
 
     <div class="d-flex p-3 colour-change" (click)="getChat(chat)" *ngFor="let chat of chatsStore.allChats">
@@ -11,8 +15,9 @@
       <img src="{{chat.Picture}}" style="width: 50px; height: 50px;" class="rounded-circle">
 
       <p class="overflow-hidden w-75 p-3 text-nowrap">{{chat.Name}}</p>
-      
-        <span *ngIf="chat.UnreadMessagesCount" class="badge badge-light badge-pill align-self-center" style="color: #2eb384">{{chat.UnreadMessagesCount}}</span>
+
+      <span *ngIf="chat.UnreadMessagesCount" class="badge badge-light badge-pill align-self-center"
+        style="color: #2eb384">{{chat.UnreadMessagesCount}}</span>
 
     </div>
 
