@@ -1,0 +1,4 @@
+.back-grad {
+    background: rgb(11, 163, 96);
+background: linear-gradient(0deg, rgb(11, 163, 96) 0%, rgb(60, 186, 146) 100%, rgba(255,255,255,1) 100%);
+}
