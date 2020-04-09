@@ -49,6 +49,7 @@ export class ProfileEditComponent implements OnInit {
             reader.onloadend = (e) => { // function call once readAsDataUrl is completed
                 this.URL = reader.result; // Set image in element
                 this.user.Picture = this.URL;
+                console.log(this.user.Picture);
                 // this._changeDetection.markForCheck(); // Is called because ChangeDetection is set to onPush
             };
         }

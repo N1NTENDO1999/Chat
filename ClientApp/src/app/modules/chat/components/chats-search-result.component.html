@@ -1,17 +1,21 @@
-<div class="container-fluid bg-success text-white">
-  <h4>Chats</h4>
-
-  <input #searchBox id="search-box" (input)="search(searchBox.value)" />
+<div>
+  <div class="container pb-3">
+    <h4>Chats</h4>
+    <input #searchBox id="search-box" (input)="search(searchBox.value)" />
+  </div>
   <div class="overflow-auto" style="height: 800px;" id="chat">
 
-    <span class="col hover" *ngFor="let chat of chatsStore.allChats">
-      <div (click)="getChat(chat)">
-        <img src="{{chat.Picture}}" style="width: 30px; height: 30px;" class="rounded-circle">
-        {{chat.Name}}
+    <div class="my-3" *ngFor="let chat of chatsStore.allChats">
+      <div (click)="getChat(chat)" class="d-flex">
+        
+          <img src="{{chat.Picture}}" style="width: 50px; height: 50px;" class="rounded-circle">
+
+          <p class="overflow-hidden w-75">{{chat.Name}}</p>
+
         <span *ngIf="chat.UnreadMessagesCount"
           class="badge badge-pill badge-primary">{{chat.UnreadMessagesCount}}</span>
       </div>
-    </span>
+    </div>
 
   </div>
 </div>
