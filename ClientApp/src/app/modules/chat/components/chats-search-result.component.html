@@ -1,31 +1,37 @@
 <div>
   <div class="container d-flex justify-content-between mt-3">
     <h1 class="col">Cactus Chat</h1>
-    <div class="container col-3 align-self-center justify-content-between">
+    <div class="container col-3 align-self-center">
       <span class="pr-4 border-hov">
         <fa name="plus-circle" class="docus-border-dis" routerLink="/create" size="2x"></fa>
       </span>
-      <span class="border-hov">
+     
+      <span class="border-hov" type="button" id="dropdownMenuButton" data-toggle="dropdown"
+        aria-haspopup="true" aria-expanded="false">
         <fa name="ellipsis-v" (click)="hello()" size="2x"></fa>
       </span>
+      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+        <a class="dropdown-item" href="#">Action</a>
+        <a class="dropdown-item" href="#">Another action</a>
+        <a class="dropdown-item" href="#">Something else here</a>
+    
     </div>
   </div>
+</div>
 
-  <div class="form-group has-search m-4">
-    <span class="fa fa-search form-control-feedback"></span>
-    <input #searchBox type="text" class="form-control text-white border-0" style="background-color: #229872;"
-      placeholder="Search..." (input)="search(searchBox.value)">
-  </div>
+<div class="form-group has-search m-4">
+  <span class="fa fa-search form-control-feedback"></span>
+  <input #searchBox type="text" class="form-control text-white border-0" style="background-color: #229872;"
+    placeholder="Search..." (input)="search(searchBox.value)">
+</div>
 
-  <div class="overflow-auto" style="height: 720px;" id="chat">
-    <div class="colour-change" (click)="getChat(chat)" *ngFor="let chat of chatsStore.allChats">
-      <div class="d-flex p-3 mx-3">
-        <img src="{{chat.Picture}}" style="width: 50px; height: 50px;" class="rounded-circle">
-        <p class="overflow-hidden w-75 px-3 text-nowrap">{{chat.Name}}</p>
-        <span *ngIf="chat.UnreadMessagesCount" class="badge badge-light badge-pill align-self-center"
-          style="color: #2eb384">{{chat.UnreadMessagesCount}}</span>
-      </div>
+<div class="overflow-auto" style="height: 720px;" id="chat">
+  <div class="colour-change" (click)="getChat(chat)" *ngFor="let chat of chatsStore.allChats">
+    <div class="d-flex p-3 mx-3">
+      <img src="{{chat.Picture}}" style="width: 50px; height: 50px;" class="rounded-circle">
+      <p class="overflow-hidden w-75 px-3 text-nowrap">{{chat.Name}}</p>
+      <span *ngIf="chat.UnreadMessagesCount" class="badge badge-light badge-pill align-self-center"
+        style="color: #2eb384">{{chat.UnreadMessagesCount}}</span>
     </div>
   </div>
-
 </div>

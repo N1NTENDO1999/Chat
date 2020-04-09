@@ -3,6 +3,7 @@
         <h1>{{chatsStore.selectedChat.Name}}</h1>
         <a *ngIf="isOwner()" routerLink="/search/user">Add User</a>
     </div>
+
     <div class="overflow-auto" style="height: 680px;" id="chat" id="scrollerDiv">
         <button *ngIf="!messagesStore.isLoading && !messagesStore.NoMoreMessages" type="button" class="btn btn-primary"
             (click)="MoreMessages()">Get More</button>
@@ -10,7 +11,7 @@
             <p>{{message.Sender.Nickname}}: {{message.Text}}</p>
         </div>
     </div>
-    <div class="container" >
+    <div class="container">
         <form [formGroup]="messageForm" (ngSubmit)="onSubmit()">
             <div class="form-group">
                 <input type="text" formControlName="message" class="form-control mb-4" placeholder="message" />
