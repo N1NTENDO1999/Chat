@@ -77,7 +77,9 @@ export class ChatsSearchResultComponent implements OnInit {
             });
         }
     }
-
+    hello(){
+        console.log("Hello");
+    }
     ngOnInit() {
         this.userService.apiUsersUserIdChatsGet$Json({ id: this.authService.currentUserValue.Id }).subscribe(p => {
             this.chatsStore.setChats(p.Chats);

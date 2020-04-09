@@ -11,15 +11,27 @@
     background-color: #219269;
 }
 
-input[type=search] {
-	background: #555 url(http://hp-proliant.co.uk/qual_images/mob-search-icon.png) no-repeat 9px center;
-	border: solid 1px #ccc;
-	padding: 9px 10px 9px 32px;
-	width: 55px;
+.has-search .form-control {
+    padding-left: 2.375rem;
 }
-input[type=search]:focus {
-	width: 600px;
-	background-color: #ccc;
-	border-color: #333;
-	border: solid 1px #fff;
+
+.has-search .form-control-feedback {
+    position: absolute;
+    z-index: 2;
+    display: block;
+    width: 2.375rem;
+    height: 2.375rem;
+    line-height: 2.375rem;
+    text-align: center;
+    pointer-events: none;
+    color: white;
 }
+
+.border-hov:hover{
+    cursor: pointer;
+}
+
+::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: white;
+    opacity: 1; /* Firefox */
+  }

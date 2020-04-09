@@ -1,24 +1,27 @@
 <div>
-  <div class="container mb-3">
+  <div class="container my-3">
     <h4>Chats</h4>
-    <form>
-      <button type="submit"><fa name="search"></fa></button>
-      <input #searchBox id="search-box" type="search" (input)="search(searchBox.value)" />
-    </form>
+    <span  class="border-hov"><fa name="plus-circle" (click)="hello()" size="2x"></fa></span>
+    <span  class="border-hov"><fa name="ellipsis-v" (click)="hello()" size="2x"></fa></span>
+    <div class="form-group has-search m-3">
+      <span class="fa fa-search form-control-feedback"></span>
+      <input #searchBox type="text" class="form-control text-white border-0" style="background-color: #229872"
+        placeholder="Search..." (input)="search(searchBox.value)">
+    </div>
   </div>
 
   <div class="overflow-auto" style="height: 800px;" id="chat">
 
-    <div class="d-flex p-3 colour-change" (click)="getChat(chat)" *ngFor="let chat of chatsStore.allChats">
+    <div class="colour-change" (click)="getChat(chat)" *ngFor="let chat of chatsStore.allChats">
 
+      <div class="d-flex p-3 mx-3">
+        <img src="{{chat.Picture}}" style="width: 50px; height: 50px;" class="rounded-circle">
 
-      <img src="{{chat.Picture}}" style="width: 50px; height: 50px;" class="rounded-circle">
+        <p class="overflow-hidden w-75 px-3 text-nowrap">{{chat.Name}}</p>
 
-      <p class="overflow-hidden w-75 p-3 text-nowrap">{{chat.Name}}</p>
-
-      <span *ngIf="chat.UnreadMessagesCount" class="badge badge-light badge-pill align-self-center"
-        style="color: #2eb384">{{chat.UnreadMessagesCount}}</span>
-
+        <span *ngIf="chat.UnreadMessagesCount" class="badge badge-light badge-pill align-self-center"
+          style="color: #2eb384">{{chat.UnreadMessagesCount}}</span>
+      </div>
     </div>
 
 
