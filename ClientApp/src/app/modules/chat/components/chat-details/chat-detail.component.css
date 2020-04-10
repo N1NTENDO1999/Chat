@@ -16,3 +16,12 @@
 .overflow-auto::-webkit-scrollbar {
     display: none;
 }
+
+.back-grad {
+    background: rgb(56, 140, 80);
+    background: linear-gradient(0deg, rgba(56, 140, 80, 1) 0%, rgba(60, 171, 117, 1) 56%, rgba(65, 208, 163, 1) 100%);
+}
+
+.docus-border-dis:focus{
+    outline: 0;
+}

@@ -25,6 +25,8 @@ export class ChatDetailComponent implements OnInit {
     deliveryDate: string;
     subscription: Subscription;
 
+
+    
     constructor(
         public signalRService: SignalrService,
         private authService: AuthenticationService,
@@ -79,6 +81,9 @@ export class ChatDetailComponent implements OnInit {
 
     }
 
+    addUserRoute(){
+        this.router.navigateByUrl('search/user');
+    }
 
     public onDateChange(value: string): void {
         this.deliveryDate = value;
@@ -119,5 +124,7 @@ export class ChatDetailComponent implements OnInit {
         this.messageForm.controls.message.setValue(null);
 
     }
+
+    
 
 }
