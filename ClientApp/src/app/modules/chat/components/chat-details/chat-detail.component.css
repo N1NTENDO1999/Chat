@@ -12,3 +12,7 @@
     position: absolute;
     bottom: 0;
 }
+
+.overflow-auto::-webkit-scrollbar {
+    display: none;
+}

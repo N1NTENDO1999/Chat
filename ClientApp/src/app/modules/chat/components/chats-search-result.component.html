@@ -11,10 +11,11 @@
         <fa name="ellipsis-v" (click)="hello()" size="2x"></fa>
       </span>
       <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-        <a class="dropdown-item" href="#">Action</a>
-        <a class="dropdown-item" href="#">Another action</a>
-        <a class="dropdown-item" href="#">Something else here</a>
-    
+        <a class="dropdown-item border-hov" (click)="details()">Profile</a>
+        <a class="dropdown-item border-hov" (click)="searchUsers()">Search Users</a>
+        <a class="dropdown-item border-hov" (click)="searchMessages()">Search Messages</a>
+        <div class="dropdown-divider"></div>
+        <a class="dropdown-item border-hov" (click)="logout()">Logout</a>
     </div>
   </div>
 </div>
@@ -25,7 +26,7 @@
     placeholder="Search..." (input)="search(searchBox.value)">
 </div>
 
-<div class="overflow-auto" style="height: 720px;" id="chat">
+<div class="overflow-auto" style="height: 760px;" id="chat">
   <div class="colour-change" (click)="getChat(chat)" *ngFor="let chat of chatsStore.allChats">
     <div class="d-flex p-3 mx-3">
       <img src="{{chat.Picture}}" style="width: 50px; height: 50px;" class="rounded-circle">
