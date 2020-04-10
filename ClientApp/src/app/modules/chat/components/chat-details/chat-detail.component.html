@@ -1,14 +1,23 @@
 <div *ngIf="chatsStore.selectedChat" class="mt-3">
     <div class="container d-flex justify-content-between ml-0 p-3">
         <h1>{{chatsStore.selectedChat.Name}}</h1>
-         <button class="btn btn-primary back-grad border-0" *ngIf="isOwner()" (click)="addUserRoute()">Add User</button>
+        <button class="btn btn-primary back-grad border-0" *ngIf="isOwner()" (click)="addUserRoute()">Add User</button>
     </div>
 
     <div class="overflow-auto d-flex flex-column" style="height: 680px;" id="chat" id="scrollerDiv">
-        <button *ngIf="!messagesStore.isLoading && !messagesStore.NoMoreMessages" type="button" class="btn btn-primary back-grad border-0 align-self-center"
-            (click)="MoreMessages()">Get More</button>
-        <div class="container" *ngFor="let message of messagesStore.allMessages">
-            <p>{{message.Sender.Nickname}}: {{message.Text}}</p>
+        <button *ngIf="!messagesStore.isLoading && !messagesStore.NoMoreMessages" type="button"
+            class="btn btn-primary back-grad border-0 align-self-center" (click)="MoreMessages()">Get More</button>
+        <div class="container-fluid mb-3" *ngFor="let message of messagesStore.allMessages">
+            <div class="d-flex">
+                <div class="align-self-end" >
+                    <img src="{{message.Sender.Picture}}" (click)="details(message.Sender.Id)" style="width: 50px; height: 50px; position: relative; left: 7px" class="rounded-circle">
+                    <p class="pb-0 text-muted">{{message.DateCreated | date:'shortTime'}}</p>
+                </div>
+                <div class="m-3 py-0 mb-3 message-rec">
+                    <p class="px-3 mb-0 pb-0" style="max-width: 500px;">{{message.Text}}</p> 
+                </div>
+
+            </div>
         </div>
     </div>
     <div class="container">

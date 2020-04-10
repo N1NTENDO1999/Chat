@@ -25,3 +25,11 @@
 .docus-border-dis:focus {
     outline: 0;
 }
+
+.message-rec{
+    position: relative;
+    bottom: 50px;
+    color: #545454;
+    background-color: #d7d7d7;
+    border-radius: 10px 10px 10px 0px;
+}

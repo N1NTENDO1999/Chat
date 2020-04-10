@@ -2,7 +2,7 @@ import { Component, OnInit, Input, OnChanges, SimpleChanges, OnDestroy } from '@
 import { ChatsService } from 'src/app/core/api/services';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
-import { ChatDto } from 'src/app/core/api/models';
+import { ChatDto, UserDto } from 'src/app/core/api/models';
 import { MessageDto } from 'src/app/core/models/MessageDto';
 import { SignalrService } from 'src/app/core/signalR/SignalR.service';
 import { User } from 'src/app/core/models/User';
@@ -11,6 +11,7 @@ import { FormBuilder, FormControl, Validators, FormGroup } from '@angular/forms'
 import { ChatsStore } from 'src/app/core/stores/chatsStore';
 import { MessagesStore } from 'src/app/core/stores/MessagesStore';
 import { Subscription } from 'rxjs';
+import { UsersStore } from 'src/app/core/stores/UsersStore';
 
 
 @Component({
@@ -33,7 +34,8 @@ export class ChatDetailComponent implements OnInit {
         public chatsStore: ChatsStore,
         public messagesStore: MessagesStore,
         private authenticationService: AuthenticationService,
-        private router: Router
+        private router: Router,
+        private usersStore: UsersStore
     ) {
         this.subscription = this.messagesStore.messagesUpdated().subscribe(() => this.scrollDown());
     }
@@ -79,6 +81,11 @@ export class ChatDetailComponent implements OnInit {
                 this.messageForm.controls.message.value, this.chatsStore.chat.IsPersonal, this.deliveryDate);
         this.messageForm.controls.message.setValue(null);
 
+    }
+
+    details(user: UserDto){
+        this.usersStore.setDetailUserId(user.Id);
+        this.router.navigateByUrl('/profile');
     }
 
     addUserRoute(){
