@@ -2,28 +2,28 @@
     <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="text-center border border-light p-5">
         <p class="h4 mb-4">Register</p>
         <div class="form-group">
-            <input type="text" formControlName="firstName" class="form-control mb-4" placeholder="First Name"
+            <input type="text" formControlName="firstName" class="form-control mb-4 edit-box" placeholder="First Name"
                 [ngClass]="{ 'is-invalid': submitted && f.firstName.errors }" />
             <div *ngIf="submitted && f.firstName.errors" class="alert alert-danger">
                 <div *ngIf="f.firstName.errors.required">First Name is required</div>
             </div>
         </div>
         <div class="form-group">
-            <input type="text" formControlName="lastName" class="form-control mb-4" placeholder="Last Name"
+            <input type="text" formControlName="lastName" class="form-control mb-4 edit-box" placeholder="Last Name"
                 [ngClass]="{ 'is-invalid': submitted && f.lastName.errors }" />
             <div *ngIf="submitted && f.lastName.errors" class="alert alert-danger">
                 <div *ngIf="f.lastName.errors.required">Last Name is required</div>
             </div>
         </div>
         <div class="form-group">
-            <input type="text" formControlName="nickname" class="form-control mb-4" placeholder="Nickname"
+            <input type="text" formControlName="nickname" class="form-control mb-4 edit-box" placeholder="Nickname"
                 [ngClass]="{ 'is-invalid': submitted && f.nickname.errors }" />
             <div *ngIf="submitted && f.nickname.errors" class="alert alert-danger">
                 <div *ngIf="f.nickname.errors.required">Nickname is required</div>
             </div>
         </div>
         <div class="form-group">
-            <input type="email" formControlName="email" class="form-control mb-4" placeholder="E-mail"
+            <input type="email" formControlName="email" class="form-control mb-4 edit-box" placeholder="E-mail"
                 [ngClass]="{ 'is-invalid': submitted && f.email.errors }" />
             <div *ngIf="submitted && f.email.errors" class="alert alert-danger">
                 <div *ngIf="f.email.errors.required">Email is required</div>
@@ -31,7 +31,7 @@
             </div>
         </div>
         <div class="form-group">
-            <input type="password" formControlName="password" class="form-control mb-4" placeholder="Password"
+            <input type="password" formControlName="password" class="form-control mb-4 edit-box" placeholder="Password"
                 [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
             <div *ngIf="submitted && f.password.errors" class="alert alert-danger">
                 <div *ngIf="f.password.errors.required">Password is required</div>
@@ -39,11 +39,11 @@
             </div>
         </div>
         <div class="form-group">
-            <button [disabled]="loading" class="btn btn-primary">
+            <button [disabled]="loading" class="btn btn-primary back-grad mx-2">
                 <span *ngIf="loading"></span>
                 Register
             </button>
-            <a routerLink="/login" class="">Cancel</a>
+            <a routerLink="/login" style="color: #2eb384 ;">Cancel</a>
         </div>
     </form>
 </div>

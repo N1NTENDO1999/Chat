@@ -51,6 +51,6 @@ export class UserDetailsComponent implements OnInit {
     }
 
     goBack(): void {
-        this.location.back();
+        this.router.navigateByUrl('/chats');
     }
 }
