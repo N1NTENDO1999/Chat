@@ -1,7 +1,8 @@
 <div *ngIf="chatsStore.selectedChat" class="mt-3">
-    <div class="container d-flex justify-content-between ml-0 p-3">
-        <h1>{{chatsStore.selectedChat.Name}}</h1>
+    <div class="container d-flex ml-0 p-3">
+        <h1 class="mr-auto">{{chatsStore.selectedChat.Name}}</h1>
         <button class="btn btn-primary back-grad border-0" *ngIf="isOwner()" (click)="addUserRoute()">Add User</button>
+        <button class="btn btn-primary back-grad border-0 ml-3" (click)="scheduledMessages()">Scheduled Messages</button>
     </div>
 
     <div class="overflow-auto d-flex flex-column" style="height: 680px;" id="chat" id="scrollerDiv">
