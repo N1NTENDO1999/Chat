@@ -1,0 +1,8 @@
+.active-status {
+    height: 20px;
+    width: 20px;
+    background-color: greenyellow;
+    position: relative;
+    left: 160px;
+    bottom: 40px;
+}
