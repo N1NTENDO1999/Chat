@@ -1,25 +1,35 @@
 <div id="container">
-  <h4>Messages</h4>
+  <div class="container d-flex justify-content-between mt-3">
+    <h1 class="col">Cactus Chat</h1>
+    <div class="container col-3 align-self-center">
+      <span class="pr-4 border-hov">
+        <fa name="arrow-left" class="docus-border-dis" (click)="back()" size="2x"></fa>
+      </span>
+    </div>
+  </div>
 
-  <input #messageSearchBox (keyup)="updateSearch($event.target.value)" />
-  <div class="overflow-auto" style="height: 800px;" id="chat">
-    <div class="list-group">
-      <h2>Personal Messages</h2>
-      <a class="list-group-item list-group-item-action" *ngFor="let message of searchStore.PersonalMessages">
-        <div (click)="getPersonalChat(message)">
-          <img src="{{message.Chat.Picture}}" style="width: 30px; height: 30px;" class="rounded-circle">
-          <h5>{{message.Chat.Nickname}}</h5>
-          <p>{{message.Text}}</p>
-        </div>
-      </a>
-      <h2>Chat Messages</h2>
-      <a class="list-group-item list-group-item-action" *ngFor="let message of searchStore.ChatMessages">
-        <div (click)="getChat(message)">
-          <img src="{{message.Chat.Picture}}" style="width: 30px; height: 30px;" class="rounded-circle">
-          <h5>{{message.Chat.Name}}</h5>
-          <p>{{message.Text}}</p>
-        </div>
-      </a>
+  <div class="form-group has-search m-4">
+    <span class="fa fa-search form-control-feedback"></span>
+    <input #searchBox type="text" class="form-control text-white border-0" style="background-color: #229872;"
+      placeholder="Search..." (input)="updateSearch(searchBox.value)">
+  </div>
+
+  <div class="overflow-auto" style="height: 760px;" id="chat">
+    <h2>Personal Messages</h2>
+    <div class="colour-change" *ngFor="let message of searchStore.PersonalMessages">
+      <div (click)="getPersonalChat(message)">
+        <img src="{{message.Chat.Picture}}" style="width: 30px; height: 30px;" class="rounded-circle">
+        <h5>{{message.Chat.Nickname}}</h5>
+        <p>{{message.Text}}</p>
+      </div>
+    </div>
+    <h2>Chat Messages</h2>
+    <div class="colour-change" *ngFor="let message of searchStore.ChatMessages">
+      <div (click)="getChat(message)">
+        <img src="{{message.Chat.Picture}}" style="width: 30px; height: 30px;" class="rounded-circle">
+        <h5>{{message.Chat.Name}}</h5>
+        <p>{{message.Text}}</p>
+      </div>
     </div>
   </div>
 </div>
