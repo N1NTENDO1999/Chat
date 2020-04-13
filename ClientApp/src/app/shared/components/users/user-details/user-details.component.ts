@@ -5,6 +5,7 @@ import { ProfileInfoDto } from 'src/app/core/api/models/profile-info-dto';
 import { UsersService } from 'src/app/core/api/services';
 import { User } from 'src/app/core/models/User';
 import { Router } from '@angular/router';
+import { Location } from '@angular/common';
 
 @Component({
     selector: 'user-details-component',
@@ -17,7 +18,8 @@ export class UserDetailsComponent implements OnInit {
     constructor(
         private router: Router,
         private usersStore: UsersStore,
-        private usersService: UsersService
+        private usersService: UsersService,
+        private location: Location
     ) {
     }
 
@@ -48,4 +50,7 @@ export class UserDetailsComponent implements OnInit {
         this.router.navigateByUrl("/profile/edit");
     }
 
+    goBack(): void {
+        this.location.back();
+    }
 }

@@ -9,6 +9,9 @@
         <h4 class="text-muted">{{user.Nickname}}</h4>
         <p class="lead" *ngIf="!isActive()">Last Seen: {{user.ActiveDateTime | date:'medium'}}</p>
         <p class="lead">Register Date: {{user.DateCreated | date}}</p>
-        <button *ngIf="canEdit()" (click)="edit()" class="btn btn-primary">Edit</button>
+        <div>
+            <button *ngIf="canEdit()" (click)="edit()" class="btn btn-primary back-grad border-0">Edit</button>
+            <button (click)="goBack()" class="btn btn-primary back-grad border-0 mx-3">Back</button>
+        </div>
     </div>
 </div>
