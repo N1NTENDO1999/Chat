@@ -33,3 +33,12 @@
     background-color: #d7d7d7;
     border-radius: 10px 10px 10px 0px;
 }
+
+.message-sen{
+    position: relative;
+    bottom: 50px;
+    color: white;
+    background: rgb(60,166,90);
+background: linear-gradient(0deg, rgba(60,166,90,1) 0%, rgba(60,171,117,1) 49%);
+    border-radius: 10px 10px 0px 10px;
+}

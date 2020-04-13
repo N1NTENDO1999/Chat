@@ -25,7 +25,7 @@ export class ChatDetailComponent implements OnInit {
     minDate: string;
     deliveryDate: string;
     subscription: Subscription;
-
+    userId: number;
 
     
     constructor(
@@ -60,14 +60,19 @@ export class ChatDetailComponent implements OnInit {
 
         this.minDate = this.toDateString(new Date());
         this.deliveryDate = this.minDate;
+        this.userId = JSON.parse(localStorage.getItem('currentUser')).Id;
 
-        console.log("Chat Details");
+        console.log(this.userId);
 
     }
 
     isOwner(): boolean {
         const currentUser = this.authenticationService.currentUserValue;
         return this.chatsStore.chat.OwnerId == currentUser.Id || !this.chatsStore.chat.IsPrivate;
+    }
+
+    isCurentUser(userId: number){
+        return userId === this.userId;
     }
 
     sendAsSchedule() {
