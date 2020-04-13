@@ -1,11 +1,11 @@
-<div *ngIf="chatsStore.selectedChat" class="mt-3">
+<div *ngIf="chatsStore.selectedChat" class="mt-3 p-0 mx-0">
     <div class="container d-flex ml-0 p-3">
         <h1 class="mr-auto">{{chatsStore.selectedChat.Name}}</h1>
         <button class="btn btn-primary back-grad border-0" *ngIf="isOwner()" (click)="addUserRoute()">Add User</button>
         <button class="btn btn-primary back-grad border-0 ml-3" (click)="scheduledMessages()">Scheduled Messages</button>
     </div>
 
-    <div class="overflow-auto d-flex flex-column" style="height: 680px;" id="chat" id="scrollerDiv">
+    <div class="overflow-auto d-flex flex-column" style="height: 710px;" id="chat" id="scrollerDiv">
         <button *ngIf="!messagesStore.isLoading && !messagesStore.NoMoreMessages" type="button"
             class="btn btn-primary back-grad border-0 align-self-center" (click)="MoreMessages()">Get More</button>
         <div class="container-fluid mb-3" *ngFor="let message of messagesStore.allMessages">
@@ -30,17 +30,16 @@
             </div>
         </div>
     </div>
-    <div class="container">
-        <form [formGroup]="messageForm" (ngSubmit)="onSubmit()">
-            <div class="form-group">
-                <input type="text" formControlName="message" class="form-control mb-4" placeholder="message" />
-            </div>
-        </form>
+    <div class="container-fluid align-self-end ml-0 p-0"  style="background-color: burlywood;">
         <div class="container">
-            <input type="datetime-local" id="delivery-time" name="meeting-time" [value]="minDate" [min]="minDate"
+            <input class="col-3 col-form-label" type="datetime-local" id="delivery-time" name="meeting-time" [value]="minDate" [min]="minDate"
                 (change)="onDateChange($event.target.value)">
             <button (click)="sendAsSchedule()">Schedule</button>
-            <button (click)="scheduledMessages()">Scheduled Messages</button>
         </div>
+        <form [formGroup]="messageForm" (ngSubmit)="onSubmit()">
+            <div class="form-group" style="background-color: cadetblue;">
+                <input type="text" formControlName="message" class="form-control mb-4 ml-0" placeholder="message" />
+            </div>
+        </form>
     </div>
 </div>
