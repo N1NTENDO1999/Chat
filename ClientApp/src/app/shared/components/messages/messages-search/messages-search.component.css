@@ -15,8 +15,7 @@
     padding-left: 2.375rem;
 }
 
-
-.docus-border-dis:focus{
+.docus-border-dis:focus {
     outline: 0;
 }
 
@@ -32,11 +31,13 @@
     color: white;
 }
 
-.border-hov:hover{
+.border-hov:hover {
     cursor: pointer;
 }
 
-::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+::placeholder {
+    /* Chrome, Firefox, Opera, Safari 10.1+ */
     color: white;
-    opacity: 1; /* Firefox */
-  }
+    opacity: 1;
+    /* Firefox */
+}
