@@ -4,14 +4,7 @@
     overflow: auto;
 }
 
-#parent {
-    position: relative;
-}
 
-#child {
-    position: absolute;
-    bottom: 0;
-}
 
 .overflow-auto::-webkit-scrollbar {
     display: none;
@@ -44,7 +37,7 @@
 }
 
 .send-box{
-    height: 60px; 
+    height: 80px; 
     color: #545454;
     background-color: #d7d7d7;
 }
