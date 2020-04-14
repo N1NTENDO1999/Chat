@@ -1,0 +1,9 @@
+.back-grad {
+    background: rgb(56, 154, 84);
+    background: linear-gradient(0deg, rgba(56, 154, 84, 1) 0%, rgba(60, 171, 117, 1) 41%, rgba(38, 175, 131, 1) 100%);
+}
+
+.edit-box {
+    color: #545454;
+    background-color: #d7d7d7;
+}

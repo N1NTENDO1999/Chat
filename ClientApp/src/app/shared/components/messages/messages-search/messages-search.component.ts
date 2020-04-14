@@ -91,6 +91,7 @@ export class MessagesSearchComponent implements OnInit, OnDestroy {
     ngOnInit() {
 
     }
+    
     back(): void {
         this.chatsStore.clearSelected();
         this.searchStore.Clear();
