@@ -33,15 +33,15 @@
             </div>
         </div>
     </div>
-    <div class="container-fluid align-self-end ml-0 p-0">
+    <div class="container-fluid  ml-0 p-0 mb-0">
         <div class="container">
             <input class="col-3 col-form-label" type="datetime-local" id="delivery-time" name="meeting-time"
                 [value]="minDate" [min]="minDate" (change)="onDateChange($event.target.value)">
             <button class="btn btn-primary back-grad border-0 my-0" (click)="sendAsSchedule()">Schedule</button>
         </div>
         <form [formGroup]="messageForm" (ngSubmit)="onSubmit()" class="mb-0 pb-0">
-            <div class="form-group">
-                <input type="text" formControlName="message" class="form-control mb-4 ml-0 send-box"
+            <div class="form-group mb-0 pb-0">
+                <input type="text" formControlName="message" class="form-control mb-0 pb-0 ml-0 send-box"
                     placeholder="message" />
             </div>
         </form>
