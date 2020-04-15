@@ -2,11 +2,16 @@
     <div class="container d-flex ml-0 p-3">
         <h1 class="mr-auto">{{chatsStore.selectedChat.Name}}</h1>
         <button class="btn btn-primary back-grad border-0" *ngIf="isOwner()" (click)="addUserRoute()">Add User</button>
-        <button class="btn btn-primary back-grad border-0 ml-3" (click)="scheduledMessages()">Scheduled
+        <button class="btn btn-primary back-grad border-0 ml-3" *ngIf="!isScheduled"
+            (click)="scheduledMessages()">Scheduled
             Messages</button>
+        <button class="btn btn-primary back-grad border-0 ml-3" *ngIf="isScheduled"
+            (click)="allMessages()">All
+        </button>
     </div>
 
-    <div class="overflow-auto d-flex flex-column" style="height: 700px;" id="chat" id="scrollerDiv">
+    <div class="overflow-auto d-flex flex-column pt-5 " *ngIf="!isScheduled" style="height: 700px;" id="chat"
+        id="scrollerDiv">
         <button *ngIf="!messagesStore.isLoading && !messagesStore.NoMoreMessages" type="button"
             class="btn btn-primary back-grad border-0 align-self-center" (click)="MoreMessages()">Get More</button>
         <div class="container-fluid mb-3" *ngFor="let message of messagesStore.allMessages">
@@ -29,11 +34,20 @@
                         style="width: 50px; height: 50px; position: relative; right: 7px" class="rounded-circle">
                     <p class="pb-0 text-muted mr-5">{{message.DateCreated | date:'shortTime'}}</p>
                 </div>
-
             </div>
         </div>
     </div>
-    <div class="container-fluid  ml-0 p-0 mb-0">
+    <div class="overflow-auto d-flex flex-column pt-5 mt-3" *ngIf="isScheduled" style="height: 700px;" id="chat" id="scrollerDiv">
+        <div class="container-fluid mb-3" *ngFor="let message of scheduledStore.allMessages">
+            <div class="d-flex pull-right">
+                <p class="text-muted">Delisvery Date: {{message.Delivery | date:'medium'}}</p>
+                <div class="m-3 py-3 mb-3 message-sen">
+                    <p class="px-3 mb-0 pb-0" style="max-width: 500px;">{{message.Text}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid  ml-0 p-0 mb-0" *ngIf="!isScheduled">
         <div class="container">
             <input class="col-3 col-form-label" type="datetime-local" id="delivery-time" name="meeting-time"
                 [value]="minDate" [min]="minDate" (change)="onDateChange($event.target.value)">

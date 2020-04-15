@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { UsersStore } from 'src/app/core/stores/UsersStore';
 
 @Component({
     selector: 'message-search-component',
@@ -7,10 +8,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MessageSearchComponent implements OnInit {
 
-    constructor() {
+    constructor(
+        private usersStore: UsersStore
+    ) {
     }
 
     ngOnInit() {
         
+    }
+
+    activeProfile(): boolean {
+        return this.usersStore.CanShowProfile;
     }
 }

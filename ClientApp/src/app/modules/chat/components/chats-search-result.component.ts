@@ -107,7 +107,8 @@ export class ChatsSearchResultComponent implements OnInit {
     details(){
         let currentUser: User = JSON.parse(localStorage.getItem('currentUser'));
         this.usersStore.setDetailUserId(currentUser.Id);
-        this.router.navigateByUrl('/profile');
+        this.usersStore.HideProfile();
+        setTimeout(() => this.usersStore.ShowProfile(), 300);
     }
 
     searchUsers(){

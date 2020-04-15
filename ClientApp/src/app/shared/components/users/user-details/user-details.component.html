@@ -1,6 +1,7 @@
-<div *ngIf="user" class="container shadow-sm">
-    <div class="d-flex flex-column align-items-center">
-        <span>
+<div *ngIf="user" class="container shadow-sm" style="height: 930px;">
+    <div class="d-flex flex-column align-items-center py-5">
+        <button (click)="goBack()" class="border-0 mx-3 rounded-circle align-self-end">X</button>
+        <span class="mt-3">
             <img src="{{user.Picture}}" style="width: 200px; height: 200px;" class="rounded-circle" id="result"
                 alt="...">
             <div class="rounded-circle active-status" *ngIf="isActive()"></div>
@@ -9,9 +10,7 @@
         <h4 class="text-muted">{{user.Nickname}}</h4>
         <p class="lead" *ngIf="!isActive()">Last Seen: {{user.ActiveDateTime | date:'medium'}}</p>
         <p class="lead">Register Date: {{user.DateCreated | date}}</p>
-        <div>
-            <button *ngIf="canEdit()" (click)="edit()" class="btn btn-primary back-grad border-0">Edit</button>
-            <button (click)="goBack()" class="btn btn-primary back-grad border-0 mx-3">Back</button>
-        </div>
+
+        <button *ngIf="canEdit()" (click)="edit()" class="btn btn-primary back-grad border-0">Edit</button>
     </div>
 </div>

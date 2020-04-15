@@ -2,7 +2,10 @@
     <div class="col-3 container-fluid back-grad text-white rounded px-0 mr-0">
         <messages-search-component></messages-search-component>
     </div>
-    <div class="col-9 container-fluid pr-0 pl-0 ml-0">
+    <div class="col container-fluid pr-0 pl-0 ml-0">
         <chat-detail-component></chat-detail-component>
     </div>
+    <div class="col-2 container-fluid p-0 m-0" *ngIf="activeProfile()">
+        <user-details-component></user-details-component>
+      </div>
 </div>

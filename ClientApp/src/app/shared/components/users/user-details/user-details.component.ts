@@ -51,6 +51,6 @@ export class UserDetailsComponent implements OnInit {
     }
 
     goBack(): void {
-        this.router.navigateByUrl('/chats');
+       this.usersStore.HideProfile();
     }
 }

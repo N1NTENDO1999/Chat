@@ -12,6 +12,7 @@ import { ChatsStore } from 'src/app/core/stores/chatsStore';
 import { MessagesStore } from 'src/app/core/stores/MessagesStore';
 import { Subscription } from 'rxjs';
 import { UsersStore } from 'src/app/core/stores/UsersStore';
+import { ScheduledMessagesStore } from 'src/app/core/stores/SchedluledMessagesStore';
 
 
 @Component({
@@ -26,8 +27,8 @@ export class ChatDetailComponent implements OnInit {
     deliveryDate: string;
     subscription: Subscription;
     userId: number;
+    isScheduled = false;
 
-    
     constructor(
         public signalRService: SignalrService,
         private authService: AuthenticationService,
@@ -35,7 +36,8 @@ export class ChatDetailComponent implements OnInit {
         public messagesStore: MessagesStore,
         private authenticationService: AuthenticationService,
         private router: Router,
-        private usersStore: UsersStore
+        private usersStore: UsersStore,
+        public scheduledStore: ScheduledMessagesStore
     ) {
         this.subscription = this.messagesStore.messagesUpdated().subscribe(() => this.scrollDown());
     }
@@ -71,7 +73,7 @@ export class ChatDetailComponent implements OnInit {
         return this.chatsStore.chat.OwnerId == currentUser.Id || !this.chatsStore.chat.IsPrivate;
     }
 
-    isCurentUser(userId: number){
+    isCurentUser(userId: number) {
         return userId === this.userId;
     }
 
@@ -88,12 +90,13 @@ export class ChatDetailComponent implements OnInit {
 
     }
 
-    details(user: UserDto){
+    details(user: UserDto) {
         this.usersStore.setDetailUserId(user.Id);
-        this.router.navigateByUrl('/profile');
+        this.usersStore.HideProfile();
+        setTimeout(() => this.usersStore.ShowProfile(), 300);
     }
 
-    addUserRoute(){
+    addUserRoute() {
         this.router.navigateByUrl('search/user');
     }
 
@@ -105,8 +108,12 @@ export class ChatDetailComponent implements OnInit {
         if (this.chatsStore.chat) {
             let user: User = this.authService.currentUserValue;
             this.signalRService.GetScheduledMessages(user.Id, this.chatsStore.selectedChatId, this.chatsStore.chat.IsPersonal);
-            this.router.navigate(["/scheduled"]);
+            this.isScheduled = true;
         }
+    }
+
+    public allMessages() {
+        this.isScheduled = false;
     }
 
     MoreMessages() {
@@ -137,6 +144,6 @@ export class ChatDetailComponent implements OnInit {
 
     }
 
-    
+
 
 }
