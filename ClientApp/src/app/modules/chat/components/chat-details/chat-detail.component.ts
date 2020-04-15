@@ -91,9 +91,11 @@ export class ChatDetailComponent implements OnInit {
     }
 
     details(user: UserDto) {
-        this.usersStore.setDetailUserId(user.Id);
-        this.usersStore.HideProfile();
-        setTimeout(() => this.usersStore.ShowProfile(), 300);
+        if (user.Id != this.usersStore.GetDetailUserId) {
+            this.usersStore.setDetailUserId(user.Id);
+            this.usersStore.HideProfile();
+            setTimeout(() => this.usersStore.ShowProfile(), 300);
+        }
     }
 
     addUserRoute() {
