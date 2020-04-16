@@ -29,6 +29,7 @@ export class ChatDetailComponent implements OnInit {
     userId: number;
     isScheduled = false;
     display='none';
+    countOfUsers = 0;
 
     constructor(
         public signalRService: SignalrService,
@@ -38,10 +39,15 @@ export class ChatDetailComponent implements OnInit {
         private authenticationService: AuthenticationService,
         private router: Router,
         private usersStore: UsersStore,
-        public scheduledStore: ScheduledMessagesStore
+        public scheduledStore: ScheduledMessagesStore,
+        private chatsService: ChatsService
     ) {
         this.subscription = this.messagesStore.messagesUpdated().subscribe(() => this.scrollDown());
-        this.chatsStore.selectedChatAdded().subscribe(id => console.log("Chat Updated " + id));
+        this.chatsStore.selectedChatAdded().subscribe(id => this.getUserCount(id));
+    }
+
+    private getUserCount(id: number){
+        this.chatsService.apiChatsChatIdUserCountGet$Json({id: id}).subscribe(p => this.countOfUsers = p.Count);
     }
 
     private scrollDown = () => {

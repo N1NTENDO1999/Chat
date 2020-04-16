@@ -1,6 +1,9 @@
 <div *ngIf="chatsStore.selectedChat" class="mt-3 mb-0 p-0 mx-0">
     <div class="container d-flex ml-0 p-3">
-        <h1 class="mr-auto">{{chatsStore.selectedChat.Name}}</h1>
+        <span class="mr-auto">
+            <h1>{{chatsStore.selectedChat.Name}}</h1>
+            <p *ngIf="!chatsStore.selectedChat.IsPersonal">{{countOfUsers}}</p>
+        </span>
         <button class="btn btn-primary back-grad border-0" *ngIf="isOwner()" (click)="addUserRoute()">Add User</button>
         <button class="btn btn-primary back-grad border-0 ml-3" *ngIf="isScheduled" (click)="allMessages()">Back
         </button>
