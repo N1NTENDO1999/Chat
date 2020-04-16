@@ -41,6 +41,7 @@ export class ChatDetailComponent implements OnInit {
         public scheduledStore: ScheduledMessagesStore
     ) {
         this.subscription = this.messagesStore.messagesUpdated().subscribe(() => this.scrollDown());
+        this.chatsStore.selectedChatAdded().subscribe(id => console.log("Chat Updated " + id));
     }
 
     private scrollDown = () => {

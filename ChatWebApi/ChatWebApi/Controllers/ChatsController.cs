@@ -53,6 +53,13 @@ namespace ChatWebApi.Controllers
             return await _mediator.Send(new GetChatByIdQuery { Id = id });
         }
 
+        [HttpGet]
+        [Route("chat/{id}/user/count")]
+        public async Task<GetCountOfUsersInChatQueryResult> GetCountOfUsers(int id)
+        {
+            return await _mediator.Send(new GetCountOfUsersInChatQuery { ChatId = id });
+        }
+
         [HttpPost]
         public async Task<CommandChatResult> CreateChat(CreateChatCommand request)
         {
