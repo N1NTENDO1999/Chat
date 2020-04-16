@@ -55,6 +55,10 @@ export class UsersStore {
         this.Users = [...users];
     }
 
+    @action ClearUserProfileId(){
+        this.DetailUserId = 0;
+    }
+
     @action clearUsers() {
         this.Users = [];
     }

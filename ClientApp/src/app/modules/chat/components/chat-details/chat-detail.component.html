@@ -5,12 +5,36 @@
         <button class="btn btn-primary back-grad border-0 ml-3" *ngIf="!isScheduled"
             (click)="scheduledMessages()">Scheduled
             Messages</button>
-        <button class="btn btn-primary back-grad border-0 ml-3" *ngIf="isScheduled"
-            (click)="allMessages()">All
+        <button class="btn btn-primary back-grad border-0 ml-3" *ngIf="isScheduled" (click)="allMessages()">All
         </button>
     </div>
 
-    <div class="overflow-auto d-flex flex-column pt-5 " *ngIf="!isScheduled" style="height: 711px;" id="chat"
+    <div class="modal modal-possition" tabindex="-1" role="dialog" [ngStyle]="{'display':display}">
+        <!-- modal-dialog -->
+        <div class="modal-dialog" role="document">
+            <!-- modal-content -->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" aria-label="Close" (click)="closeModalDialog()"><span
+                            aria-hidden="true">&times;</span></button>
+                    <!-- <h4 class="modal-title">Login</h4> -->
+                </div>
+
+                <div class="modal-body" style="background-color: aliceblue;">
+                    <div class="container-fluid">
+                        <input class="col-form-label" type="datetime-local" id="delivery-time" name="meeting-time"
+                            [value]="minDate" [min]="minDate" (change)="onDateChange($event.target.value)">
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button class="btn btn-primary back-grad border-0 my-0" (click)="sendAsSchedule()">Schedule</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="overflow-auto d-flex flex-column pt-5 " *ngIf="!isScheduled" style="height: 755px;" id="chat"
         id="scrollerDiv">
         <button *ngIf="!messagesStore.isLoading && !messagesStore.NoMoreMessages" type="button"
             class="btn btn-primary back-grad border-0 align-self-center" (click)="MoreMessages()">Get More</button>
@@ -37,7 +61,8 @@
             </div>
         </div>
     </div>
-    <div class="overflow-auto d-flex flex-column pt-5 mt-3" *ngIf="isScheduled" style="height: 708px;" id="chat" id="scrollerDiv">
+    <div class="overflow-auto d-flex flex-column pt-5 mt-3" *ngIf="isScheduled" style="height: 708px;" id="chat"
+        id="scrollerDiv">
         <div class="container-fluid mb-3" *ngFor="let message of scheduledStore.allMessages">
             <div class="d-flex pull-right">
                 <p class="text-muted">Delisvery Date: {{message.Delivery | date:'medium'}}</p>
@@ -47,17 +72,22 @@
             </div>
         </div>
     </div>
+
     <div class="container-fluid  ml-0 p-0 mb-0" *ngIf="!isScheduled">
-        <div class="container">
-            <input class="col-3 col-form-label" type="datetime-local" id="delivery-time" name="meeting-time"
-                [value]="minDate" [min]="minDate" (change)="onDateChange($event.target.value)">
-            <button class="btn btn-primary back-grad border-0 my-0" (click)="sendAsSchedule()">Schedule</button>
-        </div>
         <form [formGroup]="messageForm" (ngSubmit)="onSubmit()" class="mb-0 pb-0">
-            <div class="form-group mb-0 pb-0">
+            <div class="form-group d-flex mb-0 pb-0">
                 <input type="text" formControlName="message" class="form-control mb-0 pb-0 ml-0 send-box"
                     placeholder="Type your message here..." />
+                <button type="button" class="btn btn-info" style="position: absolute; right: 0px; bottom: 0px;"
+                    (click)="openModalDialog()">Open Login Modal
+                    Dialog!</button>
+                <span class="pr-4 rounded-circle border-hov">
+                    <fa name="location-arrow" style="position: relative; left: 8px; top: 8px;" (click)="onSubmit()" size="3x"></fa>
+                </span>
             </div>
         </form>
     </div>
+
+    <div class="backdrop" [ngStyle]="{'display':display}"></div>
+
 </div>

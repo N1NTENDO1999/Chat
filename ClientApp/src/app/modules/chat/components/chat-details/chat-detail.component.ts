@@ -28,6 +28,7 @@ export class ChatDetailComponent implements OnInit {
     subscription: Subscription;
     userId: number;
     isScheduled = false;
+    display='none';
 
     constructor(
         public signalRService: SignalrService,
@@ -146,6 +147,12 @@ export class ChatDetailComponent implements OnInit {
 
     }
 
+    openModalDialog() {
+        this.display = 'block'; //Set block css
+    }
 
+    closeModalDialog() {
+        this.display = 'none'; //set none css after close dialog
+    }
 
 }
