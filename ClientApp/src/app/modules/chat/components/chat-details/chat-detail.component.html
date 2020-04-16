@@ -2,10 +2,7 @@
     <div class="container d-flex ml-0 p-3">
         <h1 class="mr-auto">{{chatsStore.selectedChat.Name}}</h1>
         <button class="btn btn-primary back-grad border-0" *ngIf="isOwner()" (click)="addUserRoute()">Add User</button>
-        <button class="btn btn-primary back-grad border-0 ml-3" *ngIf="!isScheduled"
-            (click)="scheduledMessages()">Scheduled
-            Messages</button>
-        <button class="btn btn-primary back-grad border-0 ml-3" *ngIf="isScheduled" (click)="allMessages()">All
+        <button class="btn btn-primary back-grad border-0 ml-3" *ngIf="isScheduled" (click)="allMessages()">Back
         </button>
     </div>
 
@@ -78,11 +75,13 @@
             <div class="form-group d-flex mb-0 pb-0">
                 <input type="text" formControlName="message" class="form-control mb-0 pb-0 ml-0 send-box"
                     placeholder="Type your message here..." />
-                <button type="button" class="btn btn-info" style="position: absolute; right: 0px; bottom: 0px;"
-                    (click)="openModalDialog()">Open Login Modal
-                    Dialog!</button>
+                <span class="pr-4 sched-hov">
+                    <fa name="archive" class="docus-border-dis" (click)="schedule()" size="2x">
+                    </fa>
+                </span>
                 <span class="pr-4 rounded-circle border-hov">
-                    <fa name="location-arrow" style="position: relative; left: 8px; top: 8px;" (click)="onSubmit()" size="3x"></fa>
+                    <fa name="location-arrow" style="position: relative; left: 8px; top: 8px;" (click)="onSubmit()"
+                        size="3x"></fa>
                 </span>
             </div>
         </form>

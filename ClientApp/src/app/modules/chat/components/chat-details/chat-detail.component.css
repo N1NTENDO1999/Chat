@@ -54,6 +54,18 @@
     left: 400px;
 }
 
+.sched-hov{
+    cursor: pointer;
+    position: absolute;
+    bottom: 20px;
+    right: 100px;
+    color: #545454;
+}
+
+.sched-hov:hover{
+    color: #3f3f3f;
+}
+
 .border-hov{
     cursor: pointer;
     position: absolute;

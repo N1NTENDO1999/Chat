@@ -147,6 +147,14 @@ export class ChatDetailComponent implements OnInit {
 
     }
 
+    schedule(){
+        if (this.messageForm.invalid){
+            this.scheduledMessages();
+            return;
+        }
+        this.openModalDialog();
+    }
+
     openModalDialog() {
         this.display = 'block'; //Set block css
     }
