@@ -5,6 +5,7 @@ export { CommandChatResult } from './models/command-chat-result';
 export { ChangeChatCommand } from './models/change-chat-command';
 export { CommandResult } from './models/command-result';
 export { GetChatByIdQueryResult } from './models/get-chat-by-id-query-result';
+export { GetCountOfUsersInChatQueryResult } from './models/get-count-of-users-in-chat-query-result';
 export { AddChatPictureCommand } from './models/add-chat-picture-command';
 export { GetTokenQuery } from './models/get-token-query';
 export { GetTokenQueryResult } from './models/get-token-query-result';
