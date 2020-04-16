@@ -10,7 +10,7 @@
         </button>
     </div>
 
-    <div class="overflow-auto d-flex flex-column pt-5 " *ngIf="!isScheduled" style="height: 700px;" id="chat"
+    <div class="overflow-auto d-flex flex-column pt-5 " *ngIf="!isScheduled" style="height: 711px;" id="chat"
         id="scrollerDiv">
         <button *ngIf="!messagesStore.isLoading && !messagesStore.NoMoreMessages" type="button"
             class="btn btn-primary back-grad border-0 align-self-center" (click)="MoreMessages()">Get More</button>
@@ -37,7 +37,7 @@
             </div>
         </div>
     </div>
-    <div class="overflow-auto d-flex flex-column pt-5 mt-3" *ngIf="isScheduled" style="height: 700px;" id="chat" id="scrollerDiv">
+    <div class="overflow-auto d-flex flex-column pt-5 mt-3" *ngIf="isScheduled" style="height: 708px;" id="chat" id="scrollerDiv">
         <div class="container-fluid mb-3" *ngFor="let message of scheduledStore.allMessages">
             <div class="d-flex pull-right">
                 <p class="text-muted">Delisvery Date: {{message.Delivery | date:'medium'}}</p>
