@@ -10,6 +10,7 @@ using System.Threading;
 using Microsoft.EntityFrameworkCore;
 using ChatWebApi.Application.Chats.ChatDTOs;
 using AutoMapper;
+using Microsoft.Extensions.Configuration;
 
 namespace ChatWebApi.Application.Chats.Commands
 {
@@ -29,17 +30,20 @@ namespace ChatWebApi.Application.Chats.Commands
 	{
 		private readonly ChatContext _db;
 		private readonly IMapper _mapper;
+		private readonly IConfiguration _config;
 
-		public CreateChatCommandHandler(ChatContext db, IMapper mapper)
+		public CreateChatCommandHandler(ChatContext db, IMapper mapper, IConfiguration configuration)
 		{
 			_db = db;
 			_mapper = mapper;
+			_config = configuration;
 		}
 
 		public async Task<CommandChatResult> Handle(CreateChatCommand request, CancellationToken cancellationToken)
 		{
 			var user = await _db.Users.FirstAsync(p => p.Id == request.UserId);
-			var chat = new Chat { DateCreated = DateTime.Now, IsPrivate = request.IsPrivate, Name = request.Name, Owner = user };
+			var picture = _config["DefaultPicture"];
+				var chat = new Chat { DateCreated = DateTime.Now, IsPrivate = request.IsPrivate, Name = request.Name, Owner = user , Picture = picture};
 			var result = await _db.Chats.AddAsync(chat);
 			await _db.SaveChangesAsync();
 

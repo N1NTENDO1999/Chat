@@ -29,7 +29,7 @@ export class ChatDetailComponent implements OnInit {
     userId: number;
     isScheduled = false;
     display='none';
-    countOfUsers = 0;
+    countOfUsers = 1;
 
     constructor(
         public signalRService: SignalrService,
