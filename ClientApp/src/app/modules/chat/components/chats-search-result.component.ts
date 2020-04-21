@@ -112,7 +112,6 @@ export class ChatsSearchResultComponent implements OnInit {
     }
 
     searchUsers(){
-        this.chatsStore.clearSelected();
         this.router.navigateByUrl('/search/user');
     }
 

@@ -38,6 +38,7 @@ import { MessageSearchComponent } from './modules/chat/pages/message-search/mess
 import { MessagesSearchComponent } from './shared/components/messages/messages-search/messages-search.component';
 import { MessagesSearchStore } from './core/stores/MessagesSearchStore';
 import { AngularFontAwesomeModule } from 'angular-font-awesome';
+import { UsersSearchPageComponent } from './modules/chat/pages/users-search-page/users-search-page.component';
 
 let config = new AuthServiceConfig([
   {
@@ -66,7 +67,8 @@ export function provideConfig() {
     UserDetailsComponent,
     ProfileEditComponent,
     MessageSearchComponent,
-    MessagesSearchComponent
+    MessagesSearchComponent,
+    UsersSearchPageComponent
   ],
   imports: [
     BrowserModule,

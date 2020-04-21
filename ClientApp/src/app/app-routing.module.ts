@@ -7,7 +7,7 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'create', component: CreateChatComponent, canActivate: [AuthGuard] },
-  { path: 'search/user', component: UsersSearchComponent, canActivate: [AuthGuard] },
+  { path: 'search/user', component: UsersSearchPageComponent, canActivate: [AuthGuard] },
   { path: 'scheduled', component: ScheduledMessagesComponent, canActivate: [AuthGuard] },
   { path: 'profile', component: UserDetailsComponent, canActivate: [AuthGuard] },
   { path: 'profile/edit', component: ProfileEditComponent, canActivate: [AuthGuard] },
@@ -29,6 +29,7 @@ import { ScheduledMessagesComponent } from './shared/components/scheduled-messag
 import { UserDetailsComponent } from './shared/components/users/user-details/user-details.component';
 import { ProfileEditComponent } from './shared/components/users/user-details/profile-edit/profile-edit.component';
 import { MessageSearchComponent } from './modules/chat/pages/message-search/message-search.component';
+import { UsersSearchPageComponent } from './modules/chat/pages/users-search-page/users-search-page.component';
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

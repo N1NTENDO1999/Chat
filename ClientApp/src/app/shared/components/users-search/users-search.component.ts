@@ -42,9 +42,12 @@ export class UsersSearchComponent implements OnInit, OnDestroy {
 
     }
 
-    details(user: UserDto){
-        this.usersStore.setDetailUserId(user.Id);
-        this.router.navigateByUrl('/profile');
+    details(user: UserDto) {
+        if (user.Id != this.usersStore.GetDetailUserId) {
+            this.usersStore.setDetailUserId(user.Id);
+            this.usersStore.HideProfile();
+            setTimeout(() => this.usersStore.ShowProfile(), 300);
+        }
     }
 
     addUser(user: UserDto) {
@@ -68,15 +71,11 @@ export class UsersSearchComponent implements OnInit, OnDestroy {
         this.location.back();
     }
 
-    isChat(): boolean{
+    isChat(): boolean {
         return this.chatsStore.chat != undefined;
     }
 
     ngOnInit() {
-        
-    }
 
-    back(){
-        
     }
 }
