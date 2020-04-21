@@ -38,7 +38,7 @@ export class UsersSearchComponent implements OnInit, OnDestroy {
         this.userService.apiUsersNicknameGet$Json({ nickname: term })
             .subscribe(p => {
                 this.usersStore.setUsers(p.Users);
-            })
+            });
 
     }
 
@@ -76,6 +76,9 @@ export class UsersSearchComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-
+        this.userService.apiUsersGet$Json()
+        .subscribe(p => {
+            this.usersStore.setUsers(p.Users);
+        });
     }
 }
