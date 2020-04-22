@@ -74,13 +74,18 @@ export class UsersSearchComponent implements OnInit, OnDestroy {
     }
 
     isChat(): boolean {
-        return this.chatsStore.chat != undefined;
+        if(this.chatsStore.chat == undefined)
+        {
+            return false;
+        }
+        const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+        return this.chatsStore.chat.OwnerId == currentUser.Id || !this.chatsStore.chat.IsPrivate;
     }
 
     ngOnInit() {
         this.userService.apiUsersGet$Json()
-        .subscribe(p => {
-            this.usersStore.setUsers(p.Users);
-        });
+            .subscribe(p => {
+                this.usersStore.setUsers(p.Users);
+            });
     }
 }
