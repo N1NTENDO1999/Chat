@@ -40,6 +40,16 @@ export class HeaderComponent implements OnInit {
         this.router.navigateByUrl('/profile');
     }
 
+    searchUsers(){
+        this.chatsStore.clearSelected();
+        this.router.navigateByUrl('/search/user');
+    }
+
+    searchMessages(){
+        this.chatsStore.clearSelected();
+        this.router.navigateByUrl('search/messages');
+    }
+
     ngOnInit(): void {
         this.authenticationService.currentUser.subscribe(x => this.currentUser = x); 
         console.log(this.currentUser);

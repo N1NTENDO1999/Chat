@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ChatWebApi.Application.Chats.Commands;
+using ChatWebApi.Application.Chats.Queries;
 using ChatWebApi.Application.Messages.Commands;
 using ChatWebApi.Application.Messages.Queries;
 using ChatWebApi.Application.PersonalMessages.Commands;
@@ -137,6 +138,18 @@ namespace ChatWebApi.SignalR
 		{
 			var result = await _mediator
 				.Send(new GetUserPersonalMessagesQuery { SenderId = senderId, ReceiverId = userId, First = first, Last = last });
+			await Clients.Caller.SendAsync("GetChatMessages", senderId, result.Messages);
+		}
+
+		public async Task GetChatMessagesRange(int chatId, int messageId)
+		{
+			var result = await _mediator.Send(new GetRangeOfMessagesInChatQuery { ChatId = chatId, MessageId = messageId });
+			await Clients.Caller.SendAsync("GetChatMessages", chatId, result.Messages);
+		}
+
+		public async Task GetPersonalMessagesRange(int senderId, int receiverId, int messageId)
+		{
+			var result = await _mediator.Send(new GetPersonalMessagesRangeQuery { SenderId = senderId, ReceiverId = receiverId, MessageId = messageId });
 			await Clients.Caller.SendAsync("GetChatMessages", senderId, result.Messages);
 		}
 

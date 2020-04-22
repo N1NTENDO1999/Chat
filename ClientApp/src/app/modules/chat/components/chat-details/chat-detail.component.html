@@ -1,7 +1,7 @@
 <div *ngIf="chatsStore.selectedChat">
     <div class="container">
         <h1>{{chatsStore.selectedChat.Name}}</h1>
-        <a *ngIf="isOwner()" routerLink="/searchUser">Add User</a>
+        <a *ngIf="isOwner()" routerLink="/search/user">Add User</a>
     </div>
     <div class="overflow-auto" style="height: 680px;" id="chat" id="scrollerDiv">
         <button *ngIf="!messagesStore.isLoading && !messagesStore.NoMoreMessages" type="button" class="btn btn-primary"

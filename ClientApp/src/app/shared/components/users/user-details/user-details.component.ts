@@ -40,7 +40,6 @@ export class UserDetailsComponent implements OnInit {
     }
 
     isActive(): boolean{
-         console.log(new Date().getTime() - new Date(this.user.ActiveDateTime).getTime());
          return new Date().getTime() - new Date(this.user.ActiveDateTime).getTime() < 125116;
     }
 

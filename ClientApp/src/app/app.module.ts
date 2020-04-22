@@ -34,6 +34,9 @@ import { UserDetailsComponent } from './shared/components/users/user-details/use
 import { ProfileEditComponent } from './shared/components/users/user-details/profile-edit/profile-edit.component';
 import { SimpleNotificationsModule } from 'angular2-notifications';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
+import { MessageSearchComponent } from './modules/chat/pages/message-search/message-search.component';
+import { MessagesSearchComponent } from './shared/components/messages/messages-search/messages-search.component';
+import { MessagesSearchStore } from './core/stores/MessagesSearchStore';
 
 let config = new AuthServiceConfig([
   {
@@ -60,7 +63,9 @@ export function provideConfig() {
     UsersSearchComponent,
     ScheduledMessagesComponent,
     UserDetailsComponent,
-    ProfileEditComponent
+    ProfileEditComponent,
+    MessageSearchComponent,
+    MessagesSearchComponent
   ],
   imports: [
     BrowserModule,
@@ -82,6 +87,7 @@ export function provideConfig() {
     MessagesStore,
     UsersStore,
     ScheduledMessagesStore,
+    MessagesSearchStore,
     AuthenticationService,
     AlertService,
     AuthGuard,

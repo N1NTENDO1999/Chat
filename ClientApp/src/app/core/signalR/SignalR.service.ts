@@ -29,7 +29,6 @@ export class SignalrService {
     ) { }
 
     public GetPersonalMessages(id: number) {
-        console.log(this.messagesStore.First, this.messagesStore.Last);
         let currentUser: User = JSON.parse(localStorage.getItem('currentUser'));
         this.hubConnection.invoke("GetPersonalMessages", id, currentUser.Id, this.messagesStore.First, this.messagesStore.Last)
             .then(() => console.log('GetPersonalMEssages'))
@@ -38,11 +37,23 @@ export class SignalrService {
     }
 
     public GetChatMessages(id: number) {
-        console.log(this.messagesStore.First, this.messagesStore.Last);
         this.hubConnection.invoke("GetChatMessages", id, this.messagesStore.First, this.messagesStore.Last)
             .then(() => console.log('GetChatMEssages'))
             .catch(err => console.log('Error while starting connection: ' + err));
     }
+
+    public GetChatMessagesRange(chatId: number, messageId: number){
+        this.hubConnection.invoke("GetChatMessagesRange", chatId, messageId)
+            .then(() => console.log('GetChatMEssagesRange'))
+            .catch(err => console.log('Error while starting connection: ' + err));
+    }
+
+    public GetPersonalMessagesRange(senderId: number, receiverId: number, messageId: number){
+        this.hubConnection.invoke("GetPersonalMessagesRange", senderId, receiverId, messageId)
+            .then(() => console.log('GetChatMEssagesRange'))
+            .catch(err => console.log('Error while starting connection: ' + err));
+    }
+
 
     public AddPersonalMessages(senderId: number, receiverId: number, message: string) {
         this.hubConnection.invoke("SendPersonalMessage", senderId, receiverId, message)

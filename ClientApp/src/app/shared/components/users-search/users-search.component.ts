@@ -68,6 +68,10 @@ export class UsersSearchComponent implements OnInit, OnDestroy {
         this.location.back();
     }
 
+    isChat(): boolean{
+        return this.chatsStore.chat != undefined;
+    }
+
     ngOnInit() {
         
     }

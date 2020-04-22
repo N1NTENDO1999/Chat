@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using ChatWebApi.Application;
 using ChatWebApi.Application.Chats.Queries;
+using ChatWebApi.Application.Messages.Queries;
+using ChatWebApi.Application.PersonalMessages.Queries;
 using ChatWebApi.Application.Users.Commands;
 using ChatWebApi.Application.Users.Queries;
 using ChatWebApi.Application.Users.UserDTOs;
@@ -60,6 +62,27 @@ namespace ChatWebApi.Controllers
         public async Task<ProfileInfoDTO> GetUserProfileInfo(int id)
         {
             return await _mediator.Send(new GetUserProfileInfoQuery { Id = id });
+        }
+
+        [HttpGet]
+        [Route("user/{id}/messages/chat/{term}")]
+        public async Task<SearchMessagesQueryResult> SearchMessagesInUserChats(int id, string term)
+        {
+            return await _mediator.Send(new SearchMessagesQuery { UserId = id, Term = term });
+        }
+
+        [HttpGet]
+        [Route("user/{id}/message/private/{term}")]
+        public async Task<SearchPersonalMessagesByTermQueryResult> SearchPersonalMessages(int id, string term)
+        {
+            return await _mediator.Send(new SearchPersonalMessagesByTermQuery { Id = id, Term = term });
+        }
+
+        [HttpGet]
+        [Route("user/{id}/as/chat")]
+        public async Task<GetPersonalChatQueryResult> GetPersonalChat(int id)
+        {
+            return await _mediator.Send(new GetPersonalChatQuery { UserId = id });
         }
 
         [AllowAnonymous]

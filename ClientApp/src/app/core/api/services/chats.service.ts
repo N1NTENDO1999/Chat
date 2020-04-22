@@ -585,22 +585,22 @@ export class ChatsService extends BaseService {
   }
 
   /**
-   * Path part for operation apiChatsIdGet
+   * Path part for operation apiChatsChatIdGet
    */
-  static readonly ApiChatsIdGetPath = '/api/Chats/{id}';
+  static readonly ApiChatsChatIdGetPath = '/api/Chats/chat/{id}';
 
   /**
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `apiChatsIdGet$Plain()` instead.
+   * To access only the response body, use `apiChatsChatIdGet$Plain()` instead.
    *
    * This method doesn't expect any request body.
    */
-  apiChatsIdGet$Plain$Response(params: {
+  apiChatsChatIdGet$Plain$Response(params: {
     id: number;
 
   }): Observable<StrictHttpResponse<GetChatByIdQueryResult>> {
 
-    const rb = new RequestBuilder(this.rootUrl, ChatsService.ApiChatsIdGetPath, 'get');
+    const rb = new RequestBuilder(this.rootUrl, ChatsService.ApiChatsChatIdGetPath, 'get');
     if (params) {
 
       rb.path('id', params.id);
@@ -619,32 +619,32 @@ export class ChatsService extends BaseService {
 
   /**
    * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `apiChatsIdGet$Plain$Response()` instead.
+   * To access the full response (for headers, for example), `apiChatsChatIdGet$Plain$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
-  apiChatsIdGet$Plain(params: {
+  apiChatsChatIdGet$Plain(params: {
     id: number;
 
   }): Observable<GetChatByIdQueryResult> {
 
-    return this.apiChatsIdGet$Plain$Response(params).pipe(
+    return this.apiChatsChatIdGet$Plain$Response(params).pipe(
       map((r: StrictHttpResponse<GetChatByIdQueryResult>) => r.body as GetChatByIdQueryResult)
     );
   }
 
   /**
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `apiChatsIdGet$Json()` instead.
+   * To access only the response body, use `apiChatsChatIdGet$Json()` instead.
    *
    * This method doesn't expect any request body.
    */
-  apiChatsIdGet$Json$Response(params: {
+  apiChatsChatIdGet$Json$Response(params: {
     id: number;
 
   }): Observable<StrictHttpResponse<GetChatByIdQueryResult>> {
 
-    const rb = new RequestBuilder(this.rootUrl, ChatsService.ApiChatsIdGetPath, 'get');
+    const rb = new RequestBuilder(this.rootUrl, ChatsService.ApiChatsChatIdGetPath, 'get');
     if (params) {
 
       rb.path('id', params.id);
@@ -663,16 +663,16 @@ export class ChatsService extends BaseService {
 
   /**
    * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `apiChatsIdGet$Json$Response()` instead.
+   * To access the full response (for headers, for example), `apiChatsChatIdGet$Json$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
-  apiChatsIdGet$Json(params: {
+  apiChatsChatIdGet$Json(params: {
     id: number;
 
   }): Observable<GetChatByIdQueryResult> {
 
-    return this.apiChatsIdGet$Json$Response(params).pipe(
+    return this.apiChatsChatIdGet$Json$Response(params).pipe(
       map((r: StrictHttpResponse<GetChatByIdQueryResult>) => r.body as GetChatByIdQueryResult)
     );
   }
