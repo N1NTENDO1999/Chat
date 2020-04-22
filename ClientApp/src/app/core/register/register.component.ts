@@ -66,7 +66,7 @@ export class RegisterComponent implements OnInit {
                     this.router.navigate(['/login']);
                 },
                 error => {
-                    this.alertService.error(error);
+                    this.notifications.create("Oppps... Cant register user!", NotificationType.Error);
                     this.loading = false;
                 });
     }
