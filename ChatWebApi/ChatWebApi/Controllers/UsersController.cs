@@ -87,7 +87,7 @@ namespace ChatWebApi.Controllers
 
         [AllowAnonymous]
         [HttpPost]
-        public async Task<CommandResult> CreateUser(CreateUserCommand request)
+        public async Task<CommandCreateResult> CreateUser(CreateUserCommand request)
         {
             return await _mediator.Send(request);
         }

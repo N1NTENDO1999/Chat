@@ -14,7 +14,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace ChatWebApi.Application.Users.Commands
 {
-	public class CreateUserCommand : IRequest<CommandResult>
+	public class CreateUserCommand : IRequest<CommandCreateResult>
 	{
 		public string FirstName { get; set; }
 		public string LastName { get; set; }
@@ -23,7 +23,7 @@ namespace ChatWebApi.Application.Users.Commands
 		public string Password { get; set; }
 	}
 
-	public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, CommandResult>
+	public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, CommandCreateResult>
 	{
 		private ChatContext _db;
 		private readonly IConfiguration _config;
@@ -64,7 +64,7 @@ namespace ChatWebApi.Application.Users.Commands
 			return hashed;
 		}
 
-		public async Task<CommandResult> Handle(CreateUserCommand request, CancellationToken cancellationToken)
+		public async Task<CommandCreateResult> Handle(CreateUserCommand request, CancellationToken cancellationToken)
 		{
 			AssertRequestIsValid(request);
 
@@ -86,10 +86,10 @@ namespace ChatWebApi.Application.Users.Commands
 				
 			};
 
-			await _db.Users.AddAsync(user);
+			var result = await _db.Users.AddAsync(user);
 			await _db.SaveChangesAsync();
 
-			return new CommandResult();
+			return new CommandCreateResult(result.Entity.Id);
 		}
 	}
 }

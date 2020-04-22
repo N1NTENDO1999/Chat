@@ -14,6 +14,7 @@ export { GetGoogleUserTokenQueryResult } from './models/get-google-user-token-qu
 export { UserDto } from './models/user-dto';
 export { UsersQueryResult } from './models/users-query-result';
 export { CreateUserCommand } from './models/create-user-command';
+export { CommandCreateResult } from './models/command-create-result';
 export { GetUserQueryResult } from './models/get-user-query-result';
 export { EditUserProfileCommand } from './models/edit-user-profile-command';
 export { GetUsersByNicknameQueryResult } from './models/get-users-by-nickname-query-result';

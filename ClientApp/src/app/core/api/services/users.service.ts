@@ -8,6 +8,7 @@ import { RequestBuilder } from '../request-builder';
 import { Observable } from 'rxjs';
 import { map, filter } from 'rxjs/operators';
 
+import { CommandCreateResult } from '../models/command-create-result';
 import { CommandResult } from '../models/command-result';
 import { CreateUserCommand } from '../models/create-user-command';
 import { EditUserProfileCommand } from '../models/edit-user-profile-command';
@@ -134,7 +135,7 @@ export class UsersService extends BaseService {
    */
   apiUsersPost$Plain$Response(params?: {
       body?: CreateUserCommand
-  }): Observable<StrictHttpResponse<CommandResult>> {
+  }): Observable<StrictHttpResponse<CommandCreateResult>> {
 
     const rb = new RequestBuilder(this.rootUrl, UsersService.ApiUsersPostPath, 'post');
     if (params) {
@@ -148,7 +149,7 @@ export class UsersService extends BaseService {
     })).pipe(
       filter((r: any) => r instanceof HttpResponse),
       map((r: HttpResponse<any>) => {
-        return r as StrictHttpResponse<CommandResult>;
+        return r as StrictHttpResponse<CommandCreateResult>;
       })
     );
   }
@@ -161,10 +162,10 @@ export class UsersService extends BaseService {
    */
   apiUsersPost$Plain(params?: {
       body?: CreateUserCommand
-  }): Observable<CommandResult> {
+  }): Observable<CommandCreateResult> {
 
     return this.apiUsersPost$Plain$Response(params).pipe(
-      map((r: StrictHttpResponse<CommandResult>) => r.body as CommandResult)
+      map((r: StrictHttpResponse<CommandCreateResult>) => r.body as CommandCreateResult)
     );
   }
 
@@ -176,7 +177,7 @@ export class UsersService extends BaseService {
    */
   apiUsersPost$Json$Response(params?: {
       body?: CreateUserCommand
-  }): Observable<StrictHttpResponse<CommandResult>> {
+  }): Observable<StrictHttpResponse<CommandCreateResult>> {
 
     const rb = new RequestBuilder(this.rootUrl, UsersService.ApiUsersPostPath, 'post');
     if (params) {
@@ -190,7 +191,7 @@ export class UsersService extends BaseService {
     })).pipe(
       filter((r: any) => r instanceof HttpResponse),
       map((r: HttpResponse<any>) => {
-        return r as StrictHttpResponse<CommandResult>;
+        return r as StrictHttpResponse<CommandCreateResult>;
       })
     );
   }
@@ -203,10 +204,10 @@ export class UsersService extends BaseService {
    */
   apiUsersPost$Json(params?: {
       body?: CreateUserCommand
-  }): Observable<CommandResult> {
+  }): Observable<CommandCreateResult> {
 
     return this.apiUsersPost$Json$Response(params).pipe(
-      map((r: StrictHttpResponse<CommandResult>) => r.body as CommandResult)
+      map((r: StrictHttpResponse<CommandCreateResult>) => r.body as CommandCreateResult)
     );
   }
 

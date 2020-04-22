@@ -72,9 +72,10 @@ namespace ChatWebApi.Controllers
         {
             return await _mediator.Send(new AddUserToChatCommand { ChatId = chatId, UserId = userId });
         }
-        
+
+        [AllowAnonymous]
         [HttpPost]
-        [Route("admin/chat/{chatId}/user/{userId}")]
+        [Route("admin/user/{userId}")]
         public async Task<CommandResult> AddUserToAdminChat(int userId)
         {
             return await _mediator.Send(new AddUserToAdminChatCommand { UserId = userId });

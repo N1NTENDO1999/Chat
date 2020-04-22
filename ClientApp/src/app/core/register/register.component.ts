@@ -4,7 +4,8 @@ import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms'
 import { first } from 'rxjs/operators';
 import { AuthenticationService } from '../services/Authentication.service';
 import { AlertService } from '../services/Alert.service';
-import { UsersService } from '../api/services';
+import { UsersService, ChatsService } from '../api/services';
+import { NotificationType, NotificationsService } from 'angular2-notifications';
 
 @Component({
     selector: 'register-component',
@@ -21,7 +22,9 @@ export class RegisterComponent implements OnInit {
         private router: Router,
         private authenticationService: AuthenticationService,
         private userService: UsersService,
-        private alertService: AlertService
+        private alertService: AlertService,
+        private notifications: NotificationsService,
+        private chatsService: ChatsService
     ) {
         // redirect to home if already logged in
         if (this.authenticationService.currentUserValue) {
@@ -57,7 +60,9 @@ export class RegisterComponent implements OnInit {
             .pipe(first())
             .subscribe(
                 data => {
-                    this.alertService.success('Registration successful', true);
+                    console.log(data.Id);
+                    this.chatsService.apiChatsAdminUserUserIdPost$Json({userId: data.Id}).subscribe();
+                    this.notifications.create("Successfully Registered!", NotificationType.Success);
                     this.router.navigate(['/login']);
                 },
                 error => {
