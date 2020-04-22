@@ -1,16 +1,28 @@
-<div id="container">
-  <h4>Users</h4>
+<div class="text-white rounded p-0 m-0 back-grad">
 
-  <input #searchBox (input)="search(searchBox.value)" />
+  <div class="container d-flex justify-content-between pt-3 m-0">
+    <h1 class="col">Users</h1>
+    <div class="container col-3 align-self-center">
+      <span class="pr-4 border-hov">
+        <fa name="arrow-left" class="docus-border-dis" (click)="goBack()" size="2x"></fa>
+      </span>
+    </div>
+  </div>
 
-  <button class="btn btn-primary" (click)="goBack()">Back</button>
+  <div class="form-group has-search m-4">
+    <span class="fa fa-search form-control-feedback"></span>
+    <input #searchBox type="text" class="form-control text-white border-0" style="background-color: #229872;"
+      placeholder="Search..." (input)="search(searchBox.value)">
+  </div>
 
-  <ul class="search-result">
-    <li *ngFor="let user of usersStore.AllUsers">
-      <div (click)="details(user)">
-        <span> {{user.Nickname}} </span>
+  <div class="overflow-auto" style="height: 781px;" id="chat">
+    <div class="colour-change p-3 " *ngFor="let user of usersStore.AllUsers">
+      <div (click)="details(user)" class="d-flex p-3 mx-3">
+        <img src="{{user.Picture}}" style="width: 50px; height: 50px;" class="rounded-circle">
+        <p class="overflow-hidden w-75 px-3 text-nowrap">{{user.Nickname}}</p>
+        <button class="ml-auto btn " style="color: #2eb384; background-color: white;" *ngIf="isChat()"
+          (click)="addUser(user)">Add</button>
       </div>
-      <button *ngIf="isChat()" (click)="addUser(user)">Add</button>
-    </li>
-  </ul>
+    </div>
+  </div>
 </div>

@@ -28,7 +28,7 @@ namespace ChatWebApi.Controllers
             _mediator = mediator;
         }
 
-        [HttpGet("chat/{name}")]
+        [HttpGet("chat/search/{name}")]
         public async Task<FindChatsByNameResult> Get(string name)
         {
             return await _mediator.Send(new FindChatsByNameQuery { Name = name });
@@ -51,6 +51,13 @@ namespace ChatWebApi.Controllers
         public async Task<GetChatByIdQueryResult> Get(int id)
         {
             return await _mediator.Send(new GetChatByIdQuery { Id = id });
+        }
+
+        [HttpGet]
+        [Route("chat/{id}/user/count")]
+        public async Task<GetCountOfUsersInChatQueryResult> GetCountOfUsers(int id)
+        {
+            return await _mediator.Send(new GetCountOfUsersInChatQuery { ChatId = id });
         }
 
         [HttpPost]

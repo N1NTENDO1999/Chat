@@ -10,6 +10,7 @@ using ChatWebApi.Infrastructure.Entities;
 using ChatWebApi.Interfaces.Requests;
 using MediatR;
 using Microsoft.AspNetCore.Cryptography.KeyDerivation;
+using Microsoft.Extensions.Configuration;
 
 namespace ChatWebApi.Application.Users.Commands
 {
@@ -25,10 +26,12 @@ namespace ChatWebApi.Application.Users.Commands
 	public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, CommandResult>
 	{
 		private ChatContext _db;
+		private readonly IConfiguration _config;
 
-		public CreateUserCommandHandler(ChatContext chatContext) 
+		public CreateUserCommandHandler(ChatContext chatContext, IConfiguration configuration) 
 		{
 			_db = chatContext;
+			_config = configuration;
 		}
 
 		protected void AssertRequestIsValid(CreateUserCommand request)
@@ -67,6 +70,8 @@ namespace ChatWebApi.Application.Users.Commands
 
 			var hashedPassword = HashedPassword(request.Password, out byte[] salt);
 
+			var picture = _config["DefaultPicture"];
+
 			var user = new User
 			{
 				LastName = request.LastName,
@@ -76,7 +81,8 @@ namespace ChatWebApi.Application.Users.Commands
 				ActiveDateTime = DateTime.Now,
 				DateCreated = DateTime.Now,
 				PasswordHash = hashedPassword,
-				PasswordSalt = salt
+				PasswordSalt = salt,
+				Picture = picture
 				
 			};
 

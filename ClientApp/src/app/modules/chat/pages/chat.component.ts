@@ -6,6 +6,7 @@ import { Location } from '@angular/common';
 import { SignalrService } from 'src/app/core/signalR/SignalR.service';
 import { AuthenticationService } from 'src/app/core/services/Authentication.service';
 import { User } from 'src/app/core/models/User';
+import { UsersStore } from 'src/app/core/stores/UsersStore';
 
 @Component({
     selector: 'chat-component',
@@ -21,7 +22,8 @@ export class ChatComponent implements OnInit {
         private chatService: ChatsService,
         private location: Location,
         private signalRService: SignalrService,
-        private authService: AuthenticationService
+        private authService: AuthenticationService,
+        private usersStore: UsersStore
     ) {
     }
 
@@ -35,6 +37,10 @@ export class ChatComponent implements OnInit {
 
     getChat(chat: ChatDto): void {
         this.chat = chat;
+    }
+
+    activeProfile(): boolean {
+        return this.usersStore.CanShowProfile;
     }
 }
 

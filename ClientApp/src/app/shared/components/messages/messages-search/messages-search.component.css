@@ -1,0 +1,43 @@
+.overflow-auto::-webkit-scrollbar {
+    display: none;
+}
+
+.colour-change:hover {
+    background-color: #219269;
+    cursor: pointer;
+}
+
+.colour-change:active {
+    background-color: #219269;
+}
+
+.has-search .form-control {
+    padding-left: 2.375rem;
+}
+
+.docus-border-dis:focus {
+    outline: 0;
+}
+
+.has-search .form-control-feedback {
+    position: absolute;
+    z-index: 2;
+    display: block;
+    width: 2.375rem;
+    height: 2.375rem;
+    line-height: 2.375rem;
+    text-align: center;
+    pointer-events: none;
+    color: white;
+}
+
+.border-hov:hover {
+    cursor: pointer;
+}
+
+::placeholder {
+    /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: white;
+    opacity: 1;
+    /* Firefox */
+}

@@ -7,6 +7,7 @@ import { UserDto } from 'src/app/core/api/models';
 import { ChatsStore } from 'src/app/core/stores/chatsStore';
 import { AlertService } from 'src/app/core/services/Alert.service';
 import { SignalrService } from 'src/app/core/signalR/SignalR.service';
+import { NotificationsService, NotificationType } from 'angular2-notifications';
 
 @Component({
     selector: 'users-search-component',
@@ -23,7 +24,8 @@ export class UsersSearchComponent implements OnInit, OnDestroy {
         private chatsStore: ChatsStore,
         private location: Location,
         private alertService: AlertService,
-        private signalRService: SignalrService
+        private signalRService: SignalrService,
+        private notifications: NotificationsService,
     ) {
     }
     ngOnDestroy(): void {
@@ -38,13 +40,16 @@ export class UsersSearchComponent implements OnInit, OnDestroy {
         this.userService.apiUsersNicknameGet$Json({ nickname: term })
             .subscribe(p => {
                 this.usersStore.setUsers(p.Users);
-            })
+            });
 
     }
 
-    details(user: UserDto){
-        this.usersStore.setDetailUserId(user.Id);
-        this.router.navigateByUrl('/profile');
+    details(user: UserDto) {
+        if (user.Id != this.usersStore.GetDetailUserId) {
+            this.usersStore.setDetailUserId(user.Id);
+            this.usersStore.HideProfile();
+            setTimeout(() => this.usersStore.ShowProfile(), 300);
+        }
     }
 
     addUser(user: UserDto) {
@@ -55,12 +60,12 @@ export class UsersSearchComponent implements OnInit, OnDestroy {
 
     validateChat(user: UserDto, isConnected: boolean): void {
         if (isConnected) {
-            this.alertService.error(`${user.Nickname} alredy connected to ${this.chatsStore.chat.Name}`);
+            this.notifications.create(user.Nickname, "Cant Add To Chat!", NotificationType.Warn);
             return;
         }
         else {
             this.signalRService.AddUserToChat(this.chatsStore.chat.Id, user.Id);
-            this.alertService.success(`${user.Nickname} successfully connected to ${this.chatsStore.chat.Name}`)
+            this.notifications.create(user.Nickname, "Successfully Added To Chat!", NotificationType.Info);
         }
     }
 
@@ -68,11 +73,19 @@ export class UsersSearchComponent implements OnInit, OnDestroy {
         this.location.back();
     }
 
-    isChat(): boolean{
-        return this.chatsStore.chat != undefined;
+    isChat(): boolean {
+        if(this.chatsStore.chat == undefined)
+        {
+            return false;
+        }
+        const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+        return this.chatsStore.chat.OwnerId == currentUser.Id || !this.chatsStore.chat.IsPrivate;
     }
 
     ngOnInit() {
-        
+        this.userService.apiUsersGet$Json()
+            .subscribe(p => {
+                this.usersStore.setUsers(p.Users);
+            });
     }
 }

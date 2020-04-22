@@ -10,6 +10,8 @@ export class UsersStore {
     
     @observable private EditUserProfile: ProfileInfoDto;
 
+    @observable private showProfile = false;
+
     @computed get AllUsers(): UserDto[] {
         return toJS(this.Users);
     }
@@ -20,6 +22,18 @@ export class UsersStore {
 
     @computed get GetDetailUserId(): number {
         return this.DetailUserId;
+    }
+
+    @computed get CanShowProfile(): boolean{
+        return this.showProfile;
+    }
+
+    @action ShowProfile(){
+        this.showProfile = true;
+    }
+
+    @action HideProfile(){
+        this.showProfile = false;
     }
 
     // @action setUsers(users: UserDto[]){
@@ -39,6 +53,10 @@ export class UsersStore {
 
     @action setUsers(users: UserDto[]) {
         this.Users = [...users];
+    }
+
+    @action ClearUserProfileId(){
+        this.DetailUserId = 0;
     }
 
     @action clearUsers() {

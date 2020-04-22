@@ -1,0 +1,11 @@
+<div class="row m-0 pb-0">
+    <div class="col-3 container-fluid back-grad text-white rounded px-0 mr-0 p-0 my-0" style="background-color: antiquewhite;">
+        <users-search-component></users-search-component>
+    </div>
+    <div class="col container-fluid p-0 mb-0 ml-0">
+        <chat-detail-component></chat-detail-component>
+    </div>
+    <div class="col-2 container-fluid p-0 m-0" *ngIf="activeProfile()">
+        <user-details-component></user-details-component>
+    </div>
+</div>

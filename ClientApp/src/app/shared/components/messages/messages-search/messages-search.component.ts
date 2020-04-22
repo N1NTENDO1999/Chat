@@ -8,6 +8,7 @@ import { User } from 'src/app/core/models/User';
 import { ChatsStore } from 'src/app/core/stores/chatsStore';
 import { ChatMessageDto, SearchedPersonalMessageDto } from 'src/app/core/api/models';
 import { MessagesStore } from 'src/app/core/stores/MessagesStore';
+import { Location } from '@angular/common';
 
 @Component({
     selector: 'messages-search-component',
@@ -24,7 +25,8 @@ export class MessagesSearchComponent implements OnInit, OnDestroy {
         private userSerice: UsersService,
         private chatsStore: ChatsStore,
         private chatsService: ChatsService,
-        private messagesStore: MessagesStore
+        private messagesStore: MessagesStore,
+        private location: Location,
     ) {
         this._setSearchSubscription();
     }
@@ -88,5 +90,11 @@ export class MessagesSearchComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
 
+    }
+    
+    back(): void {
+        this.chatsStore.clearSelected();
+        this.searchStore.Clear();
+        this.location.back();
     }
 }

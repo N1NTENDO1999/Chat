@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { UsersStore } from 'src/app/core/stores/UsersStore';
 
 @Component({
-    selector: 'message-search-component',
-    templateUrl: './message-search.component.html',
-    styleUrls: ['./message-search.component.css']
+    selector: 'users-search-page-component',
+    templateUrl: './users-search-page.component.html',
+    styleUrls: ['./users-search-page.component.css']
 })
-export class MessageSearchComponent implements OnInit {
+export class UsersSearchPageComponent implements OnInit {
 
     constructor(
         private usersStore: UsersStore
@@ -14,7 +14,7 @@ export class MessageSearchComponent implements OnInit {
     }
 
     ngOnInit() {
-        
+
     }
 
     activeProfile(): boolean {
