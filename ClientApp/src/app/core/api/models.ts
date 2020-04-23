@@ -27,5 +27,6 @@ export { SearchMessagesQueryResult } from './models/search-messages-query-result
 export { SearchedPersonalMessageDto } from './models/searched-personal-message-dto';
 export { SearchPersonalMessagesByTermQueryResult } from './models/search-personal-messages-by-term-query-result';
 export { GetPersonalChatQueryResult } from './models/get-personal-chat-query-result';
+export { IsUserAdminQueryResult } from './models/is-user-admin-query-result';
 export { UpdatePasswordCommand } from './models/update-password-command';
 export { UpdateUserPictureCommand } from './models/update-user-picture-command';
