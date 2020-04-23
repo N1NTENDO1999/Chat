@@ -143,6 +143,10 @@ export class ChatDetailComponent implements OnInit {
         }
         let user: User = this.authService.currentUserValue;
 
+        if(this.chatsStore.chat.Name === "Admin"){
+            
+        }
+
         if (this.chatsStore.selectedChat.IsPersonal) {
             this.signalRService
                 .AddPersonalMessages(user.Id, this.chatsStore.selectedChatId, this.messageForm.controls.message.value);

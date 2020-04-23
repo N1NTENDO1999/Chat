@@ -85,6 +85,13 @@ namespace ChatWebApi.Controllers
             return await _mediator.Send(new GetPersonalChatQuery { UserId = id });
         }
 
+        [HttpGet]
+        [Route("admin/user/{id}")]
+        public async Task<IsUserAdminQueryResult> IsAdmin(int id)
+        {
+            return await _mediator.Send(new IsUserAdminQuery { UserId = id });
+        }
+
         [AllowAnonymous]
         [HttpPost]
         public async Task<CommandCreateResult> CreateUser(CreateUserCommand request)
