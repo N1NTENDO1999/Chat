@@ -165,6 +165,10 @@ export class ChatDetailComponent implements OnInit {
 
     }
 
+    isAdminChat(){
+        return this.chatsStore.chat.Name === "Admin";
+    }
+
     schedule() {
         if (this.messageForm.invalid) {
             this.scheduledMessages();

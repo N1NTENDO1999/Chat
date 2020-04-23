@@ -2,7 +2,7 @@
     <div class="container d-flex ml-0 p-3">
         <span class="d-flex mr-auto"> 
             <h1>{{chatsStore.selectedChat.Name}}</h1>
-            <div style="color: #888888;" *ngIf="!chatsStore.selectedChat.IsPersonal" class="d-flex align-self-end ml-3">
+            <div style="color: #888888;" *ngIf="!chatsStore.selectedChat.IsPersonal && !isAdminChat()" class="d-flex align-self-end ml-3">
                 <fa name="users"></fa>
                 <p>{{countOfUsers}}</p>
             </div>
@@ -81,7 +81,7 @@
             <div class="form-group d-flex mb-0 pb-0">
                 <input type="text" formControlName="message" class="form-control mb-0 pb-0 ml-0 send-box"
                     placeholder="Type your message here..." />
-                <span class="pr-4 sched-hov">
+                <span class="pr-4 sched-hov" *ngIf="!isAdminChat()">
                     <fa name="archive" class="docus-border-dis" (click)="schedule()" size="2x">
                     </fa>
                 </span>
