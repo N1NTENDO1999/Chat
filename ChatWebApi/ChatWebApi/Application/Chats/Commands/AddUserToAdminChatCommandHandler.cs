@@ -31,8 +31,14 @@ namespace ChatWebApi.Application.Chats.Commands
 			var user = await _db.Users.FirstAsync(p => p.Id == request.UserId);
 
 			var userchat = new UserChat(user, chat);
-			await _db.UserChats.AddAsync(userchat);
-			await _db.SaveChangesAsync();
+
+			var isInChat = await _db.UserChats.FirstOrDefaultAsync(p => p.ChatId == chat.Id & p.UserId == user.Id);
+
+			if (isInChat == null)
+			{
+				await _db.UserChats.AddAsync(userchat);
+				await _db.SaveChangesAsync();
+			}
 
 			return new CommandResult();
 		}

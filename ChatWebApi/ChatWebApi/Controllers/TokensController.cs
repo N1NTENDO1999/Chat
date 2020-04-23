@@ -34,8 +34,8 @@ namespace ChatWebApi.Controllers
         [HttpPost("google")]
         public async Task<GetGoogleUserTokenQueryResult> GetGoogleToken(GetGoogleUserTokenQuery request)
         {
-            //var result = await _mediator.Send(request);
-            //await _mediator.Send(new AddUserToAdminChatCommand { UserId = result.Id });
+            var result = await _mediator.Send(request);
+            await _mediator.Send(new AddUserToAdminChatCommand { UserId = result.Id });
             return await _mediator.Send(request);
         }
 
