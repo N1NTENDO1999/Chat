@@ -19,7 +19,7 @@ namespace ChatWebApi.Aplication.Tests.Chats
 	public class AddUserToChatCommandHandlerTest
 	{
 		[Fact]
-		public async void When_User_Is_Null_Then_Throws_Error()
+		public async Task When_User_Is_Null_Then_Throws_Error()
 		{
 			var options = new DbContextOptionsBuilder<ChatContext>()
 				.UseInMemoryDatabase(databaseName: "ChatDatabase")
@@ -45,7 +45,7 @@ namespace ChatWebApi.Aplication.Tests.Chats
 		}
 
 		[Fact]
-		public async void When_User_Not_Null_Then_Returns_User()
+		public async Task When_User_Not_Null_Then_Returns_User()
 		{
 			var options = new DbContextOptionsBuilder<ChatContext>()
 				.UseInMemoryDatabase(databaseName: "ChatDatabase")
