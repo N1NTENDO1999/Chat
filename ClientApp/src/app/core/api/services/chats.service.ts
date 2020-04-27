@@ -772,6 +772,99 @@ export class ChatsService extends BaseService {
   }
 
   /**
+   * Path part for operation apiChatsAdminUserUserIdPost
+   */
+  static readonly ApiChatsAdminUserUserIdPostPath = '/api/Chats/admin/user/{userId}';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `apiChatsAdminUserUserIdPost$Plain()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  apiChatsAdminUserUserIdPost$Plain$Response(params: {
+    userId: number;
+
+  }): Observable<StrictHttpResponse<CommandResult>> {
+
+    const rb = new RequestBuilder(this.rootUrl, ChatsService.ApiChatsAdminUserUserIdPostPath, 'post');
+    if (params) {
+
+      rb.path('userId', params.userId);
+
+    }
+    return this.http.request(rb.build({
+      responseType: 'text',
+      accept: 'text/plain'
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return r as StrictHttpResponse<CommandResult>;
+      })
+    );
+  }
+
+  /**
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `apiChatsAdminUserUserIdPost$Plain$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  apiChatsAdminUserUserIdPost$Plain(params: {
+    userId: number;
+
+  }): Observable<CommandResult> {
+
+    return this.apiChatsAdminUserUserIdPost$Plain$Response(params).pipe(
+      map((r: StrictHttpResponse<CommandResult>) => r.body as CommandResult)
+    );
+  }
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `apiChatsAdminUserUserIdPost$Json()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  apiChatsAdminUserUserIdPost$Json$Response(params: {
+    userId: number;
+
+  }): Observable<StrictHttpResponse<CommandResult>> {
+
+    const rb = new RequestBuilder(this.rootUrl, ChatsService.ApiChatsAdminUserUserIdPostPath, 'post');
+    if (params) {
+
+      rb.path('userId', params.userId);
+
+    }
+    return this.http.request(rb.build({
+      responseType: 'json',
+      accept: 'text/json'
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return r as StrictHttpResponse<CommandResult>;
+      })
+    );
+  }
+
+  /**
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `apiChatsAdminUserUserIdPost$Json$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  apiChatsAdminUserUserIdPost$Json(params: {
+    userId: number;
+
+  }): Observable<CommandResult> {
+
+    return this.apiChatsAdminUserUserIdPost$Json$Response(params).pipe(
+      map((r: StrictHttpResponse<CommandResult>) => r.body as CommandResult)
+    );
+  }
+
+  /**
    * Path part for operation apiChatsIdPicturePut
    */
   static readonly ApiChatsIdPicturePutPath = '/api/Chats/{id}/picture';

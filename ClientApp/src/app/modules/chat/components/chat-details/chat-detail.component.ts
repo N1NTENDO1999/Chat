@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, OnChanges, SimpleChanges, OnDestroy } from '@angular/core';
-import { ChatsService } from 'src/app/core/api/services';
+import { ChatsService, UsersService } from 'src/app/core/api/services';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { ChatDto, UserDto } from 'src/app/core/api/models';
@@ -28,7 +28,7 @@ export class ChatDetailComponent implements OnInit {
     subscription: Subscription;
     userId: number;
     isScheduled = false;
-    display='none';
+    display = 'none';
     countOfUsers = 1;
 
     constructor(
@@ -40,14 +40,15 @@ export class ChatDetailComponent implements OnInit {
         private router: Router,
         private usersStore: UsersStore,
         public scheduledStore: ScheduledMessagesStore,
-        private chatsService: ChatsService
+        private chatsService: ChatsService,
+        private usersService: UsersService
     ) {
         this.subscription = this.messagesStore.messagesUpdated().subscribe(() => this.scrollDown());
         this.chatsStore.selectedChatAdded().subscribe(id => this.getUserCount(id));
     }
 
-    private getUserCount(id: number){
-        this.chatsService.apiChatsChatIdUserCountGet$Json({id: id}).subscribe(p => this.countOfUsers = p.Count);
+    private getUserCount(id: number) {
+        this.chatsService.apiChatsChatIdUserCountGet$Json({ id: id }).subscribe(p => this.countOfUsers = p.Count);
     }
 
     private scrollDown = () => {
@@ -143,6 +144,16 @@ export class ChatDetailComponent implements OnInit {
         }
         let user: User = this.authService.currentUserValue;
 
+        if (this.chatsStore.chat.Name === "Admin") {
+            this.usersService.apiUsersAdminUserIdGet$Json({ id: user.Id })
+                .subscribe(p => {
+                    if (p.IsAdmin) {
+                        this.signalRService.AddChatMessages(this.chatsStore.selectedChatId, user.Id, this.messageForm.controls.message.value);
+                    }
+                });
+            return;
+        }
+
         if (this.chatsStore.selectedChat.IsPersonal) {
             this.signalRService
                 .AddPersonalMessages(user.Id, this.chatsStore.selectedChatId, this.messageForm.controls.message.value);
@@ -154,8 +165,12 @@ export class ChatDetailComponent implements OnInit {
 
     }
 
-    schedule(){
-        if (this.messageForm.invalid){
+    isAdminChat(){
+        return this.chatsStore.chat.Name === "Admin";
+    }
+
+    schedule() {
+        if (this.messageForm.invalid) {
             this.scheduledMessages();
             return;
         }

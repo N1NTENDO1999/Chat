@@ -8,6 +8,7 @@ import { RequestBuilder } from '../request-builder';
 import { Observable } from 'rxjs';
 import { map, filter } from 'rxjs/operators';
 
+import { CommandCreateResult } from '../models/command-create-result';
 import { CommandResult } from '../models/command-result';
 import { CreateUserCommand } from '../models/create-user-command';
 import { EditUserProfileCommand } from '../models/edit-user-profile-command';
@@ -15,6 +16,7 @@ import { GetPersonalChatQueryResult } from '../models/get-personal-chat-query-re
 import { GetUserChatsQueryResult } from '../models/get-user-chats-query-result';
 import { GetUserQueryResult } from '../models/get-user-query-result';
 import { GetUsersByNicknameQueryResult } from '../models/get-users-by-nickname-query-result';
+import { IsUserAdminQueryResult } from '../models/is-user-admin-query-result';
 import { ProfileInfoDto } from '../models/profile-info-dto';
 import { SearchMessagesQueryResult } from '../models/search-messages-query-result';
 import { SearchPersonalMessagesByTermQueryResult } from '../models/search-personal-messages-by-term-query-result';
@@ -134,7 +136,7 @@ export class UsersService extends BaseService {
    */
   apiUsersPost$Plain$Response(params?: {
       body?: CreateUserCommand
-  }): Observable<StrictHttpResponse<CommandResult>> {
+  }): Observable<StrictHttpResponse<CommandCreateResult>> {
 
     const rb = new RequestBuilder(this.rootUrl, UsersService.ApiUsersPostPath, 'post');
     if (params) {
@@ -148,7 +150,7 @@ export class UsersService extends BaseService {
     })).pipe(
       filter((r: any) => r instanceof HttpResponse),
       map((r: HttpResponse<any>) => {
-        return r as StrictHttpResponse<CommandResult>;
+        return r as StrictHttpResponse<CommandCreateResult>;
       })
     );
   }
@@ -161,10 +163,10 @@ export class UsersService extends BaseService {
    */
   apiUsersPost$Plain(params?: {
       body?: CreateUserCommand
-  }): Observable<CommandResult> {
+  }): Observable<CommandCreateResult> {
 
     return this.apiUsersPost$Plain$Response(params).pipe(
-      map((r: StrictHttpResponse<CommandResult>) => r.body as CommandResult)
+      map((r: StrictHttpResponse<CommandCreateResult>) => r.body as CommandCreateResult)
     );
   }
 
@@ -176,7 +178,7 @@ export class UsersService extends BaseService {
    */
   apiUsersPost$Json$Response(params?: {
       body?: CreateUserCommand
-  }): Observable<StrictHttpResponse<CommandResult>> {
+  }): Observable<StrictHttpResponse<CommandCreateResult>> {
 
     const rb = new RequestBuilder(this.rootUrl, UsersService.ApiUsersPostPath, 'post');
     if (params) {
@@ -190,7 +192,7 @@ export class UsersService extends BaseService {
     })).pipe(
       filter((r: any) => r instanceof HttpResponse),
       map((r: HttpResponse<any>) => {
-        return r as StrictHttpResponse<CommandResult>;
+        return r as StrictHttpResponse<CommandCreateResult>;
       })
     );
   }
@@ -203,10 +205,10 @@ export class UsersService extends BaseService {
    */
   apiUsersPost$Json(params?: {
       body?: CreateUserCommand
-  }): Observable<CommandResult> {
+  }): Observable<CommandCreateResult> {
 
     return this.apiUsersPost$Json$Response(params).pipe(
-      map((r: StrictHttpResponse<CommandResult>) => r.body as CommandResult)
+      map((r: StrictHttpResponse<CommandCreateResult>) => r.body as CommandCreateResult)
     );
   }
 
@@ -1060,6 +1062,99 @@ export class UsersService extends BaseService {
 
     return this.apiUsersUserIdAsChatGet$Json$Response(params).pipe(
       map((r: StrictHttpResponse<GetPersonalChatQueryResult>) => r.body as GetPersonalChatQueryResult)
+    );
+  }
+
+  /**
+   * Path part for operation apiUsersAdminUserIdGet
+   */
+  static readonly ApiUsersAdminUserIdGetPath = '/api/Users/admin/user/{id}';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `apiUsersAdminUserIdGet$Plain()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  apiUsersAdminUserIdGet$Plain$Response(params: {
+    id: number;
+
+  }): Observable<StrictHttpResponse<IsUserAdminQueryResult>> {
+
+    const rb = new RequestBuilder(this.rootUrl, UsersService.ApiUsersAdminUserIdGetPath, 'get');
+    if (params) {
+
+      rb.path('id', params.id);
+
+    }
+    return this.http.request(rb.build({
+      responseType: 'text',
+      accept: 'text/plain'
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return r as StrictHttpResponse<IsUserAdminQueryResult>;
+      })
+    );
+  }
+
+  /**
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `apiUsersAdminUserIdGet$Plain$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  apiUsersAdminUserIdGet$Plain(params: {
+    id: number;
+
+  }): Observable<IsUserAdminQueryResult> {
+
+    return this.apiUsersAdminUserIdGet$Plain$Response(params).pipe(
+      map((r: StrictHttpResponse<IsUserAdminQueryResult>) => r.body as IsUserAdminQueryResult)
+    );
+  }
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `apiUsersAdminUserIdGet$Json()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  apiUsersAdminUserIdGet$Json$Response(params: {
+    id: number;
+
+  }): Observable<StrictHttpResponse<IsUserAdminQueryResult>> {
+
+    const rb = new RequestBuilder(this.rootUrl, UsersService.ApiUsersAdminUserIdGetPath, 'get');
+    if (params) {
+
+      rb.path('id', params.id);
+
+    }
+    return this.http.request(rb.build({
+      responseType: 'json',
+      accept: 'text/json'
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return r as StrictHttpResponse<IsUserAdminQueryResult>;
+      })
+    );
+  }
+
+  /**
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `apiUsersAdminUserIdGet$Json$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  apiUsersAdminUserIdGet$Json(params: {
+    id: number;
+
+  }): Observable<IsUserAdminQueryResult> {
+
+    return this.apiUsersAdminUserIdGet$Json$Response(params).pipe(
+      map((r: StrictHttpResponse<IsUserAdminQueryResult>) => r.body as IsUserAdminQueryResult)
     );
   }
 

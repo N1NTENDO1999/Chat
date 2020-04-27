@@ -47,7 +47,7 @@ namespace ChatWebApi.Application.Chats.Queries
 												"Command can not be null.");
 
 			var chats = await _db.Chats
-				.Where(p => p.Name.Contains(request.Name, StringComparison.InvariantCultureIgnoreCase) & !p.IsPrivate)
+				.Where(p => p.Name.Contains(request.Name, StringComparison.InvariantCultureIgnoreCase))
 				.Select(p => _mapper.Map<ChatDTO>(p))
 				.ToListAsync();
 

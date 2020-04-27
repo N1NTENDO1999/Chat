@@ -14,6 +14,7 @@ export { GetGoogleUserTokenQueryResult } from './models/get-google-user-token-qu
 export { UserDto } from './models/user-dto';
 export { UsersQueryResult } from './models/users-query-result';
 export { CreateUserCommand } from './models/create-user-command';
+export { CommandCreateResult } from './models/command-create-result';
 export { GetUserQueryResult } from './models/get-user-query-result';
 export { EditUserProfileCommand } from './models/edit-user-profile-command';
 export { GetUsersByNicknameQueryResult } from './models/get-users-by-nickname-query-result';
@@ -26,5 +27,6 @@ export { SearchMessagesQueryResult } from './models/search-messages-query-result
 export { SearchedPersonalMessageDto } from './models/searched-personal-message-dto';
 export { SearchPersonalMessagesByTermQueryResult } from './models/search-personal-messages-by-term-query-result';
 export { GetPersonalChatQueryResult } from './models/get-personal-chat-query-result';
+export { IsUserAdminQueryResult } from './models/is-user-admin-query-result';
 export { UpdatePasswordCommand } from './models/update-password-command';
 export { UpdateUserPictureCommand } from './models/update-user-picture-command';
