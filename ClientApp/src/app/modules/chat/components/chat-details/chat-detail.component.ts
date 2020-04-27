@@ -149,6 +149,7 @@ export class ChatDetailComponent implements OnInit {
                 .subscribe(p => {
                     if (p.IsAdmin) {
                         this.signalRService.AddChatMessages(this.chatsStore.selectedChatId, user.Id, this.messageForm.controls.message.value);
+                        this.messageForm.controls.message.setValue(null);
                     }
                 });
             return;
