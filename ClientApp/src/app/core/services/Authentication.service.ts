@@ -42,7 +42,7 @@ export class AuthenticationService {
     }
 
     sendToRestApiMethod(token: string) : void {
-        this.http.post<User>("https://localhost:44312/api/tokens/google",
+        this.http.post<User>("https://localhost:5001/api/tokens/google",
            {
               Token: token
            }

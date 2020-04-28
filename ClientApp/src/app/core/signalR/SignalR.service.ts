@@ -145,7 +145,7 @@ export class SignalrService {
 
     public startConnection = (id: number) => {
         this.hubConnection = new signalR.HubConnectionBuilder()
-            .withUrl(`https://localhost:44312/chatHub?UserId=${id}`)
+            .withUrl(`https://localhost:5001/chatHub?UserId=${id}`)
             .build();
 
         this.hubConnection.onclose(() => setTimeout(() => { this.ConnectAgain(); }, 5000));

@@ -80,7 +80,7 @@ export function provideConfig() {
     BrowserAnimationsModule, 
     AngularFontAwesomeModule,
     SimpleNotificationsModule.forRoot(),
-    ApiModule.forRoot({ rootUrl: "http://localhost:55056"}),
+    ApiModule.forRoot({ rootUrl: "https://localhost:5001"}),
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
