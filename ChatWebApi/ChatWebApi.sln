@@ -3,9 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29728.190
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChatWebApi", "ChatWebApi\ChatWebApi.csproj", "{D5C2B698-9600-4A7D-B679-E1C3FC70BFCA}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatWebApi.Aplication.Tests", "ChatWebApi.Aplication.Tests\ChatWebApi.Aplication.Tests.csproj", "{361A21EB-E0EA-474B-8416-39A5F7DD183B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatWebApi", "ChatWebApi\ChatWebApi.csproj", "{D5C2B698-9600-4A7D-B679-E1C3FC70BFCA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +15,6 @@ Global
 		{D5C2B698-9600-4A7D-B679-E1C3FC70BFCA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D5C2B698-9600-4A7D-B679-E1C3FC70BFCA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D5C2B698-9600-4A7D-B679-E1C3FC70BFCA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{361A21EB-E0EA-474B-8416-39A5F7DD183B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{361A21EB-E0EA-474B-8416-39A5F7DD183B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{361A21EB-E0EA-474B-8416-39A5F7DD183B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{361A21EB-E0EA-474B-8416-39A5F7DD183B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
