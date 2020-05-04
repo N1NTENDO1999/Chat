@@ -34,6 +34,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json.Serialization;
+using Serilog;
 
 namespace ChatWebApi
 {
@@ -103,6 +104,13 @@ namespace ChatWebApi
 				googleOptions.ClientSecret = Configuration["Authentication:Google:ClientSecret"];
 			});
 
+			Log.Logger = new LoggerConfiguration()
+				.WriteTo.Console()
+				.MinimumLevel
+				.Information()
+				.WriteTo.Seq("http://localhost:5341")
+				.CreateLogger();
+
 			services.AddScoped(typeof(ChatContext));
 			
 			services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
@@ -112,7 +120,7 @@ namespace ChatWebApi
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-		public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+		public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory )
 		{
 			if (env.IsDevelopment())
 			{
@@ -144,6 +152,9 @@ namespace ChatWebApi
 			app.UseMvc();
 			app.UseAuthentication();
 
+			loggerFactory.AddConsole();
+			loggerFactory.AddDebug();
+			loggerFactory.AddSerilog();
 
 		}
 	}

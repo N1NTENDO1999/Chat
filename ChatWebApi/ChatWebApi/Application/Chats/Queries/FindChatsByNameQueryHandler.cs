@@ -11,6 +11,7 @@ using ChatWebApi.Interfaces.Requests;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace ChatWebApi.Application.Chats.Queries
 {
@@ -33,9 +34,11 @@ namespace ChatWebApi.Application.Chats.Queries
 	{
 		private readonly ChatContext _db;
 		private readonly IMapper _mapper;
+		private readonly ILogger _logger;
 
-		public FindChatsByNameQueryHandler(ChatContext context, IMapper mapper)
+		public FindChatsByNameQueryHandler(ChatContext context, IMapper mapper, ILogger<FindChatsByNameQueryHandler> logger)
 		{
+			_logger = logger;
 			_db = context ?? throw new ArgumentNullException(nameof(context));
 			_mapper = mapper ?? throw new ArgumentNullException(nameof(_mapper));
 		}
