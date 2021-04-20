@@ -14,7 +14,7 @@
       placeholder="Search..." (input)="updateSearch(searchBox.value)">
   </div>
 
-  <div class="overflow-auto" style="height: 781px;" id="chat">
+  <div class="overflow-auto" style="height: 79vh" id="chat">
     <h2>Personal Messages</h2>
     <div class="colour-change" *ngFor="let message of searchStore.PersonalMessages">
       <div (click)="getPersonalChat(message)">

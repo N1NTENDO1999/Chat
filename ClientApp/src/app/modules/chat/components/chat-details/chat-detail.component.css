@@ -50,8 +50,8 @@
 }
 
 .modal-possition {
-    top: 630px;
-    left: 400px;
+    top: 493px;
+    left: 275px;
 }
 
 .sched-hov{
@@ -80,4 +80,9 @@
 
 .border-hov:hover{
     background: #219269;
+}
+
+.input-fixed-bottom {
+    position: relative;
+    bottom: 0;
 }

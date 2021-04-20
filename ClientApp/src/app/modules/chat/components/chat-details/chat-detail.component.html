@@ -37,7 +37,7 @@
         </div>
     </div>
 
-    <div class="overflow-auto d-flex flex-column pt-5 " *ngIf="!isScheduled" style="height: 755px;" id="chat"
+    <div class="overflow-auto d-flex flex-column pt-5 " *ngIf="!isScheduled" style="height: 75vh" id="chat"
         id="scrollerDiv">
         <button *ngIf="!messagesStore.isLoading && !messagesStore.NoMoreMessages" type="button"
             class="btn btn-primary back-grad border-0 align-self-center" (click)="MoreMessages()">Get More</button>
@@ -64,7 +64,7 @@
             </div>
         </div>
     </div>
-    <div class="overflow-auto d-flex flex-column pt-5 mt-3" *ngIf="isScheduled" style="height: 708px;" id="chat"
+    <div class="overflow-auto d-flex flex-column pt-5 mt-3" *ngIf="isScheduled" style="height: 555px;" id="chat"
         id="scrollerDiv">
         <div class="container-fluid mb-3" *ngFor="let message of scheduledStore.allMessages">
             <div class="d-flex pull-right">
@@ -76,7 +76,7 @@
         </div>
     </div>
 
-    <div class="container-fluid  ml-0 p-0 mb-0" *ngIf="!isScheduled">
+    <div class="container-fluid input-fixed-bottom ml-0 p-0 mb-0" *ngIf="!isScheduled">
         <form [formGroup]="messageForm" (ngSubmit)="onSubmit()" class="mb-0 pb-0">
             <div class="form-group d-flex mb-0 pb-0">
                 <input type="text" formControlName="message" class="form-control mb-0 pb-0 ml-0 send-box"
